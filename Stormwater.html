@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
-	<title>Glenorchy City Council Stormwater Data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Glenorchy City Council Stormwater Data</title>
     
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-	<link rel="stylesheet" href="src/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="src/leaflet/leaflet.css" />
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="src/leaflet/GeoSearch/css/l.geosearch.css" />
@@ -26,15 +26,15 @@
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
     <script src="src/leaflet/GeoSearch/js/l.control.geosearch.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.google.js"></script>
-	<style>
-		body {
-			padding: 0;
-			margin: 0;
-		}
-		html, body, #map {
-			height: 100%;
-		}
-	</style>
+    <style>
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
+    </style>
 </head>
 <body>    
 	<div id="map"></div>
@@ -91,8 +91,8 @@
         }).addTo(map)
         L.control.zoom().addTo(map);
         
-		//Places search
-		new L.Control.GeoSearch({
+	//Places search
+	new L.Control.GeoSearch({
             provider: new L.GeoSearch.Provider.Google(),
             country: 'Australia'
         }).addTo(map);        
