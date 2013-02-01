@@ -14,6 +14,20 @@
         <![endif]-->
         
 	<script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+    
+    	<style type="text/css">
+		#map {min-height: 500px; margin: -15px;}
+		body {
+			height: 100%;
+			padding: 0;
+			margin: 0;
+		}
+		html, body, {
+			height: 100%;
+		}
+	
+	</style>
+    
 </head> 
 <body> 
 
@@ -25,28 +39,33 @@
 
 	<div data-role="content">	
     
-    	<ul data-role="listview" data-divider-theme="b" data-inset="true">
-                    <li data-role="list-divider" role="heading">
-                        Maps
-                    </li>
-                    <li data-theme="c"><a href="./Stormwater.html" data-transition="slide">Stormwater</a></li>
-		    <li data-theme="c"><a href="./Asset.html" data-transition="slide">Assets</a></li>
-		    <li data-theme="c"><a href="./gmaps.html" data-transition="slide">Google Maps</a></li>
-                </ul>
-                <ul data-role="listview" data-divider-theme="b" data-inset="true">
-                    <li data-role="list-divider" role="heading">
-                        Data
-                    </li>
-                    <li data-theme="c">
-                        <a href="#" data-transition="slide">
-                            Button
-                        </a>
-                    </li>
-                </ul>
+    	<div id="map"></div>
+    
+	<script>
+		var center = new L.LatLng(-42.8232,147.2555);
+		var map = new L.Map('map', {center: center});
+		L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+		}).addTo(map);
+		function onLocationFound(e) {
+			var radius = e.accuracy / 2;
+			L.marker(e.latlng).addTo(map)
+				.bindPopup("You are within " + radius + " meters from this point").openPopup();
+			L.circle(e.latlng, radius).addTo(map);
+		}
+		function onLocationError(e) {
+			alert(e.message);
+		}
+		map.on('locationfound', onLocationFound);
+		map.on('locationerror', onLocationError);
+		map.locate({setView: true, maxZoom: 16});
+		setTimeout(function(){
+			lf.invalidateSize();
+			}, 1);
+	</script>
 
     
 	</div><!-- /content -->
-
 </div><!-- /page -->
-
+</body>
 </html>
