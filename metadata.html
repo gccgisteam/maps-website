@@ -4,41 +4,35 @@
 	<title>Glenorchy City Council GIS</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
 	<link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
-	<link rel="stylesheet" href="css/jqm-custom.css" />
+	<link rel="stylesheet" href="css/jqm-custom" />
 	<script src="src/jquery/jquery-1.7.1.min.js"></script>
 	<script src="src/jquery/jquery.mobile-1.1.1.min.js"></script>
 	</head> 
 	<body> 
-	<div data-role="page">
+	<div data-role="page">		
 		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-fullscreen="false">
 			<a href="index.html" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition='slide'>Home</a>
 			<h1>Glenorchy City Council GIS</h1>
 		</div><!-- /header -->
-		<div data-role="content">
+		<div data-role="content">    
 		    <div class="content-secondary">
-				<ul data-role="listview" data-divider-theme="b" data-inset="true">
-					<li data-theme="a"><a href="maps.html" data-transition="slide">Maps</a></li>
-					<li data-theme="a"><a href="data.html">Data</a></li>
-					<li data-theme="c"><a href="http://data.gov.au/?s=glenorchy+city+council" data-transition="slide">data.gov.au (coming soon)</a></li>
-					<li data-theme="c"><a href="services.html" data-transition="slide">Web Services (WFS, WMS)</a></li>
-					<li data-theme="c"><a href="metadata.html" data-transition="slide">Metadata</a></li>
-					<li data-theme="c"><a href="licensing.html" data-transition="slide">Licensing</a></li>
-				</ul>
+		    	<h1>Metadata</h1>
+				<p>Select a map from the list on the right. Type into the box to narrow the list down.</p>
+				<p>For enquiries regarding the maps or data contained in them contact GCC GIS at <a href="mailto:gis@gcc.tas.gov.au">gis@gcc.tas.gov.au</a></p>
 		    </div>
 	    
 		    <div class="content-primary">
-	            <p>Web services you can connect to include:</p>
-	            <ul>
-	                <li>WFS: http://maps.gcc.tas.gov.au:8080/geoserver/GCC_cc/ows?service=wfs&version=1.1.0&request=GetCapabilities</li>
-	                <li>WMS: http://maps.gcc.tas.gov.au:8080/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities</li>
-	            </ul>
-        	</div>
+				<ul data-role="listview" data-divider-theme="b" data-inset="true"data-filter="true">
+					<li><a href="Stormwater.html" rel="external">Stormwater</a></li>					
+					<li data-theme="c"><a href="./Stormwater_mysearch.html" data-transition="slide" rel="external">Old Stormwater</a></li>
+				</ul>
+		    </div>    
 		</div><!-- /content -->	
 		<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
 			<p>&copy; 2013 Glenorchy City Council</p>
 		</div>
 	</div><!-- /page -->
-    <script type="text/javascript">
+	<script type="text/javascript">
 	//Analytics
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-36489204-2']);

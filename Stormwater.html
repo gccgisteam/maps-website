@@ -18,8 +18,8 @@
     <![endif]-->
 
     <script src="src/leaflet/leaflet.js"></script>
-    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
     <script src="src/leaflet/leaflet-providers.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
     <script src="src/leaflet/Google.js"></script>
     <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
@@ -39,56 +39,58 @@
 	<div id="map"></div>
 </body>
     <script>
-	    var center = new L.LatLng(-42.8232,147.2555);
-	    var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
+    var center = new L.LatLng(-42.8232,147.2555);
+    var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
 
     //Define layers
-    var defaultLayer = L.TileLayer.provider('OpenStreetMap.Mapnik');
+    var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
     var ggl = new L.Google('ROADMAP','maxZoom: 20');    
 
     var baselayers = {
-	"OpenStreetMap": defaultLayer,
-	"Google Maps": ggl,
-	"CloudMade": L.tileLayer('http://{s}.tile.cloudmade.com/060c21440a6547efa320caa86db66c50/997/256/{z}/{x}/{y}.png', {
-	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-	    maxZoom: 20
-	})
+    "Open Street Map": osm,
+    "Google Maps": ggl,
+    "CloudMade": L.tileLayer('http://{s}.tile.cloudmade.com/060c21440a6547efa320caa86db66c50/997/256/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+        maxZoom: 20
+    })
     };
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY-SA</a>'
-    var pits = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
-		    layers: 'GCC_cc:Stormwaterpits',
-		    format: 'image/png',
-		    transparent: true,
-	maxZoom: 20,
-	attribution: gccAtt
+    var stormwater = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
+            layers: 'GCC_cc:Stormwater',
+            format: 'image/png',
+            transparent: true,
+    maxZoom: 20,
+    attribution: gccAtt
     });
 
-    var pipes = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
-		    layers: 'GCC_cc:Stormwaterpipes',
-		    format: 'image/png',
-		    transparent: true,
-	maxZoom: 20,
-	attribution: gccAtt
+    var acc_labels = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
+            layers: 'GCC_cc:Stormwaterpits_acc_labels',
+            format: 'image/png',
+            transparent: true,
+    maxZoom: 20,
+    attribution: gccAtt
     });
 
-    map.addLayer(ggl);
-    map.addLayer(pipes);
-    map.addLayer(pits);    
+    map.addLayer(osm);
+    map.addLayer(stormwater);
+    map.addLayer(acc_labels);    
 
     var overlays = {
-	"Stormwater Pits": pits,
-	"Stormwater Pipes": pipes
-    };    
+    "SW Pipes and Pits": stormwater,
+    "SW Accuracy Labels": acc_labels
+    };
 
-    //Layer control
-    L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
+    //Location control
     L.control.locate({
-	position: 'topleft',  
+	position: 'topright',  
 	drawCircle: false,
 	follow: true
     }).addTo(map)
+    //Zoom control
     L.control.zoom().addTo(map);    
+    //Layer control
+    L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
 
     //Places search
     new L.Control.GeoSearch({

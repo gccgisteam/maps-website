@@ -3,50 +3,44 @@
 	<head> 
 	<title>Glenorchy City Council GIS</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
-	<link rel="stylesheet" href="http://jquerymobile.com/demos/1.0.1/docs/_assets/css/jqm-docs.css" />
-	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
-</head> 
-<body> 
-<div data-role="page">
-	<div data-role="header" data-position="fixed" data-tap-toggle="false" data-fullscreen="false">
-		<h1>Glenorchy City Council GIS</h1>
-	</div><!-- /header -->
-	<div data-role="content">    
-	    <div class="content-secondary">
-		<ul data-role="listview" data-divider-theme="b" data-inset="true">
-			<li data-role="list-divider" role="heading">
-			    Maps
-			</li>
-			<li data-theme="c"><a href="./Stormwater.html" data-transition="slide" rel="external">Stormwater</a></li>
-			<li data-theme="c"><a href="./Stormwater.html" data-transition="slide" rel="external">Assets</a></li>
-			<li data-theme="c"><a href="./Stormwater.html" data-transition="slide" rel="external">Google Maps</a></li>
-                </ul>
-		<br></br>
-                <ul data-role="listview" data-divider-theme="b" data-inset="true">
-			<li data-role="list-divider" role="heading">
-			    Data
-			</li>
-			<li data-theme="c"><a href="http://data.gov.au/?s=glenorchy+city+council" data-transition="slide">data.gov.au (coming soon)</a></li>
-			<li data-theme="c"><a href="./Services.html" data-transition="slide">Web Services (WFS, WMS)</a></li>
-			<li data-theme="c"><a href="./Licensing.html" data-transition="slide">Licensing</a></li>
-		</ul>
-	    </div>
-    
-	    <div class="content-primary">
-		<h1>Glenorchy City Council's GIS Mapping and Data</h1>
-		<p>This website is the beginnings of a place where you can view maps and access data that the Council look after.</p>
-		<p>Although only beginning, please take the time to look around and drop us an email if you like it, or even if you don't. The only way it will get better is with your feedback and through requests. You can contact us at <a href=mailto:gis@gcc.tas.gov.au>gis@gcc.tas.gov.au</a>.</p>
-		<h2>Licensing</h2>
-		<p>Soon we'll have a nice page detailing licensing, but essentially all data available through this website via <a href="./Stormwater.html" data-transition="slide">web services</a> is available through <a href=http://creativecommons.org/licenses/by/3.0/au/>Creative Commons Attribution 3.0 Australia license.</a>.
-		There may be some basemaps that use state government data, but that data will not be available via web services. To find out how to access data, take a look at the link TBA!</p>
-	    </div>    
-	</div><!-- /content -->	
-	<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
-		<p>&copy; 2013 Glenorchy City Council</p>
-	</div>
-</div><!-- /page -->
+	<link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+	<link rel="stylesheet" href="css/jqm-custom.css" />
+	<script src="src/jquery/jquery-1.7.1.min.js"></script>
+	<script src="src/jquery/jquery.mobile-1.1.1.min.js"></script>
+	<script src="src/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.3"></script>
+	<link rel="stylesheet" href="src/leaflet/leaflet.css" />
+	</head> 
+	<body> 
+	<div data-role="page">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-fullscreen="false">
+			<h1>Glenorchy City Council GIS</h1>
+		</div><!-- /header -->
+		<div data-role="content">    
+		    <div class="content-secondary">
+			<ul data-role="listview" data-divider-theme="b" data-inset="true">
+				<li data-theme="a"><a href="maps.html" data-transition="slide">Maps</a></li>
+				<li data-theme="a"><a href="data.html" data-transition="slide">Data</a></li>
+				<li data-theme="c"><a href="http://data.gov.au/?s=glenorchy+city+council" data-transition="slide" data-transition="slide">data.gov.au (coming soon)</a></li>
+				<li data-theme="c"><a href="services.html" data-transition="slide">Web Services (WFS, WMS)</a></li>
+				<li data-theme="c"><a href="metadata.html" data-transition="slide">Metadata</a></li>
+				<li data-theme="c"><a href="licensing.html" data-transition="slide">Licensing</a></li>
+			</ul>
+		    </div>
+	    
+		    <div class="content-primary">
+			<h1>Glenorchy City Council's GIS Mapping and Data</h1>
+			<p>This website is the beginnings of a place where you can view maps and access data that the Council look after.</p>
+			<p>Although only beginning, please take the time to look around and drop us an email if you like it, or even if you don't. The only way it will get better is with your feedback and through requests. You can contact us at <a href=mailto:gis@gcc.tas.gov.au>gis@gcc.tas.gov.au</a>.</p>
+			<h2>Licensing</h2>
+			<p>Soon we'll have a nice page detailing licensing, but essentially all data available through this website via <a href="./Stormwater.html" data-transition="slide">web services</a> is available through <a href=http://creativecommons.org/licenses/by/3.0/au/>Creative Commons Attribution 3.0 Australia license</a>.
+			There may be some basemaps that use state government data, but that data will not be available via feature based web services. To find out how to access data, take a look at the link TBA!</p>
+		    </div>    
+		</div><!-- /content -->	
+		<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
+			<p>&copy; 2013 Glenorchy City Council</p>
+		</div>
+	</div><!-- /page -->
     <script type="text/javascript">
 	//Analytics
 	var _gaq = _gaq || [];

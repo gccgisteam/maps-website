@@ -9,36 +9,34 @@
 	<script src="src/jquery/jquery.mobile-1.1.1.min.js"></script>
 	</head> 
 	<body> 
-	<div data-role="page">
+	<div data-role="page">		
 		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-fullscreen="false">
 			<a href="index.html" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition='slide'>Home</a>
 			<h1>Glenorchy City Council GIS</h1>
 		</div><!-- /header -->
-		<div data-role="content">
-		    <div class="content-secondary">
-				<ul data-role="listview" data-divider-theme="b" data-inset="true">
-					<li data-theme="a"><a href="maps.html" data-transition="slide">Maps</a></li>
-					<li data-theme="a"><a href="data.html">Data</a></li>
-					<li data-theme="c"><a href="http://data.gov.au/?s=glenorchy+city+council" data-transition="slide">data.gov.au (coming soon)</a></li>
-					<li data-theme="c"><a href="services.html" data-transition="slide">Web Services (WFS, WMS)</a></li>
-					<li data-theme="c"><a href="metadata.html" data-transition="slide">Metadata</a></li>
-					<li data-theme="c"><a href="licensing.html" data-transition="slide">Licensing</a></li>
-				</ul>
+		<div data-role="content">    
+		    <div class="content-secondary">		    	
+		    	<h1>Data</h1>
+		    	<p>Data that is available for public use is documented here. We also have documented some <a href="services.html">web services</a>where you can access or view directly your application.</p>
+		    	<h1>Metadata</h1>
+				<p>Select a dataset on the right to be taken to the metadata page for it. This page also details how to download datasets. Only data released under <a href="license.html">Creative Commons</a>is currently documented here.</p>
+				<p>For more information regarding data, please contact us <a href="mailto:gis@gcc.tas.gov.au">gis@gcc.tas.gov.au</a></p>
 		    </div>
 	    
 		    <div class="content-primary">
-	            <p>Web services you can connect to include:</p>
-	            <ul>
-	                <li>WFS: http://maps.gcc.tas.gov.au:8080/geoserver/GCC_cc/ows?service=wfs&version=1.1.0&request=GetCapabilities</li>
-	                <li>WMS: http://maps.gcc.tas.gov.au:8080/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities</li>
-	            </ul>
-        	</div>
+				<ul data-role="listview" data-divider-theme="b" data-inset="true"data-filter="true">
+					<li><a href="metadata/buildings.html" data-transition="slide">Buildings</a></li>
+					<li><a href="metadata/kerbs.html" data-transition="slide">Kerbs</a></li>
+					<li><a href="metadata/stormwaterpipes.html" data-transition="slide">Stormwater Pipes</a></li>
+					<li><a href="metadata/stormwaterpits.html" data-transition="slide">Stormwater Pits</a></li>
+				</ul>
+		    </div>    
 		</div><!-- /content -->	
 		<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
 			<p>&copy; 2013 Glenorchy City Council</p>
 		</div>
 	</div><!-- /page -->
-    <script type="text/javascript">
+	<script type="text/javascript">
 	//Analytics
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-36489204-2']);
