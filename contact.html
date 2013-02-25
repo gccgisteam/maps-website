@@ -10,16 +10,19 @@
 	</head> 
 	<body> 
 	<div data-role="page">		
-		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-fullscreen="false">
-			<a href="index.html" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition='slide'>Home</a>
-			<h1>Glenorchy City Council GIS</h1>
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-fullscreen="false">			
+			<h1>Contact Us</h1>
 		</div><!-- /header -->
 		<div data-role="content">    
-		    coming soon...
+		    <p>You can contact us at <a href=mailto:gis@gcc.tas.gov.au>gis@gcc.tas.gov.au</a>.</p>
+		    <p>Or you can fill in the form below:</p>
+		    <form action="MAILTO:gis@gcc.tas.gov.au" method="post" enctype="text/plain">
+				Name:<input type="text" name="name" value="your name"><br>
+				E-mail:<input type="text" name="mail" value="your email"><br>
+				Comment:<textarea name="comment" rows="6" cols="50">your comments</textarea><br>
+				<input type="submit" value="Send">
+			</form>
 		</div><!-- /content -->	
-		<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
-			<p>&copy; 2013 Glenorchy City Council</p>
-		</div>
 	</div><!-- /page -->
 	<script type="text/javascript">
 	//Analytics
