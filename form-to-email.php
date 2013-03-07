@@ -24,7 +24,7 @@ if(IsInjected($visitor_email))
 $email_from = 'no-reply@maps.gcc.tas.gov.au';//<== update the email address
 $email_subject = "GCC GIS Website Enquiry";
 $email_body = "Message from: $name.\n".
-    "Message:\n $message".
+    "Message:\n $message"
     
 $to = "gccgisteam@gmail.com";//<== update the email address
 $headers = "From: $email_from \r\n";
