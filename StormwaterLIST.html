@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stormwater - Glenorchy City Council</title>        
+
+    <link rel="stylesheet" href="src/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="src/leaflet/GeoSearch/css/l.geosearch.css" />    
+
+    <!--[if IE 6]>
+	<link rel="stylesheet" href="css/ie6.css" type="text/css" />
+	<![endif]-->
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="leaflet/leaflet.ie.css" />
+    <![endif]-->
+
+    <script src="src/leaflet/leaflet.js"></script>
+    <script src="src/leaflet/leaflet-providers.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/leaflet/Google.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script src="src/leaflet/GeoSearch/js/l.control.geosearch.js"></script>
+    <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.google.js"></script>
+    <style>
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
+    </style>
+</head>
+<body>    
+	<div id="map"></div>
+</body>
+    <script>
+    var center = new L.LatLng(-42.8232,147.2555);
+    var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
+
+    //Define layers
+    var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
+    var ggl = new L.Google('ROADMAP','maxZoom: 20');
+    var gglImage = new L.Google('SATELLITE','maxZoom: 20');   
+    var LISTBasemap = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
+        layers: 'Topographic',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 20
+    });
+    var baselayers = {
+    "LIST Basemap": LISTBasemap,
+    "Google Maps": ggl,
+    "Google Imagery": gglImage,
+    "Open Street Map": osm
+    };
+    
+    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY-SA</a>'
+    var stormwater = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
+            layers: 'GCC_cc:Stormwater',
+            format: 'image/png',
+            transparent: true,
+    maxZoom: 20,
+    attribution: gccAtt
+    });
+
+    var acc_labels = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
+            layers: 'GCC_cc:Stormwaterpits_acc_labels',
+            format: 'image/png',
+            transparent: true,
+    maxZoom: 20,
+    attribution: gccAtt
+    });
+
+    map.addLayer(LISTBasemap);
+    map.addLayer(stormwater);
+    map.addLayer(acc_labels);    
+
+    var overlays = {
+    "SW Pipes and Pits": stormwater,
+    "SW Accuracy Labels": acc_labels
+    };
+
+    //Location control
+    L.control.locate({
+	position: 'topright',  
+	drawCircle: false,
+	follow: true
+    }).addTo(map)
+    //Zoom control
+    L.control.zoom().addTo(map);    
+    //Layer control
+    L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
+
+    //Places search
+    new L.Control.GeoSearch({
+	provider: new L.GeoSearch.Provider.Google(),
+	country: 'Australia'
+    }).addTo(map);
+    </script>
+
+    <script type="text/javascript">
+	//Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36489204-2']);
+	_gaq.push(['_trackPageview']);	  
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+    </script>
+</html>
