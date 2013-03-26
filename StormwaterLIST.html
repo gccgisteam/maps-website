@@ -51,11 +51,12 @@
         format: 'image/png',
         transparent: true,
         attribution: "Basemap &copy The LIST",
+        minZoom: 19,
         maxZoom: 20
     });
     var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
         attribution: "Basemap &copy The LIST",
-        maxZoom: 20
+        maxZoom: 18
     });
     var baselayers = {
     "LIST Basemap WMTS": LISTBasemap,
@@ -83,6 +84,7 @@
     });
 
     map.addLayer(LISTBasemap);
+    map.addLayer(LISTBasemapWMS);
     map.addLayer(stormwater);
     map.addLayer(acc_labels);    
 
