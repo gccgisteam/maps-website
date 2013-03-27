@@ -25,7 +25,6 @@
     <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.control.geosearch.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.google.js"></script>
-    <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.OpenStreetMap.js"></script>
     <script src="src/lib/proj4js-combined.js"></script> 
     
     <style>
@@ -108,7 +107,7 @@
     
     //Places search
     new L.Control.GeoSearch({
-    	provider: new L.GeoSearch.Provider.OpenStreetMap(),
+    	provider: new L.GeoSearch.Provider.Google(),
     	country: 'Australia'
     }).addTo(map);
     
