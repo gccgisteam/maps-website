@@ -46,7 +46,7 @@
     var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
 
     //Define layers
-    var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
+    //var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
     //var ggl = new L.Google('ROADMAP','maxZoom: 20');
     //var gglImage = new L.Google('SATELLITE','maxZoom: 20');   
     var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
@@ -63,11 +63,18 @@
     });
     var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
     
+    var gi = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+        layers: 'gcc:GCC_Image',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+
     var baselayers = {
         "LIST Basemap": listLayers,
-        //"Google Maps": ggl,
+        "Imagery": gi
         //"Google Imagery": gglImage,
-        "Open Street Map": osm
     };
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
@@ -80,7 +87,7 @@
         attribution: gccAtt
     });
     
-    map.addLayer(listLayers);
+    map.addLayer(gi);
     map.addLayer(ps);
 
     var overlays = {
