@@ -9,8 +9,8 @@ onLoadGoogleApiCallback = function() {
 };
 
 L.GeoSearch.Provider.Google = L.Class.extend({
-          
     options: {
+
     },
 
     initialize: function(options) {

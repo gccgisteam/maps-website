@@ -25,8 +25,7 @@
     <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.control.geosearch.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.google.js"></script>
-    <script src="src/lib/proj4js-combined.js"></script> 
-    
+    <script src="src/lib/proj4js-combined.js"></script>     
     <style>
 	    body {
 		    padding: 0;
@@ -107,8 +106,7 @@
     
     //Places search
     new L.Control.GeoSearch({
-    	provider: new L.GeoSearch.Provider.Google(),
-    	country: 'Australia'
+    	provider: new L.GeoSearch.Provider.Google()
     }).addTo(map);
     
     var selectedFeature;
@@ -134,8 +132,7 @@
             }
         });
         selectedFeature.addTo(map);
-    }
-     
+    }     
     
     map.on('click', function(e) {
         var rootUrl = 'http://tobler-v:8080/geoserver/gcc/ows';
