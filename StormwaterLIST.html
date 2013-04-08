@@ -23,7 +23,7 @@
     <script src="src/leaflet/leaflet.js"></script>
     <script src="src/leaflet/leaflet-providers.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
-    <script src="src/leaflet/Google.js"></script>
+    <!--<script src="src/leaflet/Google.js"></script>-->
     <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.control.geosearch.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.google.js"></script>
@@ -46,8 +46,8 @@
 
     //Define layers
     var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
-    var ggl = new L.Google('ROADMAP','maxZoom: 20');
-    var gglImage = new L.Google('SATELLITE','maxZoom: 20');   
+    //var ggl = new L.Google('ROADMAP','maxZoom: 20');
+    //var gglImage = new L.Google('SATELLITE','maxZoom: 20');   
     var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
         layers: 'Topographic',
         format: 'image/png',
@@ -60,11 +60,12 @@
         attribution: "Basemap &copy The LIST",
         maxZoom: 18
     });
+    var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
+
     var baselayers = {
-    "LIST Basemap WMTS": LISTBasemap,
-    "LIST Basemap WMS": LISTBasemapWMS,
-    "Google Maps": ggl,
-    "Google Imagery": gglImage,
+    "LIST Basemap": listLayers,
+    //"Google Maps": ggl,
+    //"Google Imagery": gglImage,
     "Open Street Map": osm
     };
     

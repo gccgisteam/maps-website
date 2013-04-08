@@ -23,7 +23,7 @@
     <script src="src/leaflet/leaflet.js"></script>
     <script src="src/leaflet/leaflet-providers.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
-    <script src="src/leaflet/Google.js"></script>
+    <!--<script src="src/leaflet/Google.js"></script>-->
     <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.control.geosearch.js"></script>
     <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.google.js"></script>
@@ -46,15 +46,26 @@
 
     //Define layers
     var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
-    var ggl = new L.Google('ROADMAP','maxZoom: 20');    
+    //var ggl = new L.Google('ROADMAP','maxZoom: 20');    
+    var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
+        layers: 'Topographic',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Basemap &copy The LIST",
+        minZoom: 19,
+        maxZoom: 20
+    });
+    var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
+    });
+    var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
+
 
     var baselayers = {
     "Open Street Map": osm,
-    "Google Maps": ggl,
-    "CloudMade": L.tileLayer('http://{s}.tile.cloudmade.com/060c21440a6547efa320caa86db66c50/997/256/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY</a>',
-        maxZoom: 20
-    })
+    //"Google Maps": ggl,
+    "List Basemap": listLayers
     };
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
@@ -73,7 +84,7 @@
     attribution: gccAtt
     });
 
-    map.addLayer(osm);
+    map.addLayer(listLayers);
     map.addLayer(stormwater);
     map.addLayer(acc_labels);    
 
