@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>New Planning Scheme - Glenorchy City Council</title>        
     
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/nps.css" />
     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
 
     <!--[if lt IE 9]>
@@ -21,7 +23,7 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet-src.js"></script>
     <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
-    <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
     <script src="src/lib/proj4js-combined.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
     <style>
@@ -34,7 +36,8 @@
 	    }
     </style>
 </head>
-<body>    
+<body>
+    <a id='lnkDialog' href="stormwater_mysearch.html" data-rel="dialog" data-transition="pop" style='display:none;'></a>
 	<div id="map"></div>    
 </body>
     <script>
@@ -42,9 +45,6 @@
     var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
 
     //Define layers
-    //var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
-    //var ggl = new L.Google('ROADMAP','maxZoom: 20');
-    //var gglImage = new L.Google('SATELLITE','maxZoom: 20');   
     var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
         layers: 'Topographic',
         format: 'image/png',
@@ -82,22 +82,12 @@
         maxZoom: 20,
         attribution: gccAtt
     });
-
-    var ps60 = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
-        layers: 'gcc:NewPlanningScheme',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        opacity: 0.4,
-        attribution: gccAtt
-    });
     
     map.addLayer(gi);
     map.addLayer(ps);
 
     var overlays = {
-    "Glenorchy New Planning Scheme": ps,
-    "Glenorchy New Planning Scheme (transparent)":ps60
+    "Glenorchy New Planning Scheme": ps
     };
 
     //Location control
@@ -113,15 +103,10 @@
     //Search control
     L.control.searchControl().addTo(map);
 
-    //Hack for getting focus on text input.
-    //$(document).ready(function() {
-    //   $("input:text").focus(function() { $(this).select(); } );
-    //});
-    //$('input:text').mouseup(function(e) { return false; });
-
-    //Interrogate layer functionality.
+    //Query layer functionality.
     var selectedFeature;
-    var latlontemp
+    var queryCoordinates;
+    var queryAddress;
     var src = new Proj4js.Proj('EPSG:4326');
     var dst = new Proj4js.Proj('EPSG:28355');   
     
@@ -134,12 +119,13 @@
                 return {color: 'blue'};
             },
             onEachFeature: function (feature, layer) {
-            var content = feature.properties.zones
+            var content = "<b>Address:</b> " + feature.properties.address + "<br><b>PID:</b> " + feature.properties.pid + "<br><b>Zones:</b> " + feature.properties.zones;
             var popup = L.popup()
-                .setLatLng(latlontemp)
+                .setLatLng(queryCoordinates)
                 .setContent(content)
                 .openOn(map);
                 layer.bindPopup(content);
+            queryAddress = feature.properties.address;
             }
         });
         selectedFeature.addTo(map);
@@ -150,7 +136,7 @@
         
         var p = new Proj4js.Point(e.latlng.lng,e.latlng.lat);
         Proj4js.transform(src, dst, p);
-        latlontemp = e.latlng
+        queryCoordinates = e.latlng
         
         var defaultParameters = {
             service : 'WFS',
@@ -180,6 +166,65 @@
         });
     });
     
+    //Buttons for further functionality
+
+    //Feedback URL
+    var preFilledURL = "https://docs.google.com/forms/d/1LngWpZ9zTOWchkFR5FmdKrMVh6oyuM9IYFX9MN30lsc/viewform?entry.1108057452=ADDRESS&entry.1220148880=COORDINATES"
+
+    var Button = L.Control.extend({
+        initialize: function (foo, options) {
+            L.Util.setOptions(this, options);
+            this.value = foo;
+            this.active = false;
+        },
+       
+        onAdd: function (map) {
+            var self = this;
+            controlDiv = L.DomUtil.create('div', 'leaflet-control');
+            L.DomEvent.disableClickPropagation(controlDiv);
+                    L.DomEvent
+                .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
+                .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
+            if(this.value == 'Toggle Transparency') {
+                L.DomEvent.addListener(controlDiv, 'click',  function() {
+                    if( this.active ){
+                        ps.setOpacity(1);
+                        this.active = false;
+                        }
+                    else{
+                        ps.setOpacity(0.4);
+                        this.active = true;
+                        }
+                });
+            } else {
+                L.DomEvent.addListener(controlDiv, 'click',  function() {
+                    var coords = ""
+                    var address = ""
+                    if(queryCoordinates) {
+                        //Coordinates are known
+                        coords = queryCoordinates;
+                    }
+                    if (queryAddress) {
+                        address = queryAddress;
+                    }
+                    var newURL = preFilledURL.replace("ADDRESS", address).replace("COORDINATES", "'" + coords.lng + ", " + coords.lat + "'");
+                    window.open(newURL);
+                });
+            }
+
+            // Set CSS for the control border
+            var controlUI = L.DomUtil.create('div', 'leaflet-button-spacing', controlDiv);
+            controlUI.title = '';
+
+            // Set CSS for the control interior
+            var controlText = L.DomUtil.create('div', 'leaflet-control-button', controlUI);
+            controlText.innerHTML = this.value;
+            return controlDiv;
+        }    
+    });
+
+    transButton = new Button('Toggle Transparency', {position: 'bottomright'}).addTo(map);
+    fbButton =    new Button('Comment and Feedback', {position: 'bottomright'}).addTo(map);
     </script>
 
     <script type="text/javascript">
