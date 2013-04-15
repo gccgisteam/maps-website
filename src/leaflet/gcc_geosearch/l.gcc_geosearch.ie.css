@@ -1,0 +1,17 @@
+.leaflet-control-geosearch  {
+	border: 3px solid #999;
+	padding: 0px 0px;
+}
+.leaflet-control-geosearch a {
+	background-color: #eee;
+}
+.leaflet-control-geosearch a:hover {
+    background-color: #fff;
+}
+#geosearchinput {
+	padding: 4px 0 0 0;
+	margin: 0 0 0 0;
+	line-height: 1.5;
+	text-indent: 15px;
+	font: 16px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}

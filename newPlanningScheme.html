@@ -6,26 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>New Planning Scheme - Glenorchy City Council</title>        
     
-    <link rel="stylesheet" href="src/leaflet/leaflet.css" />
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="src/leaflet/leaflet.ie.css" />
-    <![endif]-->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="src/leaflet/GeoSearch/css/l.geosearch.css" />    
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
 
-    <!--[if IE 6]>
-	<link rel="stylesheet" href="css/ie6.css" type="text/css" />
-	<![endif]-->
+    <!--[if lt IE 9]>
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="css/ie6.css" type="text/css" />
+    <![endif]-->
 
-    <script src="src/leaflet/leaflet.js"></script>
-    <script src="src/leaflet/leaflet-providers.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet-src.js"></script>
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
-    <!--<script src="src/leaflet/Google.js"></script>-->
     <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
-    <script src="src/leaflet/GeoSearch/js/l.control.geosearch.js"></script>
-    <script src="src/leaflet/GeoSearch/js/l.geosearch.provider.google.js"></script>
-    <script src="src/lib/proj4js-combined.js"></script>     
+    <script src="src/lib/proj4js-combined.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
     <style>
 	    body {
 		    padding: 0;
@@ -84,31 +82,44 @@
         maxZoom: 20,
         attribution: gccAtt
     });
+
+    var ps60 = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+        layers: 'gcc:NewPlanningScheme',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        opacity: 0.4,
+        attribution: gccAtt
+    });
     
     map.addLayer(gi);
     map.addLayer(ps);
 
     var overlays = {
-    "PlanningScheme": ps
+    "Glenorchy New Planning Scheme": ps,
+    "Glenorchy New Planning Scheme (transparent)":ps60
     };
 
     //Location control
     L.control.locate({
-	position: 'topright',  
-	drawCircle: false,
-	follow: true
-    }).addTo(map)
+    	position: 'topright',  
+    	drawCircle: false,
+    	follow: false
+    }).addTo(map);
     //Zoom control
     L.control.zoom().addTo(map);    
     //Layer control
     L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
-    
-    
-    //Places search
-    new L.Control.GeoSearch({
-    	provider: new L.GeoSearch.Provider.Google()
-    }).addTo(map);
-    
+    //Search control
+    L.control.searchControl().addTo(map);
+
+    //Hack for getting focus on text input.
+    //$(document).ready(function() {
+    //   $("input:text").focus(function() { $(this).select(); } );
+    //});
+    //$('input:text').mouseup(function(e) { return false; });
+
+    //Interrogate layer functionality.
     var selectedFeature;
     var latlontemp
     var src = new Proj4js.Proj('EPSG:4326');
