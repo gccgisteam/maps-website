@@ -74,6 +74,7 @@ L.Control.searchControl = L.Control.extend({
             inputTags[i].onmouseover = controlEnter;
             inputTags[i].onmouseout = controlLeave;
         }
+        
         return this._div;
     }
 });
