@@ -48,21 +48,25 @@
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
-    var gi = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+    ///===CHANGE THIS FOR LIVE!===///
+    var rootURL = "http://tobler-v:8080/"
+    ///===========================///
+
+    var gi = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'gcc:GCC_Image',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: 'Image &copy LIST and Southern Water'
     });
-    var gi2 = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+    var gi2 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'gcc:GCC_Image',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: 'Image &copy LIST and Southern Water'
     });
-    var ps = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+    var ps = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'gcc:NewPlanningScheme',
         format: 'image/png',
         transparent: true,
@@ -70,7 +74,7 @@
         attribution: gccAtt
     });
 
-    var ps40 = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+    var ps40 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'gcc:NewPlanningScheme',
         format: 'image/png',
         transparent: true,
@@ -105,8 +109,66 @@
         "Image only": gi2
     };
 
+    //All the planning scheme overlays...
+    
+    var LDS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:LDS_Landslide_Glenorchy',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var GEO = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:GEO_GeoDiversity_Glenorchy',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var WET = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:WET_WetWater_Glenorchy',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var FLD = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:FLD_FloodProne_Glenorchy',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var ASS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:ASS_CoastAcidSulf_Glenorchy',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var HER = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:HER_Heritage_Glenorchy',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var CST = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:CST_CoastRefugia_Glenorchy',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+
     var overlays = {
-        //"Glenorchy New Planning Scheme": gi
+        "LDS - Landslide": LDS,
+        "GEO - Geodiversity": GEO,
+        "WET - Wetlands and Waterways": WET,
+        "FLD - Flood Prone Land": FLD,
+        "ASS - Coastal Acid Sulfate Soils": ASS,
+        "HER - Heritage": HER,
+        "CST - Coastal Refugia": CST
     };
 
 
@@ -149,8 +211,8 @@
             }
         });
         selectedFeature.addTo(map);
-    }     
-    
+    }
+
     map.on('click', function(e) {
         var rootUrl = 'http://tobler-v:8080/geoserver/gcc/ows';
         
@@ -227,13 +289,12 @@
                     var coords = ""
                     var address = ""
                     if(queryCoordinates) {
-                        //Coordinates are known
-                        coords = queryCoordinates;
+                        coords = "'" + queryCoordinates.lng + ", " + queryCoordinates.lat + "'";
                     }
                     if (queryAddress) {
                         address = queryAddress;
                     }
-                    var newURL = preFilledURL.replace("ADDRESS", address).replace("COORDINATES", "'" + coords.lng + ", " + coords.lat + "'");
+                    var newURL = preFilledURL.replace("ADDRESS", address).replace("COORDINATES", coords);
                     window.open(newURL);
                 });
             }
