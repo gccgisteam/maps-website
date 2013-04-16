@@ -42,39 +42,26 @@
 </body>
     <script>
     var center = new L.LatLng(-42.8232,147.2555);
-    var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
+    var map = new L.Map('map', { center: center, zoom: 12, attributionControl:true, zoomControl:false});    
 
     //Define layers
-    var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
-        layers: 'Topographic',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Basemap &copy The LIST",
-        minZoom: 19,
-        maxZoom: 20
-    });
-    var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
-        attribution: "Basemap &copy The LIST",
-        maxZoom: 18
-    });
-    var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
     
+    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+
     var gi = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
         layers: 'gcc:GCC_Image',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
-        attribution: gccAtt
+        attribution: 'Image &copy LIST and Southern Water'
     });
-
-    var baselayers = {
-        "LIST Basemap": listLayers,
-        "Imagery": gi
-        //"Google Imagery": gglImage,
-    };
-    
-    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
-    
+    var gi2 = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+        layers: 'gcc:GCC_Image',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: 'Image &copy LIST and Southern Water'
+    });
     var ps = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
         layers: 'gcc:NewPlanningScheme',
         format: 'image/png',
@@ -82,13 +69,46 @@
         maxZoom: 20,
         attribution: gccAtt
     });
+
+    var ps40 = new L.TileLayer.WMS("http://tobler-v:8080/geoserver/gwc/service/wms", {
+        layers: 'gcc:NewPlanningScheme',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        opacity: 0.4,
+        attribution: gccAtt
+    });
+
+    var ps_transparent = L.layerGroup([gi,ps40]);
+
+    //terrible hack...
+    var ie = (function(){
+        var undef,
+            v = 3,
+            div = document.createElement('div'),
+            all = div.getElementsByTagName('i');
+        while (
+            div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+            all[0]
+        );
+        return v > 4 ? v : undef;
+        }());
     
-    map.addLayer(gi);
-    map.addLayer(ps);
+    map.addLayer(ps_transparent);
+    if(ie) {
+        ps40.setOpacity(1);
+    }
+
+    var baselayers = {
+        "Planning Scheme and Image": ps_transparent,
+        "Planning Scheme only": ps,
+        "Image only": gi2
+    };
 
     var overlays = {
-    "Glenorchy New Planning Scheme": ps
+        //"Glenorchy New Planning Scheme": gi
     };
+
 
     //Location control
     L.control.locate({
@@ -187,12 +207,18 @@
                 .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
             if(this.value == 'Toggle Transparency') {
                 L.DomEvent.addListener(controlDiv, 'click',  function() {
-                    if( this.active ){
-                        ps.setOpacity(1);
+                    if( this.active ){   
+                        map.removeLayer(ps);
+                        map.addLayer(ps_transparent);
+                        if(ie) {
+                            ps40.setOpacity(0.4);
+                            ps40.setOpacity(1);
+                        }               
                         this.active = false;
                         }
                     else{
-                        ps.setOpacity(0.4);
+                        map.removeLayer(ps_transparent);
+                        map.addLayer(ps); 
                         this.active = true;
                         }
                 });
