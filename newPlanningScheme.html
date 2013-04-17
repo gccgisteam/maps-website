@@ -48,7 +48,7 @@
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
     ///===CHANGE THIS FOR LIVE!===///
-    var rootURL = "http://tobler-v:8080/"
+    var rootURL = "http://tobler-v.glenorchy.tas.gov.au:8080/"
     ///===========================///
 
     var gi = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
@@ -200,8 +200,8 @@
                 return {color: 'blue'};
             },
             onEachFeature: function (feature, layer) {
-            var content = "<b>Address:</b> " + feature.properties.address 
-            + "<br><b>PID:</b> " + feature.properties.pid 
+            var content = "<b>Address:</b> " + ((feature.properties.address) ? feature.properties.address : "")
+            + "<br><b>PID:</b> " + ((feature.properties.pid != -9999) ? feature.properties.pid : "")
             + "<br><b>Zones:</b> " + feature.properties.zones
             + "<br><b>Overlays:</b> " + ((feature.properties.overlays) ? feature.properties.overlays : "");
             var popup = L.popup()
@@ -216,7 +216,7 @@
     }
 
     map.on('click', function(e) {
-        var rootUrl = 'http://tobler-v:8080/geoserver/gcc/ows';
+        var owsrootUrl = rootURL + 'geoserver/gcc/ows';
         
         var p = new Proj4js.Point(e.latlng.lng,e.latlng.lat);
         Proj4js.transform(src, dst, p);
@@ -240,10 +240,10 @@
 
         var parameters = L.Util.extend(defaultParameters, customParams);
 
-        //console.log(rootUrl + L.Util.getParamString(parameters));
+        //console.log(owsrootUrl + L.Util.getParamString(parameters));
 
         $.ajax({
-            url : rootUrl + L.Util.getParamString(parameters),
+            url : owsrootUrl + L.Util.getParamString(parameters),
             dataType : 'jsonp',
             jsonpCallback : 'getJson',
             success : handleJson
