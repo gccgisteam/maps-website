@@ -37,7 +37,6 @@
     </style>
 </head>
 <body>
-    <a id='lnkDialog' href="stormwater_mysearch.html" data-rel="dialog" data-transition="pop" style='display:none;'></a>
 	<div id="map"></div>    
 </body>
     <script>
@@ -201,7 +200,10 @@
                 return {color: 'blue'};
             },
             onEachFeature: function (feature, layer) {
-            var content = "<b>Address:</b> " + feature.properties.address + "<br><b>PID:</b> " + feature.properties.pid + "<br><b>Zones:</b> " + feature.properties.zones;
+            var content = "<b>Address:</b> " + feature.properties.address 
+            + "<br><b>PID:</b> " + feature.properties.pid 
+            + "<br><b>Zones:</b> " + feature.properties.zones
+            + "<br><b>Overlays:</b> " + ((feature.properties.overlays) ? feature.properties.overlays : "");
             var popup = L.popup()
                 .setLatLng(queryCoordinates)
                 .setContent(content)
