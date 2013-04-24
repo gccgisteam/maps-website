@@ -4,6 +4,7 @@
   <meta charset=utf-8 />
   <title>Aerial Image Comparison 2012-2013</title>
 
+  <script src="src/jquery/jquery-1.7.1.min.js"></script>
   <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet-src.js"></script>
   <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>  
   <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
@@ -89,7 +90,7 @@
   }
   var offset = 45;
   map.on( "zoomend", function( e ) {
-   l_parent = getLayer(map._layers)._container;
+   l_parent = getLayer(map._layers)._container;   
    setDivide(parseInt(handle.style.left)+offset);
   });
   map.on( "moveend", function( e ) {
@@ -117,7 +118,7 @@
   function getLayer(obj) {
     var last;
     for (var i in obj) {
-        if (obj.hasOwnProperty(i) && typeof(i) !== 'function') {
+        if (obj.hasOwnProperty(i) && typeof(i) !== 'function' && obj[i].options.format) {
             last = obj[i];
         }
     }
