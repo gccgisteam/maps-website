@@ -74,7 +74,9 @@
             maxZoom: 20,
             attribution: gccAtt
         }).addTo(map);
-
+        //Search control
+         L.control.searchControl().addTo(map);
+         
   var l_parent = getLayer(map._layers)._container,
       handle = document.getElementById('handle'),
       dragging = false;
