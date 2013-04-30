@@ -65,7 +65,7 @@
         ///===========================///
 
         var gccAtt = '&copy Glenorchy City Council'
-        var img2012 = new L.TileLayer.WMS(rootURL+"geoserver/ows", {
+        var img2012 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
             layers: 'gcc:Glenorchy_Urban_1',
             format: 'image/png',
             transparent: true,
@@ -73,8 +73,8 @@
             attribution: gccAtt
         }).addTo(map);
 
-        var img2013 = new L.TileLayer.WMS(rootURL+"geoserver/ows", {
-            layers: 'gcc:Image_2013_Urban',
+        var img2013 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+            layers: 'gcc:Image_2013',
             format: 'image/png',
             transparent: true,
             maxZoom: 20,
