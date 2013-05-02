@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Example</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+
+    <!--[if lt IE 9]>
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+    <![endif]-->
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet-src.js"></script>
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
+    <script src="src/lib/proj4js-combined.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script src="src/leaflet/L.BuildingsLayer.js"></script>
+
+  <style>
+    body { margin:0; padding:0; }
+    #map {
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<div id='map'></div>
+<script>
+  var center = new L.LatLng(-42.8337,147.2749);
+        var map = new L.Map('map', { center: center, zoom: 18, attributionControl:true, zoomControl:false});
+  //Define layers
+  var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
+    layers: 'Topographic',
+    format: 'image/png',
+    transparent: true,
+    attribution: "Basemap &copy The LIST",
+    minZoom: 19,
+    maxZoom: 20
+  });
+  var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
+  attribution: "Basemap &copy The LIST",
+  maxZoom: 18
+  });
+  
+  var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS]);
+  map.addLayer(listLayers);
+   L.control.locate({
+      position: 'topright',
+      drawCircle: false,
+      follow: false
+    }).addTo(map);
+    //Zoom control
+    L.control.zoom().addTo(map);
+    //Search control
+    L.control.searchControl().addTo(map);
+    var buildings = null;
+    $.getJSON("data/buildings.json", function(json) {
+      buildings = new L.BuildingsLayer().addTo(map).geoJSON(json);    
+      //console.log(json); // this will show the info it in firebug console
+    });
+
+
+</script>
+
+</body>
+</html
