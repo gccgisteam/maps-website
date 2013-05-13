@@ -67,7 +67,7 @@
         attribution: 'Image &copy LIST and Southern Water'
     });
 
-    var ps_ = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+    var ps = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'gcc:NewPlanningScheme',
         format: 'image/png',
         transparent: true,
@@ -94,7 +94,6 @@
 
     map.addLayer(pslabelled);
 
-    var ps = L.layerGroup([ps_, pslabelled]);
     var ps_transparent = L.layerGroup([gi, ps40]);
 
     //terrible hack...
