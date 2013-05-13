@@ -66,7 +66,8 @@
         maxZoom: 20,
         attribution: 'Image &copy LIST and Southern Water'
     });
-    var ps = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+
+    var ps_ = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'gcc:NewPlanningScheme',
         format: 'image/png',
         transparent: true,
@@ -83,7 +84,18 @@
         attribution: gccAtt
     });
 
-    var ps_transparent = L.layerGroup([gi,ps40]);
+    var pslabelled = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc:NewPlanningScheme_Labels',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+
+    map.addLayer(pslabelled);
+
+    var ps = L.layerGroup([ps_, pslabelled]);
+    var ps_transparent = L.layerGroup([gi, ps40]);
 
     //terrible hack...
     var ie = (function(){
@@ -106,7 +118,8 @@
     var baselayers = {
         "Planning Scheme and Image": ps_transparent,
         "Planning Scheme Only": ps,
-        "Aerial Image Only": gi2
+        "Aerial Image Only": gi2,
+        "No Baselayers": ""
     };
 
     //All the planning scheme overlays...
@@ -168,7 +181,8 @@
         "FLD - Flood Prone Land": FLD,
         "ASS - Coastal Acid Sulfate Soils": ASS,
         "HER - Heritage": HER,
-        "CST - Coastal Refugia": CST
+        "CST - Coastal Refugia": CST,
+        "Labels": pslabelled
     };
 
     //Location control
