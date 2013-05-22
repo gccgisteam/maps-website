@@ -50,7 +50,6 @@
 
     ///===CHANGE THIS FOR LIVE!===///
     var rootURL = "http://maps.gcc.tas.gov.au:8080/"
-    var oldURL = "httP://tobler-v:8080/"
     ///===========================///
 
     var gi = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
@@ -85,8 +84,8 @@
         attribution: gccAtt
     });
 
-    var pslabelled = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:NewPlanningScheme_Labels',
+    var pslabelled = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_ps_labels',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -124,50 +123,79 @@
 
     //All the planning scheme overlays...
     
-    var LDS = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:LDS_Landslide_Glenorchy',
+    
+    var ASS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_ASS_CoastAcidSulf',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var GEO = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:GEO_GeoDiversity_Glenorchy',
+    var DFC = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_DFC_DesFutureChar',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var WET = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:WET_WetWater_Glenorchy',
+    var DSP = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_DSP_DispersiveSoil',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var FLD = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:FLD_FloodProne_Glenorchy',
+    var FLD = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_FLD_FloodProne',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var ASS = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:ASS_CoastAcidSulf_Glenorchy',
+    var GEO = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_GEO_GeoDiversity',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var HER = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:HER_Heritage_Glenorchy',
+    var HER = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_HER_Heritage',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var CST = new L.TileLayer.WMS(oldURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:CST_CoastRefugia_Glenorchy',
+    var LDS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_LDS_Landslide',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var REF = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_REF_CoastRefugia',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var SCN = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_SCN_ScenicManagement',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var TRE = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_TRE_SignificantTrees',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var WAT = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:gcc_WAT_WaterwayCoastProtection',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -175,13 +203,17 @@
     });
 
     var overlays = {
-        "LDS - Landslide": LDS,
-        "GEO - Geodiversity": GEO,
-        "WET - Wetlands and Waterways": WET,
-        "FLD - Flood Prone Land": FLD,
         "ASS - Coastal Acid Sulfate Soils": ASS,
+        "DFC - Desired Future Character": DFC,
+        //"DSP - Dispersive Soils": DSP,
+        "FLD - Flood Prone Land": FLD,
+        "GEO - GeoDiversity": GEO,
         "HER - Heritage": HER,
-        "CST - Coastal Refugia": CST,
+        "LDS - Landslide": LDS,
+        "REF - Coastal Refugia": REF,
+        "SCN - Scenic Management": SCN,
+        "TRE - Significant Trees": TRE,
+        "WAT - Waterways and Coast Protection": WAT,
         "Labels": pslabelled
     };
 
@@ -330,7 +362,7 @@
     });
 
     transButton = new Button('Toggle Transparency', {position: 'bottomright'}).addTo(map);
-    fbButton =    new Button('Comment and Feedback', {position: 'bottomright'}).addTo(map);
+    //fbButton =    new Button('Comment and Feedback', {position: 'bottomright'}).addTo(map);
     </script>
 
     <script type="text/javascript">
