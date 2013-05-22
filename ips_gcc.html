@@ -49,18 +49,18 @@
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
     ///===CHANGE THIS FOR LIVE!===///
-    var rootURL = "http://tobler-v.glenorchy.tas.gov.au:8080/"
+    var rootURL = "http://maps.gcc.tas.gov.au:8080/"
     ///===========================///
 
     var gi = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:GCC_Image',
+        layers: 'GCC_cuo:GCC_Image',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: 'Image &copy LIST and Southern Water'
     });
     var gi2 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:GCC_Image',
+        layers: 'GCC_cuo:GCC_Image',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -68,7 +68,7 @@
     });
 
     var ps = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:NewPlanningScheme',
+        layers: 'ips:gcc',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -76,7 +76,7 @@
     });
 
     var ps40 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:NewPlanningScheme',
+        layers: 'ips:gcc',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -85,7 +85,7 @@
     });
 
     var pslabelled = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc:NewPlanningScheme_Labels',
+        layers: 'ips:gcc_Labels',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -218,7 +218,8 @@
             var content = "<b>Address:</b> " + ((feature.properties.address) ? feature.properties.address : "")
             + "<br><b>PID:</b> " + ((feature.properties.pid != -9999) ? feature.properties.pid : "")
             + "<br><b>Zones:</b> " + feature.properties.zones
-            + "<br><b>Overlays:</b> " + ((feature.properties.overlays) ? feature.properties.overlays : "");
+            + "<br><b>Overlays:</b> " + ((feature.properties.overlays) ? feature.properties.overlays : "none"
+            + "<br>Note: Other codes may be triggered by description, refer to &quotApplication&quot section in each code.");
             var popup = L.popup()
                 .setLatLng(queryCoordinates)
                 .setContent(content)
@@ -231,7 +232,7 @@
     }
 
     map.on('click', function(e) {
-        var owsrootUrl = rootURL + 'geoserver/gcc/ows';
+        var owsrootUrl = rootURL + 'geoserver/ows';
         
         var p = new Proj4js.Point(e.latlng.lng,e.latlng.lat);
         Proj4js.transform(src, dst, p);
@@ -241,7 +242,7 @@
             service : 'WFS',
             version : '1.1.1',
             request : 'GetFeature',
-            typeName : 'gcc:NewPlanningWebMap',
+            typeName : 'ips:IPS_GCC',
             maxFeatures : 100,
             outputFormat : 'json',
             format_options : 'callback:getJson',
