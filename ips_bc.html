@@ -144,13 +144,6 @@
         maxZoom: 20,
         attribution: gccAtt
     });
-    var DFC = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_DFC_DesFutureChar',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
     var DSP = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'ips:BC_Dispersive_Soils',
         format: 'image/png',
@@ -158,29 +151,22 @@
         maxZoom: 20,
         attribution: gccAtt
     });
-    var FLD = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_FLD_FloodProne',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
     var GEO = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_Geodiversity',
+        layers: 'ips:BC_Geodiversity',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var HER = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_HER_Heritage',
+        layers: 'ips:BC_Heritage',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var LDS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_Landslide_Hazard',
+        layers: 'ips:BC_Landslide_Hazard',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -193,44 +179,34 @@
         maxZoom: 20,
         attribution: gccAtt
     });
-    var SCN = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_Scenic_Landscape',
+    var WWW = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:BC_WWW',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var TRE = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_TRE_SignificantTrees',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    var WAT = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:bc_WWW',
+    var QUO = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:BC_Quoin_Ridge',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
 
+
     var overlays = {
         "ASS - Coastal Acid Sulfate Soils": ASS,    
-        "ATT - Attenuation": ATT, 
-        "BHR - Brighton House Racing": BHR, 
+        "ATT - Attenuation Buffer": ATT, 
+        "BHR - Brighton Horse Racing Specific Area Plan": BHR, 
         "CSI - Coastal Inundation": CSI,
         "DSP - Dispersive Soils": DSP,
+        "GEO - Geodiversity": GEO,
+        "HER - Heritage": HER,
+        "LDS - Landslip Hazard": LDS,
         "REF - Future Coastal Refugia": REF,
-        //"GEO - GeoDiversity": GEO,
-        //"LDS - Landslide": LDS,
-        //"SCN - Scenic Landscape": SCN,
-        //"WWW - Waterways and Coast Protection": WAT,
-        //unused
-        //"TRE - Significant Trees": TRE,
-        //"DFC - Desired Future Character": DFC,
-        //"FLD - Flood Prone Land": FLD,
-        //"HER - Heritage": HER,
+        "QUO - Quoin Ridge Specific Area Plan": FLD,
+        "WWW - Waterways and Coast Protection": WAT,
         "Labels": pslabelled
     };
 
