@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>New Planning Scheme - Glenorchy City Council</title>        
+    <title>New Planning Scheme - Glamorgan Spring Bay</title>        
     
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
@@ -16,7 +16,7 @@
     <!--[if lt IE 9]>
      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
      <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
-     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gsb_geosearch/l.gsb_geosearch.ie.css" />
      <link rel="stylesheet" href="css/ie6.css" type="text/css" />
     <![endif]-->
 
@@ -41,34 +41,26 @@
 	<div id="map"></div>    
 </body>
     <script>
-    var center = new L.LatLng(-42.8232,147.2555);
-    var map = new L.Map('map', { center: center, zoom: 12, attributionControl:true, zoomControl:false});    
+    var center = new L.LatLng(-42.2819,148.1396);
+    var map = new L.Map('map', { center: center, zoom: 10, attributionControl:true, zoomControl:false});    
 
     //Define layers
     
-    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+    var gccAtt = '&copy Glamorgan Spring Bay'
 
-    ///===CHANGE THIS FOR LIVE!===///
     var rootURL = "http://maps.gcc.tas.gov.au:8080/"
-    ///===========================///
 
-    var gi = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'GCC_cuo:GCC_Image',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: 'Image &copy LIST and Southern Water'
+    var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
     });
-    var gi2 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'GCC_cuo:GCC_Image',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: 'Image &copy LIST and Southern Water'
+    var LISTBasemap2 = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
     });
 
     var ps = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_ps',
+        layers: 'ips:gsb_ps',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -76,7 +68,7 @@
     });
 
     var ps40 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_ps',
+        layers: 'ips:gsb_ps',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -85,7 +77,7 @@
     });
 
     var pslabelled = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_ps_labels',
+        layers: 'ips:gsb_ps_labels',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -94,7 +86,7 @@
 
     map.addLayer(pslabelled);
 
-    var ps_transparent = L.layerGroup([gi, ps40]);
+    var ps_transparent = L.layerGroup([LISTBasemap, ps40]);
 
     //terrible hack...
     var ie = (function(){
@@ -109,7 +101,8 @@
         return v > 4 ? v : undef;
         }());
     
-    map.addLayer(ps_transparent);
+    map.addLayer(ps);
+
     if(ie) {
         ps40.setOpacity(1);
     }
@@ -117,85 +110,97 @@
     var baselayers = {
         "Planning Scheme and Image": ps_transparent,
         "Planning Scheme Only": ps,
-        "Aerial Image Only": gi2,
+        "Aerial Image Only": LISTBasemap2,
         "No Baselayers": ""
     };
 
-    //All the planning scheme overlays...
-    
-    
+    //All the planning scheme overlays...    
     var ASS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_ASS_CoastAcidSulf',
+        layers: 'ips:GSB_Coastal_Acid_Sulphate_Soils',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var ATT = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:GSB_Attenuation',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
+    var CSI = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:GSB_Coastal_Inundation',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var DFC = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_DFC_DesFutureChar',
+        layers: 'ips:gsb_DFC_DesFutureChar',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var DSP = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_DSP_DispersiveSoil',
+        layers: 'ips:gsb_DSP_DispersiveSoil',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var FLD = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_FLD_FloodProne',
+        layers: 'ips:gsb_FLD_FloodProne',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var GEO = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_GEO_GeoDiversity',
+        layers: 'ips:GSB_Geodiversity',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var HER = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_HER_Heritage',
+        layers: 'ips:gsb_HER_Heritage',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var LDS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_LDS_Landslide',
+        layers: 'ips:GSB_Landslide_Hazard',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var REF = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_REF_CoastRefugia',
+        layers: 'ips:GSB_Future_Coastal_Refugia',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var SCN = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_SCN_ScenicManagement',
+        layers: 'ips:GSB_Scenic_Landscape',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var TRE = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_TRE_SignificantTrees',
+        layers: 'ips:gsb_TRE_SignificantTrees',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
     var WAT = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:gcc_WAT_WaterwayCoastProtection',
+        layers: 'ips:GSB_WWW',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -203,17 +208,20 @@
     });
 
     var overlays = {
-        "ASS - Coastal Acid Sulfate Soils": ASS,
-        "DFC - Desired Future Character": DFC,
-        //"DSP - Dispersive Soils": DSP,
-        "FLD - Flood Prone Land": FLD,
+        "ASS - Coastal Acid Sulfate Soils": ASS,    
+        "ATT - Attenuation": ATT, 
+        "CSI - Coastal Inundation": CSI,
         "GEO - GeoDiversity": GEO,
-        "HER - Heritage": HER,
         "LDS - Landslide": LDS,
-        "REF - Coastal Refugia": REF,
-        "SCN - Scenic Management": SCN,
-        "TRE - Significant Trees": TRE,
+        "REF - Future Coastal Refugia": REF,
+        "SCN - Scenic Landscape": SCN,
         "WAT - Waterways and Coast Protection": WAT,
+        //unused
+        //"TRE - Significant Trees": TRE,
+        //"DFC - Desired Future Character": DFC,
+        //"DSP - Dispersive Soils": DSP,
+        //"FLD - Flood Prone Land": FLD,
+        //"HER - Heritage": HER,
         "Labels": pslabelled
     };
 
@@ -275,7 +283,7 @@
             service : 'WFS',
             version : '1.1.1',
             request : 'GetFeature',
-            typeName : 'ips:gcc_ps_webmap',
+            typeName : 'ips:gsb_ps_webmap',
             maxFeatures : 100,
             outputFormat : 'json',
             format_options : 'callback:getJson',
@@ -308,7 +316,7 @@
         initialize: function (foo, options) {
             L.Util.setOptions(this, options);
             this.value = foo;
-            this.active = false;
+            this.active = true;
         },
        
         onAdd: function (map) {
@@ -320,18 +328,18 @@
                 .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
             if(this.value == 'Toggle Transparency') {
                 L.DomEvent.addListener(controlDiv, 'click',  function() {
-                    if( this.active ){   
+                    if( this.active ){
+                        map.removeLayer(ps_transparent);
+                        map.addLayer(ps); 
+                        this.active = false;
+                        }
+                    else{                        
                         map.removeLayer(ps);
                         map.addLayer(ps_transparent);
                         if(ie) {
                             ps40.setOpacity(0.4);
                             ps40.setOpacity(1);
                         }               
-                        this.active = false;
-                        }
-                    else{
-                        map.removeLayer(ps_transparent);
-                        map.addLayer(ps); 
                         this.active = true;
                         }
                 });
