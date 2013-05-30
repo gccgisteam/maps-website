@@ -109,7 +109,7 @@
         return v > 4 ? v : undef;
         }());
     
-    map.addLayer(ps_transparent);
+    map.addLayer(ps);
     if(ie) {
         ps40.setOpacity(1);
     }
@@ -308,7 +308,7 @@
         initialize: function (foo, options) {
             L.Util.setOptions(this, options);
             this.value = foo;
-            this.active = false;
+            this.active = true;
         },
        
         onAdd: function (map) {
@@ -320,18 +320,18 @@
                 .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
             if(this.value == 'Toggle Transparency') {
                 L.DomEvent.addListener(controlDiv, 'click',  function() {
-                    if( this.active ){   
+                    if( this.active ){
+                        map.removeLayer(ps_transparent);
+                        map.addLayer(ps); 
+                        this.active = false;
+                        }
+                    else{                        
                         map.removeLayer(ps);
                         map.addLayer(ps_transparent);
                         if(ie) {
                             ps40.setOpacity(0.4);
                             ps40.setOpacity(1);
                         }               
-                        this.active = false;
-                        }
-                    else{
-                        map.removeLayer(ps_transparent);
-                        map.addLayer(ps); 
                         this.active = true;
                         }
                 });
