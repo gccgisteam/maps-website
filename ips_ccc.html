@@ -114,92 +114,50 @@
     };
 
     //All the planning scheme overlays...    
-    var ASS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_Coastal_Acid_Sulphate_Soils',
+    var E10 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:E10_0_Biodiversity_Code',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var ATT = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_Attenuation',
+    var E11 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:E11_0_Waterway_and_Coastal_Protection_Code',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var CSI = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_Coastal_Inundation',
+    var E14 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:E14_0_Coastal_Erosion_Hazard_Code',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var DFC = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_DFC_DesFutureChar',
+    var E1 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:E1_0_Bushfire_Prone_Areas_Code',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var DSP = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_DSP_DispersiveSoil',
+    var E25 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:E25_0_Airport__Buffer_Code',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var FLD = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_FLD_FloodProne',
+    var E3 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:E3_0_Landslip_Code',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
         attribution: gccAtt
     });
-    var GEO = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_Geodiversity',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    var HER = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_HER_Heritage',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    var LDS = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_Landslide_Hazard',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    var REF = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_Future_Coastal_Refugia',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    var SCN = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_Scenic_Landscape',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    var TRE = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_TRE_SignificantTrees',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    var WAT = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'ips:ccc_WWW',
+    var E9 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'ips:E9_0_Attenuation_Code',
         format: 'image/png',
         transparent: true,
         maxZoom: 20,
@@ -207,20 +165,14 @@
     });
 
     var overlays = {
-        "ASS - Coastal Acid Sulfate Soils": ASS,    
-        "ATT - Attenuation": ATT, 
-        "CSI - Coastal Inundation": CSI,
-        "GEO - GeoDiversity": GEO,
-        "LDS - Landslide": LDS,
-        "REF - Future Coastal Refugia": REF,
-        "SCN - Scenic Landscape": SCN,
-        "WAT - Waterways and Coast Protection": WAT,
-        //unused
-        //"TRE - Significant Trees": TRE,
-        //"DFC - Desired Future Character": DFC,
-        //"DSP - Dispersive Soils": DSP,
-        //"FLD - Flood Prone Land": FLD,
-        //"HER - Heritage": HER,
+        //ONE MORE!
+        "E1.0 - Bushfire Prone Areas": E1,
+        "E3.0 - Landslip Areas": E3,
+        "E9.0 - Attenuation": E9,
+        "E10.0 - Biodiversity": E10,
+        "E11.0 - Waterway and Coastal Protection": E11,    
+        "E14.0 - Coastal Erosion Hazard": E14, 
+        "E25.0 - Airport Development Buffer": E25,
         "Labels": pslabelled
     };
 
@@ -282,7 +234,7 @@
             service : 'WFS',
             version : '1.1.1',
             request : 'GetFeature',
-            typeName : 'ips:ccc_ps_webmap',
+            typeName : 'ips:ccc_webmap',
             maxFeatures : 100,
             outputFormat : 'json',
             format_options : 'callback:getJson',
@@ -296,7 +248,7 @@
 
         var parameters = L.Util.extend(defaultParameters, customParams);
 
-        //console.log(owsrootUrl + L.Util.getParamString(parameters));
+        console.log(owsrootUrl + L.Util.getParamString(parameters));
 
         $.ajax({
             url : owsrootUrl + L.Util.getParamString(parameters),

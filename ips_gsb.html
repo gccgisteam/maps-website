@@ -199,7 +199,7 @@
         maxZoom: 20,
         attribution: gccAtt
     });
-    var WAT = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+    var WWW = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'ips:GSB_WWW',
         format: 'image/png',
         transparent: true,
@@ -214,14 +214,8 @@
         "GEO - GeoDiversity": GEO,
         "LDS - Landslide": LDS,
         "REF - Future Coastal Refugia": REF,
-        "SCN - Scenic Landscape": SCN,
-        "WAT - Waterways and Coast Protection": WAT,
-        //unused
-        //"TRE - Significant Trees": TRE,
-        //"DFC - Desired Future Character": DFC,
-        //"DSP - Dispersive Soils": DSP,
-        //"FLD - Flood Prone Land": FLD,
-        //"HER - Heritage": HER,
+        "SCN - Scenic Landscape Corridor": SCN,
+        "WWW - Waterways and Coast Protection": WWW,
         "Labels": pslabelled
     };
 
@@ -283,7 +277,7 @@
             service : 'WFS',
             version : '1.1.1',
             request : 'GetFeature',
-            typeName : 'ips:gsb_ps_webmap',
+            typeName : 'ips:gsb_webmap',
             maxFeatures : 100,
             outputFormat : 'json',
             format_options : 'callback:getJson',
