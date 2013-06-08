@@ -1,0 +1,5 @@
+All source code stored in this github repository at https://github.com/gccgisteam/maps-website is 
+Copyright Glenorchy Council, CC-BY Australia 3.0 unless otherwise explicitly licensed otherwise in the file.
+
+There may be code in here lifted from elsewhere, for that I say thanks and if you want me to mention it and I haven't, please let me know.
+
