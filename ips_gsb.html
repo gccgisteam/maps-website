@@ -320,7 +320,7 @@
                     L.DomEvent
                 .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
                 .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
-            if(this.value == 'Toggle Aerial/Zoning') {
+            if(this.value == 'Toggle Transparency') {
                 L.DomEvent.addListener(controlDiv, 'click',  function() {
                     if( this.active ){
                         map.removeLayer(ps_transparent);
