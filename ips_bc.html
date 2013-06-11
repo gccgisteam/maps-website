@@ -108,10 +108,10 @@
     }
 
     var baselayers = {
-        "Planning Scheme and Image": ps_transparent,
-        "Planning Scheme Only": ps,
-        "Aerial Image Only": LISTBasemap2,
-        "No Baselayers": ""
+        "Zoning and Aerial Image": ps_transparent,
+        "Zoning": ps,
+        "Aerial Image": LISTBasemap2,
+        "Basemap": ""
     };
 
     //All the planning scheme overlays...    
@@ -311,7 +311,7 @@
                     L.DomEvent
                 .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
                 .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
-            if(this.value == 'Toggle Transparency') {
+            if(this.value == 'Toggle Aerial/Zoning') {
                 L.DomEvent.addListener(controlDiv, 'click',  function() {
                     if( this.active ){
                         map.removeLayer(ps_transparent);
