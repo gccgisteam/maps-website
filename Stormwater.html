@@ -73,15 +73,16 @@
             layers: 'GCC_cc:Stormwater',
             format: 'image/png',
             transparent: true,
-    attribution: gccAtt
+            maxZoom: 20,
+            attribution: gccAtt
     });
 
     var acc_labels = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
             layers: 'GCC_cc:Stormwaterpits_acc_labels',
             format: 'image/png',
             transparent: true,
-    maxZoom: 20,
-    attribution: gccAtt
+            maxZoom: 20,
+            attribution: gccAtt
     });
 
     map.addLayer(listLayers);
