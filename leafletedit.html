@@ -91,7 +91,7 @@
     });
     
     // Initialize the WFST layer 
-    var drawnItemsLayer = L.wfst(null,{
+    var drawnItems = L.wfst(null,{
         // Required
         url : "http://maps.gcc.tas.gov.au/geoserver/wfs",
         featureNS : 'GCC_edits',
@@ -118,7 +118,7 @@
     
     map.addLayer(listLayers);
     //map.addLayer(le);
-    map.addLayer(drawnItemsLayer);
+    map.addLayer(drawnItems);
 
     var overlays = {
     "Finished Edits": le,
