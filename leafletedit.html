@@ -93,9 +93,9 @@
     // Initialize the WFST layer 
     var drawnItems = L.wfst(null,{
         // Required
-        url : "http://maps.gcc.tas.gov.au:8080/geoserver/ows",
-        featureNS : 'LeafletEditTest',
-        featureType : 'doodles',
+        url : "http://maps.gcc.tas.gov.au:8080/geoserver/wfs",
+        featureNS : 'GCC_edits',
+        featureType : 'LeafletEditTest',
         primaryKeyField: 'id'
     }).addTo(map);
 
