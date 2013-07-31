@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Leaflet Editing WFS-T - Glenorchy City Council</title>        
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+    <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/nps.css" />
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+    <link rel="stylesheet" href="src/leaflet/draw/leaflet.draw.css" />
+    
+    <!--[if lt IE 8]>
+     <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="css/ie6.css" type="text/css" />
+     <link rel="stylesheet" href="src/leaflet/draw/leaflet.draw.ie.css" />
+    <![endif]-->
+
+    <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
+    <script src="src/lib/proj4js-combined.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script src="src/leaflet/draw/leaflet.draw.js"></script>    
+    <script type="text/javascript" src="src/leaflet/draw/leaflet.gml.js"></script>
+    <script type="text/javascript" src="src/leaflet/draw/leaflet.wfst.js"></script>
+    <style>
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
+    </style>
+</head>
+<body>    
+	<div id="map"></div>
+</body>
+    <script>
+    var center = new L.LatLng(-42.8232,147.2555);
+    var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
+
+    //Define layers
+    var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
+        layers: 'Topographic',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Basemap &copy The LIST",
+        minZoom: 19,
+        maxZoom: 20
+    });
+    var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
+    });
+    var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
+    
+    var LISTAerialWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Orthophoto/ImageServer/WMSServer", {
+        layers: 'Orthophoto',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Basemap &copy The LIST",
+        minZoom: 19,
+        maxZoom: 20
+    });
+    var LISTAerial = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
+    });
+
+    var baselayers = {
+    "LIST Satellite": LISTAerial,
+    "List Basemap": listLayers
+    };
+    
+    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+    var le = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/ows", {
+            layers: 'GCC_edits:LeafletEditTest',
+            format: 'image/png',
+            transparent: true,
+            maxZoom: 20,
+            attribution: gccAtt
+    });
+    
+    // Initialize the WFST layer 
+    var drawnItems = L.wfst(null,{
+        // Required
+        url : "http://maps.gcc.tas.gov.au:8080/geoserver/ows",
+        featureNS : 'LeafletEditTest',
+        featureType : 'doodles',
+        primaryKeyField: 'id'
+    }).addTo(map);
+
+    // Initialize the draw control and pass it the FeatureGroup of editable layers
+    var drawControl = new L.Control.Draw({
+        position: 'topright',
+        edit: {
+            featureGroup: drawnItems,
+        }
+    });
+
+    map.addControl(drawControl);
+
+    map.on('draw:created', function (e) {
+        drawnItems.addLayer(e.layer);
+    });
+    map.on('draw:edited', function (e) {
+        drawnItems.wfstSave(e.layers);
+    });
+    
+    map.addLayer(listLayers);
+    map.addLayer(le);   
+
+    var overlays = {
+    "Finished Edits": le,
+    "Current Edits": drawnItems
+    };
+
+    //Location control
+    L.control.locate({
+        position: 'topright',  
+        drawCircle: false,
+        follow: false
+    }).addTo(map);
+    //Zoom control
+    L.control.zoom().addTo(map);    
+    //Layer control
+    L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
+    //Search control
+    L.control.searchControl().addTo(map);
+
+    </script>
+
+    <script type="text/javascript">
+	//Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36489204-2']);
+	_gaq.push(['_trackPageview']);	  
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+    </script>
+</html>
