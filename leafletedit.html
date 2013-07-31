@@ -91,13 +91,13 @@
     });
     
     // Initialize the WFST layer 
-    var drawnItems = L.wfst(null,{
+    var drawnItemsLayer = L.wfst(null,{
         // Required
         url : "http://maps.gcc.tas.gov.au/geoserver/wfs",
         featureNS : 'GCC_edits',
         featureType : 'LeafletEditTest',
         primaryKeyField: 'id'
-    }).addTo(map);
+    });
 
     // Initialize the draw control and pass it the FeatureGroup of editable layers
     var drawControl = new L.Control.Draw({
@@ -117,7 +117,8 @@
     });
     
     map.addLayer(listLayers);
-    map.addLayer(le);   
+    //map.addLayer(le);
+    map.addLayer(drawnItemsLayer);
 
     var overlays = {
     "Finished Edits": le,
