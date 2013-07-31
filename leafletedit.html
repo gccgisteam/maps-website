@@ -91,34 +91,34 @@
     });
     
     // Initialize the WFST layer 
-    var drawnItems = L.wfst(null,{
+    layers = {};
+    layers.drawnItems = L.wfst(null,{
         // Required
         url : "http://maps.gcc.tas.gov.au/geoserver/wfs",
         featureNS : 'GCC_edits',
         featureType : 'LeafletEditTest',
         primaryKeyField: 'id'
-    });
+    }).addTo(map);;
 
     // Initialize the draw control and pass it the FeatureGroup of editable layers
     var drawControl = new L.Control.Draw({
         position: 'topright',
         edit: {
-            featureGroup: drawnItems,
+            featureGroup: layers.drawnItems,
         }
     });
 
     map.addControl(drawControl);
 
     map.on('draw:created', function (e) {
-        drawnItems.addLayer(e.layer);
+        layers.drawnItems.addLayer(e.layer);
     });
     map.on('draw:edited', function (e) {
-        drawnItems.wfstSave(e.layers);
+        layers.drawnItems.wfstSave(e.layers);
     });
     
     map.addLayer(listLayers);
     //map.addLayer(le);
-    map.addLayer(drawnItems);
 
     var overlays = {
     "Finished Edits": le,
