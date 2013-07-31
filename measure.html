@@ -146,18 +146,18 @@
             var j = new Proj4js.Point(ll.lng,ll.lat);  
             Proj4js.transform(src, dst, j);
       
-            layer.bindPopup('MGA Zone 55 Coords: ' + Math.round(j.x*1000)/1000 + ', '+Math.round(j.y*1000)/1000).openPopup();
+            layer.bindPopup('MGA Zone 55 Coords: ' + Math.round(j.x*1000)/1000 + ', '+Math.round(j.y*1000)/1000);
         }
         if(type ==='polyline') {
             length = lineLength(e.layer._latlngs);
-            layer.bindPopup('Length is: '+length).openPopup();            
+            layer.bindPopup('Length is: '+length);            
         }
         if (type === 'polygon' || type === 'rectangle') {
             area = polygonArea(e.layer._latlngs);
-            layer.bindPopup('Area is: '+area).openPopup();
+            layer.bindPopup('Area is: '+area);
         }
-       
-        drawnItems.addLayer(layer);
+        drawnItems.addLayer(layer);        
+        layer.openPopup();
     }
     
     function lineLength(c) 
