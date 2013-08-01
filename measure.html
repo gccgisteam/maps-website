@@ -171,7 +171,7 @@
     
     function lineLength(c) 
     { 
-      length = 0;         // Accumulates area in the loop
+      var length = 0;         // Accumulates area in the loop
       var numPoints = c.length
       var j = new Proj4js.Point(c[0].lng,c[0].lat);  
       Proj4js.transform(src, dst, j);
