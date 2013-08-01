@@ -77,8 +77,9 @@
         maxZoom: 18
     });
 
+    var listLayersAerial = L.layerGroup([LISTAerial, LISTAerialWMS])
     var baselayers = {
-    "LIST Satellite": LISTAerial,
+    "LIST Satellite": listLayersAerial,
     "List Basemap": listLayers
     };
     
