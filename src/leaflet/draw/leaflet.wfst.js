@@ -363,7 +363,7 @@ L.WFST = L.GeoJSON.extend({
     Get all existing objects from the WFS service and draw them
     */
     _loadExistingFeatures: function(){
-        var geoJsonUrl = this.options.url + '?service=WFS&version=1.0.0&request=GetFeature&typeName=' + this.options.featureNS + ':' + this.options.featureType + '&outputFormat=json';
+        var geoJsonUrl = this.options.url + '?service=WFS&version=1.1.0&request=GetFeature&typeName=' + this.options.featureNS + ':' + this.options.featureType + '&outputFormat=json&SrsName=EPSG:4326';
         this._ajax({
             url: geoJsonUrl,
             success: function(res){
