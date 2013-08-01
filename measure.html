@@ -146,7 +146,7 @@
             var j = new Proj4js.Point(ll.lng,ll.lat);  
             Proj4js.transform(src, dst, j);
       
-            layer.bindPopup('<p>MGA Zone 55 Coords: ' + Math.round(j.x*1000)/1000 + ', '+Math.round(j.y*1000)/1000 + '<br/>WGS84 long, lat: ' + Math.round(ll.lng*10000)/10000 + ', '+Math.round(ll.lat*10000)/10000 + '</p>');
+            layer.bindPopup('<p>MGA Zone 55 Coords: ' + Math.round(j.x*1000)/1000 + ', '+Math.round(j.y*1000)/1000 + '<br/>WGS84 lat, long: ' + Math.round(ll.lat*10000)/10000 + ', '+Math.round(ll.lng*10000)/10000 + '</p>');
         }
         if(type ==='polyline') {
             length = lineLength(e.layer._latlngs);
