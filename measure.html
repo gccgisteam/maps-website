@@ -93,19 +93,28 @@
     var drawControl = new L.Control.Draw({
         position: 'topright',
         draw: {
+            polyline: {
+                shapeOptions: {
+                    color: '#5C5DBF'                    
+                }
+            },
+            rectangle: {
+                shapeOptions: {
+                    color: '#5C5DBF'                    
+                }
+            },
             polygon: {
                 allowIntersection: false,
                 showArea: true,
                 drawError: {
-                    color: '#b00b00',
+                    color: '#F25567',
                     timeout: 1000
                 },
                 shapeOptions: {
-                    color: '#bada55'
+                    color: '#5C5DBF'
                 }
             },
-            circle: false,
-            marker: true
+            circle: false
         },
         edit: false
     });
