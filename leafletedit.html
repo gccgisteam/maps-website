@@ -98,13 +98,13 @@
         featureNS : 'GCC_edits',
         featureType : 'LeafletEditTest',
         primaryKeyField: 'id'
-    }).addTo(map);;
+    }).addTo(map);
 
     // Initialize the draw control and pass it the FeatureGroup of editable layers
     var drawControl = new L.Control.Draw({
         position: 'topright',
         edit: {
-            featureGroup: layers.drawnItems,
+            featureGroup: layers.drawnItems
         }
     });
 
