@@ -7,7 +7,7 @@ L.Path.include(
                 console.log("GML TODO: L.MultiPolygon and L.MultiPolyline"); //MultiPolygon and MultiLineString
             } else if (this instanceof L.Polygon) {
                 //Polygon
-                xml += '<gml:Polygon srsName="EPSG:4326">';
+                xml += '<gml:Polygon srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">';
 
                 coords = this.gmlCoordPairs(this.getLatLngs());
                 xml += '<gml:exterior><gml:LinearRing><gml:coordinates cs="," decimal="." ts=" ">';
@@ -54,7 +54,7 @@ L.Path.include(
 L.Marker.include({
     toGML: function(){
         var xml;
-        xml = '<gml:Point srsName="EPSG:4326"><gml:coordinates cs="," decimal="." ts=" ">';
+        xml = '<gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326"><gml:coordinates cs="," decimal="." ts=" ">';
         xml += this.getLatLng().lng + ',' + this.getLatLng().lat;
         xml += '</gml:coordinates></gml:Point>';
         return xml;
