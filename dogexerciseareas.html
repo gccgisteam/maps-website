@@ -30,13 +30,12 @@
 		    margin: 0;
 	    }
 	    html, body, #map {
-		    height: 50%;
+		    height: 100%;
 	    }
     </style>
 </head>
 <body>    
 	<div id="map"></div>
-    <div id="error" style="border: solid 3px black; padding:5px;"></div>
 </body>
     <script>
     var center = new L.LatLng(-42.8232,147.2555);
@@ -127,14 +126,9 @@
                         ,popupOptions);
                 }
             }).addTo(map);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $("#error").html(jqXHR.responseText);
         }
     });
-    ajax.fail(function (jqXHr, textStatus, errorThrown) {
-        $("#error").html(jqXHr.responseText);
-    });
+    
     var legend = L.control({position: 'bottomright'});
 
     legend.onAdd = function (map) {
