@@ -148,7 +148,7 @@
     //Zoom control
     L.control.zoom().addTo(map);    
     //Layer control
-    L.control.layers(baselayers, {}, {position: 'topleft'}).addTo(map);
+    L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
     //Search control
     L.control.searchControl().addTo(map);
 
