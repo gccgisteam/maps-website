@@ -1,14 +1,14 @@
 .leaflet-container .leaflet-control-locate {
-    margin-left: 13px;
-    margin-top: 12px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .leaflet-control-locate a {
     background-position: 50% 50%;
     background-repeat: no-repeat;
     display: block;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
 
     -moz-border-radius: 4px 4px 4px 4px;
     -webkit-border-radius: 4px 4px 4px 4px;
