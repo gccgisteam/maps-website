@@ -28,14 +28,15 @@
         });
 
         $(document).ready(function() {
-        // tell the autocomplete function to get its data from our php script
-            $('#address').autocomplete({
-                source: "/src/autocomplete.php"
+            $('#address').autocomplete({                
+                minLength: 2,
+                delay: 200,
+                autoFocus: true
+                source: "/src/autocomplete.php",
+                dataType: "json"
             });
         });
 
-
-        
 
         var map = null;
         var map2 = null;

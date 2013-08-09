@@ -19,7 +19,7 @@ $sql = "SELECT pid, concat(addr_line2,', ',addr_line3) as address, geom FROM \"P
 
 $result = pg_query($conn, $sql);
 
-$results = pg_fetch_all($result)
+$results = pg_fetch_all($result);
 $json = json_encode($results);
 echo $json;
  
