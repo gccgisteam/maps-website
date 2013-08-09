@@ -1,0 +1,109 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>AutoComplete</title>
+    <style type="text/css">
+        html { height: 100% }
+        body { height: 100%; margin: 0; padding: 0 }
+        #map-canvas { height: 300px; }
+        #map { height: 300px; }
+    </style>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.ie.css" />
+    <![endif]-->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+    <script type="text/javascript"src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="src/lib/proj4js-combined.js"></script>    
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#state').focus();
+        });
+
+        $(document).ready(function() {
+        // tell the autocomplete function to get its data from our php script
+            $('#state').autocomplete({
+                source: "/src/autocomplete.php"
+            });
+        });
+
+        var map = null;
+        var map2 = null;
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(-42.8232, 147.2555),
+                zoom: 14,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("map-canvas"),
+                mapOptions);
+            // create a map in the "map" div, set the view to a given place and zoom
+            var center = new L.LatLng(-42.8232, 147.2555);
+            map2 = new L.Map('map', { center: center, zoom: 14, attributionControl: true });
+
+            //var ggl = new L.Google('ROADMAP','maxZoom: 20');    
+            var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
+                layers: 'Topographic',
+                format: 'image/png',
+                transparent: true,
+                attribution: "Basemap &copy The LIST",
+                minZoom: 19,
+                maxZoom: 20
+            });
+            var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
+                attribution: "Basemap &copy The LIST",
+                maxZoom: 18
+            });
+            var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
+
+            map2.addLayer(listLayers);
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+        var p;
+        function ClientItemSelected(sender, e) {
+            //alert(" Key : " + e.get_text() + "  Value :  " + e.get_value());
+            var latlon = String(e.get_value());
+            var lon = Number(latlon.split(",")[0]);
+            var lat = Number(latlon.split(",")[1]);
+            var src = new Proj4js.Proj('EPSG:28355');
+            var dst = new Proj4js.Proj('EPSG:4326');
+            p = new Proj4js.Point(lon,lat);
+            Proj4js.transform(src, dst, p);
+            console.log("lon: " + p.x + ", lat: " + p.y);
+            latlong = new google.maps.LatLng(p.y, p.x);
+            map.panTo(latlong);
+            map.setZoom(18);
+            var marker = new google.maps.Marker({
+                position: latlong,
+                map: map
+            });
+            marker.info = new google.maps.InfoWindow({
+                content: "<br>"+e.get_text()
+            });
+            marker.info.open(map, marker);
+            google.maps.event.addListener(marker, 'click', function () {
+                marker.info.open(map, marker);
+            });
+            map2.panTo(new L.LatLng(p.y,p.x));
+            map2.setZoom(18);
+            var marker2 = L.marker([p.y, p.x]).addTo(map2);
+            var popup = L.popup();
+            marker2.bindPopup(e.get_text()).openPopup();
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <input name="address" id="address" style="width:300px;" />    
+    </div>
+    <div id="map-canvas"></div>
+    <div id="map"></div>
+</body>
+</html>
