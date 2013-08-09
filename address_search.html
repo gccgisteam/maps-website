@@ -16,8 +16,8 @@
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.ie.css" />
     <![endif]-->
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
     <script type="text/javascript"src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="src/lib/proj4js-combined.js"></script>    
@@ -31,9 +31,23 @@
             $('#address').autocomplete({                
                 minLength: 2,
                 delay: 200,
-                autoFocus: true
-                source: "/src/autocomplete.php",
-                dataType: "json"
+                autoFocus: true,
+                dataType: "json",
+                source: function( request, response ) {
+                    $.ajax({
+                        url: "/src/autocomplete.php",
+                        data: {term: request.term},
+                        dataType: "json",
+                        success: function( data ) {
+                            response( $.map( data.myData, function( item ) {
+                                return {
+                                    label: item.address,
+                                    value: item.pid
+                                }
+                            }));
+                        }
+                    });
+                }
             });
         });
 

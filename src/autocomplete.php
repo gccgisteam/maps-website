@@ -21,6 +21,11 @@ $result = pg_query($conn, $sql);
 
 $results = pg_fetch_all($result);
 $json = json_encode($results);
+
+// modify your http header to json, to help browsers to naturally handle your response with
+header('Cache-Control: no-cache, must-revalidate');
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Content-type: application/json');
 echo $json;
  
 flush();
