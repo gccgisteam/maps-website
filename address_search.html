@@ -32,17 +32,19 @@
                 minLength: 2,
                 delay: 200,
                 autoFocus: true,
-                dataType: "json",
+                dataType: "jsonp",
                 source: function( request, response ) {
                     $.ajax({
-                        url: "/src/autocomplete.php",
+                        url: "http://tobler-v/src/autocomplete.php",
                         data: {term: request.term},
-                        dataType: "json",
+                        dataType: "jsonp",
                         success: function( data ) {
-                            response( $.map( data.myData, function( item ) {
+                            console.log(data);
+                            response( $.map( data.address, function( item ) {
+                                console.log(item);
                                 return {
                                     label: item.address,
-                                    value: item.pid
+                                    value: item.address
                                 }
                             }));
                         }

@@ -26,6 +26,7 @@ $json = json_encode($results);
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');
+if (isset($_REQUEST['callback'])) $json = $_REQUEST['callback'] . '(' . $json . ')';
 echo $json;
  
 flush();
