@@ -15,7 +15,7 @@ $query_array = explode(' ', $query);
 
 $house_no = "%" . $query_array[0] . "%";
 $address = "%" . $query . "%";
-$sql = "SELECT pid, concat(addr_line2,', ',addr_line3) as address, geom FROM \"Property\" where addr_line2 like '{$address}' and house_no like '{$house_no}' LIMIT 10";
+$sql = "SELECT pid, concat(addr_line2,', ',addr_line3) as address, ST_AsGeoJson(ST_Transform(ST_Centroid(geom),4326)) as latlon FROM \"Property\" where lower(addr_line2) like lower('{$address}') and lower(house_no) like lower('{$house_no}') LIMIT 10";
 
 $result = pg_query($conn, $sql);
 
