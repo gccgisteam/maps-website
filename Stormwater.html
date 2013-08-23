@@ -7,26 +7,23 @@
     <title>Stormwater - Glenorchy City Council</title>        
 
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+    <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/nps.css" />
     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
-
+    
     <!--[if lt IE 9]>
-     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+     <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
      <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
      <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
      <link rel="stylesheet" href="css/ie6.css" type="text/css" />
     <![endif]-->
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet-src.js"></script>
+    <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
     <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
     <script src="src/jquery/jquery-1.7.1.min.js"></script>
-    <script src="src/lib/proj4js-combined.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
-    <script src="src/leaflet/leaflet-providers.js"></script>
     <style>
 	    body {
 		    padding: 0;
@@ -45,8 +42,6 @@
     var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
 
     //Define layers
-    var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
-    //var ggl = new L.Google('ROADMAP','maxZoom: 20');    
     var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
         layers: 'Topographic',
         format: 'image/png',
@@ -60,11 +55,23 @@
         maxZoom: 18
     });
     var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
+    
+    var LISTAerialWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Orthophoto/ImageServer/WMSServer", {
+        layers: 'Orthophoto',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Basemap &copy The LIST",
+        minZoom: 19,
+        maxZoom: 20
+    });
+    var LISTAerial = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
+    });
 
-
+    var listLayersAerial = L.layerGroup([LISTAerial, LISTAerialWMS])
     var baselayers = {
-    "Open Street Map": osm,
-    //"Google Maps": ggl,
+    "LIST Satellite": listLayersAerial,
     "List Basemap": listLayers
     };
     
@@ -86,13 +93,21 @@
     });
 
     map.addLayer(listLayers);
-    map.addLayer(stormwater);
-    map.addLayer(acc_labels);    
+    map.addLayer(stormwater);    
 
     var overlays = {
     "SW Pipes and Pits": stormwater,
     "SW Accuracy Labels": acc_labels
     };
+
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info-legend');
+        div.innerHTML = '<img src="http://maps.gcc.tas.gov.au/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=30&HEIGHT=25&LAYER=GCC_cc:Stormwaterpits&&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true" alt = "Stormwater Legend"></img>'    
+        return div;
+    };
+    legend.addTo(map);
 
     //Location control
     L.control.locate({
