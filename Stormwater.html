@@ -55,21 +55,13 @@
         maxZoom: 18
     });
     var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
-    
-    var LISTAerialWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Orthophoto/ImageServer/WMSServer", {
-        layers: 'Orthophoto',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Basemap &copy The LIST",
-        minZoom: 19,
-        maxZoom: 20
-    });
+
     var LISTAerial = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
         attribution: "Basemap &copy The LIST",
-        maxZoom: 18
+        maxZoom: 19
     });
 
-    var listLayersAerial = L.layerGroup([LISTAerial, LISTAerialWMS])
+    var listLayersAerial = L.layerGroup([LISTAerial])
     var baselayers = {
     "LIST Satellite": listLayersAerial,
     "List Basemap": listLayers
