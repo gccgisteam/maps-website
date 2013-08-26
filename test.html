@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dog Exercise Areas - Glenorchy City Council</title>        
+    <title>WMTS/WMS TEST</title>        
 
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
     <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -64,13 +64,14 @@
 
     var LISTAerialWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Orthophoto/ImageServer/WMSServer", {
         layers: 'Orthophoto',
-        format: 'image/png',
+        format: 'image/jpeg',
         transparent: true,
         attribution: "Basemap &copy The LIST",
         maxZoom: 20
     });
     var LISTAerial = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
-        attribution: "Basemap &copy The LIST"
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 19
     });
 
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
