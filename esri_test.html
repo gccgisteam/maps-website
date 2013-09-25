@@ -26,6 +26,8 @@
     <script src="src/jquery/jquery-1.7.1.min.js"></script>
     <script src="src/lib/proj4js-combined.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+
+    <script src="src/leaflet/esri/esri-leaflet.js"></script>
     <style>
 	    body {
 		    padding: 0;
@@ -95,6 +97,36 @@
     //Search control
     L.control.searchControl().addTo(map);
     
+    map.addLayer(LISTBasemap);
+
+    var URL = 'http://services.thelist.tas.gov.au/arcgis/rest/services/Public/Planning/MapServer';
+    var dynLayer = L.esri.dynamicMapLayer(URL, {
+      opacity : 1,
+      layers:[61],
+      layerDefs: {
+        5: "GCC Planning"
+      }
+    }).addTo(map);
+    var result = null;
+    map.on("click", function(e) {
+        dynLayer.identify(e.latlng, {
+              tolerance: 3, //default is 3
+              layers: 'visible:61'
+            }, function(data) {
+          if(data.results.length > 0) {
+            //Popup text should be in html format.  Showing the Storm Name with the type
+            popupText =  "<center><b>Zone: </b>"+data.results[0].attributes['Planning Zone']+"</center>";
+            //Add Popup to the map when the mouse was clicked at
+            var popup = L.popup()
+              .setLatLng(e.latlng)
+              .setContent(popupText)
+              .openOn(map);
+          }
+        });
+    });
+
+
+
     </script>
 
     <script type="text/javascript">

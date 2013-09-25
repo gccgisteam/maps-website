@@ -4,28 +4,24 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TEMPLATE - Glenorchy City Council</title>        
+    <title>Launceston IPS</title>        
 
-    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+    <!--<link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />-->
     <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
-    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/nps.css" />
-    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
     
     <!--[if lt IE 9]>
      <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
-     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
-     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
      <link rel="stylesheet" href="css/ie6.css" type="text/css" />
     <![endif]-->
-
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
-    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
-    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
-    <script src="src/jquery/jquery-1.7.1.min.js"></script>
-    <script src="src/lib/proj4js-combined.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <!--<script src="src/jquery/jquery-1.7.1.min.js"></script>-->
+
+    <script src="src/leaflet/esri/esri-leaflet.js"></script>
+    <script src="src/leaflet/esri/terraformer.min.js"></script>
+    <script src="src/leaflet/esri/esriToJSON.js"></script>
+
     <style>
 	    body {
 		    padding: 0;
@@ -40,11 +36,8 @@
 	<div id="map"></div>
 </body>
     <script>
-    var center = new L.LatLng(-42.8232,147.2555);
-    var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
-
-    var src = new Proj4js.Proj('EPSG:4326');
-    var dst = new Proj4js.Proj('EPSG:28355');   
+    var center = new L.LatLng(-41.3327,147.3081);
+    var map = new L.Map('map', { center: center, zoom: 11, attributionControl:true, zoomControl:false});    
     
     //Define layers
     var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
@@ -81,20 +74,70 @@
     };
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+    
+    map.addLayer(listLayersAerial);
 
-    //Location control
-    L.control.locate({
-        position: 'topright',  
-        drawCircle: false,
-        follow: false
+    var URL = 'http://services.thelist.tas.gov.au/arcgis/rest/services/Public/Planning/MapServer';
+    var dynLayer = L.esri.dynamicMapLayer(URL, {
+      opacity : 0.8,
+      layers:[73,71]
     }).addTo(map);
+
+    //Cadastre
+    var cadastre = L.esri.dynamicMapLayer('http://services.thelist.tas.gov.au/arcgis/rest/services/Public/CadastreParcels/MapServer', {
+      opacity : 1
+    }).addTo(map);
+
+    //
+    var overlays =  L.esri.dynamicMapLayer('http://services.thelist.tas.gov.au/arcgis/rest/services/Public/Planning/MapServer', {
+      opacity : 1,
+      layers:[72]
+    });
+
+    var gj =  new L.GeoJSON();
+    //create empty geojson object and add it to the map
+    map.addLayer(gj);
+    //create the popups
+    gj.on("featureparse", function (e) {
+        if (e.properties){
+            e.layer.bindPopup(makePop(e.properties));
+        }
+    });
+    var jsonconverter = esriConverter();
+    var selection = null;
+    var result = null;
+    map.on("click", function(e) {
+        dynLayer.identify(e.latlng, {
+              tolerance: 3, //default is 3
+              layers: 'visible:73',
+              sr:4326
+            }, function(data) {
+          if(data.results.length > 0) {
+            result = data.results[0];
+            //Popup text should be in html format.  Showing the Storm Name with the type
+            popupText =  "<center><b>Zone: </b>"+result.attributes['Zone']+"</center>";
+            if(selection) {map.removeLayer(selection)};
+            selection = L.geoJson(jsonconverter.toGeoJson(result.geometry)).addTo(map);
+            var popup = L.popup()
+                .setLatLng(e.latlng)
+                .setContent(popupText)
+                .openOn(map);
+            selection.bindPopup(popup);
+          }
+        });
+    });
+
+
     //Zoom control
     L.control.zoom().addTo(map);    
     //Layer control
-    L.control.layers(baselayers, {}, {position: 'topleft'}).addTo(map);
-    //Search control
-    L.control.searchControl().addTo(map);
-    
+    var layers = {
+    "LCC Interim Zoning": dynLayer,
+    "Overlays": overlays,
+    "Cadastre": cadastre
+    };
+    L.control.layers(baselayers, layers, {position: 'topleft'}).addTo(map);
+
     </script>
 
     <script type="text/javascript">
