@@ -19,7 +19,6 @@
     <!--<script src="src/jquery/jquery-1.7.1.min.js"></script>-->
 
     <script src="src/leaflet/esri/esri-leaflet.js"></script>
-    <script src="src/leaflet/esri/terraformer.min.js"></script>
     <script src="src/leaflet/esri/esriToJSON.js"></script>
 
     <style>
@@ -91,7 +90,8 @@
     //
     var overlays =  L.esri.dynamicMapLayer('http://services.thelist.tas.gov.au/arcgis/rest/services/Public/Planning/MapServer', {
       opacity : 1,
-      layers:[72]
+      layers:[72],
+
     });
 
     var gj =  new L.GeoJSON();
