@@ -104,17 +104,13 @@
     url.push('&key=AIzaSyBsyyYiL6ZYEVidzNIiUHz4h-mWIV7f5T4');
     url.push('&callback=?');
 
-        // Send the JSONP request using jQuery
+    // Send the JSONP request using jQuery
+    var graf = null;
     $.ajax({
       url: url.join(''),
       dataType: 'jsonp',
       success: function (data) {
-        var rows = data['rows'];
-        var ftData = document.getElementById('ft-data');
-        for (var i in rows) {
-          console.log(i);
-        }
-      }
+        graf = data;
     });
     </script>
 
