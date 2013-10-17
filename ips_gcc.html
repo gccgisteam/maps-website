@@ -7,20 +7,20 @@
     <title>New Planning Scheme - Glenorchy City Council</title>        
     
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/nps.css" />
     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
 
     <!--[if lt IE 9]>
-     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
      <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
      <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
      <link rel="stylesheet" href="css/ie6.css" type="text/css" />
     <![endif]-->
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet-src.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet-src.js"></script>
     <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
     <script src="src/leaflet/leaflet-hash.js"></script>
@@ -38,14 +38,13 @@
     </style>
 </head>
 <body>
-	<div id="map"></div>    
+	<div id="map"></div>
 </body>
     <script>
     var center = new L.LatLng(-42.8240,147.2171);
-    var map = new L.Map('map', { center: center, zoom: 12, attributionControl:true, zoomControl:false});    
+    var map = new L.Map('map', { center: center, zoom: 12, attributionControl:true, zoomControl:false}); 
 
-    //Define layers
-    
+    //Define layers    
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
     ///===CHANGE THIS FOR LIVE!===///
@@ -57,7 +56,7 @@
         format: 'image/jpeg',
         transparent: true,
         maxZoom: 20,
-        attribution: 'Image &copy LIST and Southern Water'
+        attribution: 'Image &copy LIST and Southern Water',
     });
     var gi2 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'GCC_cuo:GCC_Image',
