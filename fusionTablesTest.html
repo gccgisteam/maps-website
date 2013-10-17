@@ -95,37 +95,27 @@
     //Search control
     L.control.searchControl().addTo(map);
     
-    var owsrootUrl = 'https://www.googleapis.com/fusiontables/v1/query';
-    var defaultParameters = {
-        sql : "SELECT  * from 1HvAi__NHaSRa2loeuueRNLlKmqqF3piZRxeF-mo",
-        key : 'DtpfxCClZemRVfuAtCGuPlLu'
-    };
+    var query = "SELECT  * from 1HvAi__NHaSRa2loeuueRNLlKmqqF3piZRxeF-mo";
+    var encodedQuery = encodeURIComponent(query);
 
-    var parameters = L.Util.extend(defaultParameters);
-    var URL = owsrootUrl + L.Util.getParamString(parameters);
-    //console.log(URL);
-    var fusionTable = null;
-    var ajax = $.ajax({
-        url : URL,
-        dataType : 'json',
-        success : function (response) {
-            fusionTable = L.geoJson(response, {
-                style: function (feature) {
-                    return {
-                        stroke: false,
-                        fillColor: 'FFFFFF',
-                        fillOpacity: 0
-                    };
-                },
-                onEachFeature: function (feature, layer) {
-                    popupOptions = {maxWidth: 200};
-                    layer.bindPopup("This is a test");
-                }
-            }).addTo(map);
+    // Construct the URL
+    var url = ['https://www.googleapis.com/fusiontables/v1/query'];
+    url.push('?sql=' + encodedQuery);
+    url.push('&key=AIzaSyBsyyYiL6ZYEVidzNIiUHz4h-mWIV7f5T4');
+    url.push('&callback=?');
+
+        // Send the JSONP request using jQuery
+    $.ajax({
+      url: url.join(''),
+      dataType: 'jsonp',
+      success: function (data) {
+        var rows = data['rows'];
+        var ftData = document.getElementById('ft-data');
+        for (var i in rows) {
+          console.log(i);
         }
+      }
     });
-
-
     </script>
 
     <script type="text/javascript">
