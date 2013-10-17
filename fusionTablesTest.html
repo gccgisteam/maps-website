@@ -95,6 +95,8 @@
     //Search control
     L.control.searchControl().addTo(map);
     
+    map.addLayer(listLAyers);
+    
     var query = "SELECT  * from 1HvAi__NHaSRa2loeuueRNLlKmqqF3piZRxeF-mo";
     var encodedQuery = encodeURIComponent(query);
 
@@ -111,6 +113,7 @@
       dataType: 'jsonp',
       success: function (data) {
         graf = data;
+      }
     });
     </script>
 
