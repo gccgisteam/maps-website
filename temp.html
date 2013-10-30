@@ -1,0 +1,117 @@
+<!doctype html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<html>
+    <head>
+        <title>test</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+        <![endif]-->
+
+        <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+        <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.3"></script>      
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    </head>
+    <body>
+         <div id="map"></div>
+    </body>
+    <style>
+        body { margin:0; padding:0; }
+        #map {
+          position:absolute;
+          top:0;
+          left:0;
+          right:0;
+          bottom:0;
+          height: 100%;
+        }
+    </style>
+    <script>
+    var testData = {
+                        "type": "FeatureCollection",
+                        "features": [
+                            {
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [
+                                        -73.97364044189453,
+                                        40.66893768310547
+                                    ]
+                                },
+                                "type": "Feature",
+                                "properties": {
+                                    "lon": -73.97364044189453,
+                                    "lat": 40.66893768310547,
+                                    "version": "1.1",
+                                    "t": 1381167616,
+                                    "device": "iPhone3,3",
+                                    "alt": 67,
+                                    "os": "6.1.3"
+                                }
+                            },
+                            {
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [
+                                        -73.96121215820312,
+                                        40.66240692138672
+                                    ]
+                                },
+                                "type": "Feature",
+                                "properties": {
+                                    "lon": -73.96121215820312,
+                                    "lat": 40.66240692138672,
+                                    "version": "1.1",
+                                    "t": 1381171200,
+                                    "device": "iPhone3,3",
+                                    "alt": 45,
+                                    "os": "6.1.3"
+                                }
+                            }
+
+                        ]
+                    }
+
+        var layer = new L.StamenTileLayer("toner");
+        var map = new L.Map("map", {
+            center: new L.LatLng(40.664, -73.968),
+            zoom: 13
+        });
+        map.addLayer(layer);
+        // grab the processed & scrambled GeoJSON through an ajax call
+        var geojsonFeature = (function() {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': "/data/points.geojson",
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
+
+        var geojsonMarkerOptions = {
+            radius: 10,
+            fillColor: "rgb(255,0,195)",
+            color: "#fff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 1
+        };
+
+        // load the geojson to the map with marker styling
+        L.geoJson(testData, {
+            pointToLayer: function (feature, latlng) {
+                var popupOptions = {maxWidth: 200};
+                var popupContent = "This is some content";
+                return L.circleMarker(latlng, geojsonMarkerOptions).bindPopup(popupContent,popupOptions);
+            }
+        }).addTo(map);
+
+    </script>
+</html>

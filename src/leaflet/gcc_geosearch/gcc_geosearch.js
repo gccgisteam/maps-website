@@ -65,7 +65,7 @@ L.Control.searchControl = L.Control.extend({
             var leafLocation = new L.LatLng(place.geometry.location.lat(),place.geometry.location.lng())
             map.setView(leafLocation, 18)
             //map.panTo(leafLocation);
-            leafMarker = L.marker(leafLocation, {title: place.formatted_address}).addTo(map);        
+            leafMarker = L.circleMarker(leafLocation, {title: place.formatted_address}).bindPopup(place.formatted_address).addTo(map);        
             //map.setZoom(18);
         }); 
 
