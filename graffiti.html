@@ -29,6 +29,8 @@
     <script src="src/jquery/jquery-1.7.1.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
     <script src="src/leaflet/cluster/leaflet.markercluster.js"></script>
+    <script src="src/leaflet/leaflet.spin.js"></script>
+    <script src="src/leaflet/spin.min.js"></script>
     <style>
 	    body {
 		    padding: 0;
@@ -97,7 +99,7 @@
 
     map.addLayer(listLayers);
     
-    var query = "SELECT  * from 1HvAi__NHaSRa2loeuueRNLlKmqqF3piZRxeF-mo";
+    var query = "SELECT * from 1HvAi__NHaSRa2loeuueRNLlKmqqF3piZRxeF-mo";
     var encodedQuery = encodeURIComponent(query);
 
     // Construct the URL
@@ -118,6 +120,7 @@
     };
     L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
 
+    map.spin(true);
     var graf = null;
     $.ajax({
       url: url.join(''),
@@ -162,7 +165,13 @@
         };
         graf = data;
     }
-    });
+    })
+    .done(function() {
+        map.spin(false);
+      })
+    .error(function () {
+        map.spin(false);
+      });
     map.addLayer(allMarkers);
     
     </script>
