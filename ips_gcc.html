@@ -276,7 +276,7 @@
             request : 'GetFeature',
             typeName : 'ips:gcc_ps_webmap',
             maxFeatures : 100,
-            outputFormat : 'json',
+            outputFormat : 'text/javascript',
             format_options : 'callback:getJson',
             SrsName : 'EPSG:4326'
         };
@@ -292,7 +292,7 @@
 
         $.ajax({
             url : owsrootUrl + L.Util.getParamString(parameters),
-            dataType : 'json',
+            dataType : 'jsonp',
             jsonpCallback : 'getJson',
             success : handleJson
         });
