@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
 	<head> 
-	<title>Glenorchy City Council Buildings</title> 
+	<title>Glenorchy City Council Water Plant and Equipment</title> 
 	<script src="../src/leaflet/leaflet.js"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.3"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
@@ -22,24 +22,24 @@
 		</div><!-- /header -->
 		<div data-role="content">
 			<div class="content-primary">
-			    <h1>Building Footprints</h1>
-			    <p>Building footprints throughout the Glenorchy City Council municipal area. Footprints have been captured through a mix of digitisation from aerial imagery and design drawings.</p>
+			    <h1>Water Plant and Equipment (Steel Plates)</h1>
+			    <p>The water plant and equipment layer contains the location and details about Council owned assets in the Glenorchy City Council municipal area. The dataset was created by digitisation off detail drawings and through precise GNSS survey. Currently this layer contains details regarding the location of steel plates protecting water mains in Tolosa Street.</p>
 			    <h2>Data</h2>
 			    	<div class="details">		    		
-						<p><b>Download SHP: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:WaterPlantAndEquipment&outputformat=SHAPE-ZIP&format_options=filename:GCC_Buildings_SHP.zip">GCC Buildings Shapefile</a></p>
-						<p><b>Download JSON: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:WaterPlantAndEquipment&outputformat=json&format_options=filename:gcc_buildings.json">GCC Buildings JSON</a></p>
-						<p><b>Download KML: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/GCC_cc/wms?service=WMS&version=1.1.0&request=GetMap&layers=GCC_cc:WaterPlantAndEquipment&styles=&bbox=515281.09375,5252067.0,526356.4375,5266823.0&width=384&height=512&srs=EPSG:28355&format=application/vnd.google-earth.kml+xml">GCC Buildings KML</a></p>
+						<p><b>Download SHP: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:WaterPlantAndEquipment&outputformat=SHAPE-ZIP&format_options=filename:GCC_WaterPlantAndEquipment_SHP.zip">GCC Water Plant And Equipment Shapefile</a></p>
+						<p><b>Download JSON: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:WaterPlantAndEquipment&outputformat=json&format_options=filename:gcc_WaterPlantAndEquipment.json">GCC Water PlantAnd Equipment JSON</a></p>
+						<p><b>Download KML: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/GCC_cc/wms?service=WMS&version=1.1.0&request=GetMap&layers=GCC_cc:WaterPlantAndEquipment&styles=&bbox=515281.09375,5252067.0,526356.4375,5266823.0&width=384&height=512&srs=EPSG:28355&format=application/vnd.google-earth.kml+xml">GCC WaterPlantAndEquipment KML</a></p>
 						See the <a href="../services.html">services </a>page for live data access.
 					</div>	
 			    <h2>Details</h2>
 			    	<div class="details">
-						<p><b>Title: </b>Buildings</p>
-						<p><b>Description: </b>Major structures in Glenorchy City Council including public and private buildings.</p>
+						<p><b>Title: </b>Water Plant And Equipment.</p>
+						<p><b>Description: </b>Water plant and equipment related assets owned by Council.</p>
 						<p><b>License: </b><a href=http://creativecommons.org/licenses/by/3.0/au/>Creative Commons Attribution 3.0 Australia license</a>.</p>
-						<p><b>Source: </b>Design plans and aerial imagery digitisation.</p>
+						<p><b>Source: </b>Design plans.</p>
 						<p><b>Currency: </b>Data updated daily.</p>
-						<p><b>Completeness: </b>Incomplete.</p>
-						<p><b>Attribute Accuracy: </b>Variable</p>
+						<p><b>Completeness: </b>Complete.</p>
+						<p><b>Attribute Accuracy: </b>Variable.</p>
 						<p><b>Spatial Accuracy: </b>Attributed per feature.</p>
 						<p><b>Spatial Coverage: </b>GCC municipal area.</p>
 						<p><b>Custodian: </b><a href="http://gcc.tas.gov.au">Glenorchy City Council.</a></p>
@@ -58,7 +58,7 @@
 					var osm =  new L.StamenTileLayer("toner-lite");
 
 					var gccAtt = 'Data &copy GCC, <a href="http://maps.gcc.tas.gov.au/licenses.html">CC-BY</a>'
-				    var buildings = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
+				    var WaterPlantAndEquipment = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
 				            layers: 'GCC_cc:WaterPlantAndEquipment',
 				            format: 'image/png',
 				            transparent: true,
@@ -66,7 +66,7 @@
 				    attribution: gccAtt
 				    });
 			        map.addLayer(osm);
-	   				map.addLayer(buildings);
+	   				map.addLayer(WaterPlantAndEquipment);
 	   				//workaround for map not loading.
 	   				setTimeout(function(){
 					map.invalidateSize();
