@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
 	<head> 
-	<title>Glenorchy City Council GIS</title> 
+	<title>Glenorchy City Council Stormwater Pits</title> 
 	<script src="../src/leaflet/leaflet.js"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.3"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
@@ -55,7 +55,7 @@
 
 					//Define layers
 					var osm = new L.StamenTileLayer("toner-lite");
-					var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+					var gccAtt = 'Data &copy GCC, <a href="http://maps.gcc.tas.gov.au/licenses.html">CC-BY</a>'
 				    var Stormwaterpits = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
 				            layers: 'GCC_cc:Stormwaterpits',
 				            format: 'image/png',

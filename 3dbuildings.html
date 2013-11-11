@@ -64,7 +64,7 @@
     //Search control
     L.control.searchControl().addTo(map);
     var buildings = null;
-    $.getJSON("data/buildings.json", function(json) {
+    $.getJSON("data/buildings_CBD.geojson", function(json) {
       buildings = new L.BuildingsLayer().addTo(map).geoJSON(json);    
       //console.log(json); // this will show the info it in firebug console
     });

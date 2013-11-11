@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Demonstration Map for GeoNext - Glenorchy City Council</title>        
+    <title>GeoNext Demo - Glenorchy City Council</title>        
     
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -245,7 +245,7 @@
                 return {color: 'blue'};
             },
             onEachFeature: function (feature, layer) {
-            var content = "<b>Demonstration Only!<br></b>"
+            var content = "<b>Prototype Map. Data is illustrative only.<br>---<br></b>"
             + "<b>Address:</b> " + ((feature.properties.address) ? feature.properties.address : "")
             + "<br><b>PID:</b> " + ((feature.properties.pid != -9999) ? feature.properties.pid : "")
             + "<br><b>Zones:</b> " + feature.properties.zones
@@ -348,7 +348,7 @@
 
     disclaimer.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-legend');
-        div.innerHTML = '<b>Note: </b>This map is for <br>demonstration purposes only.'    
+        div.innerHTML = '<b>Note: </b>Concept map only.<br>Information is not current.'    
         return div;
     };
     disclaimer.addTo(map);

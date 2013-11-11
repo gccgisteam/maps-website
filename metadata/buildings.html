@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
 	<head> 
-	<title>Glenorchy City Council GIS</title> 
+	<title>Glenorchy City Council Buildings</title> 
 	<script src="../src/leaflet/leaflet.js"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.1.3"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
@@ -50,13 +50,14 @@
 				<h1>Map</h1>
 				<div id="mapembed" class="details"></div>
 				<script type="text/javascript">
+					if(map) {map.remove();}
 					var center = new L.LatLng(-42.8335,147.2754);
 					var map = new L.Map('mapembed', { center: center, zoom: 16, attributionControl:true, trackResize: true});    
 
 					//Define layers
 					var osm =  new L.StamenTileLayer("toner-lite");
 
-					var gccAtt = 'Data &copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+					var gccAtt = 'Data &copy GCC, <a href="http://maps.gcc.tas.gov.au/licenses.html">CC-BY</a>'
 				    var buildings = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
 				            layers: 'GCC_cc:Buildings',
 				            format: 'image/png',
