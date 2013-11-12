@@ -139,16 +139,20 @@
                     .setLatLng(queryCoordinates)
                     .setContent(content)
                     .openOn(map);
-                    layer.bindPopup(content);
+                layer.bindPopup(content);
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight
+                });
             },                
             pointToLayer: function (feature, latlng) {
                 return L.circleMarker(latlng, {
                     radius: 5,
                     fillColor: "yellow",
                     color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
+                    weight: 5,
+                    opacity: 0.6,
+                    fillOpacity: 0.2
                 });
             }
         });
@@ -200,6 +204,32 @@
             success : handleJson
         });
     });
+
+    function highlightFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+            fillColor: "yellow",
+            color: "yellow",
+            weight: 5,
+            opacity: 1
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera) {
+            layer.bringToFront();
+        }
+    }
+
+    function resetHighlight(e) {
+        var layer = e.target;
+        layer.setStyle({
+            radius: 5,
+            fillColor: "yellow",
+            color: "yellow",
+            weight: 5,
+            opacity: 0.6,
+            fillOpacity: 0.2
+        });
+    }
 
     //Location control
     L.control.locate({
