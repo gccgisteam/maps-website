@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Stormwater - Glenorchy City Council</title>        
+    <title>Gas/Power - Glenorchy City Council</title>        
 
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
     <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -28,17 +28,17 @@
     <script src="src\lib\defs\EPSG28355.js" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
     <style>
-        body {
-            padding: 0;
-            margin: 0;
-        }
-        html, body, #map {
-            height: 100%;
-        }
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
     </style>
 </head>
 <body>    
-    <div id="map"></div>
+	<div id="map"></div>
 </body>
     <script>
     var center = new L.LatLng(-42.8232,147.2555);
@@ -84,9 +84,11 @@
     var rootURL = 'http://maps.gcc.tas.gov.au/'
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
     var overlays = {
-        "SW Pits": 'GCC_cc:Stormwaterpits',
-        "SW Pipes": 'GCC_cc:Stormwaterpipes',
-        "SW Accuracy Labels": 'GCC_cc:Stormwaterpits_acc_labels' 
+        "Gas, GCC": "GCC_cc:Gas_GCC",
+        "Gas, Historic Town Gas Pipes": "GCC_cc:Gas_OldTownGas",
+        "Power": "GCC_cc:Power_GCC",
+        "Power (Points)": "GCC_cc:Power_GCC_Pts",
+        "Power (Polygons)": "GCC_cc:Power_GCC_Polygons"
     };
     var lOverlays = {};
 
@@ -215,14 +217,14 @@
     </script>
 
     <script type="text/javascript">
-    //Analytics
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36489204-2']);
-    _gaq.push(['_trackPageview']);    
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+	//Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36489204-2']);
+	_gaq.push(['_trackPageview']);	  
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
     </script>
 </html>
