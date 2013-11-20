@@ -78,7 +78,7 @@ p.intro strong {
 	background: none;
 	border-bottom: none;
 }
-.content-secondary .ui-listview {
+.content-secondary {
 	margin: 0;
 }
 /* new API additions */
