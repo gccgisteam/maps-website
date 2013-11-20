@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Underground Assets - Glenorchy City Council</title>        
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+    <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/nps.css" />
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+    
+    <!--[if lt IE 9]>
+     <link type="text/css" rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="css/ie6.css" type="text/css" />
+    <![endif]-->
+
+    <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
+    <script src="src/lib/proj4js-compressed.js"></script>
+    <script src="src\lib\defs\EPSG28355.js" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>    
+    <div id="map"></div>
+</body>
+    <script>
+    var center = new L.LatLng(-42.8232,147.2555);
+    var map = new L.Map('map', { center: center, zoom: 14, attributionControl:true, zoomControl:false});    
+
+    var src = new Proj4js.Proj('EPSG:4326');
+    var dst = new Proj4js.Proj('EPSG:28355');   
+    
+    //Define layers
+    var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
+        layers: 'Topographic',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Basemap &copy The LIST",
+        minZoom: 19,
+        maxZoom: 20
+    });
+    var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
+    });
+    var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
+    
+    var LISTAerialWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Orthophoto/ImageServer/WMSServer", {
+        layers: 'Orthophoto',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Basemap &copy The LIST",
+        minZoom: 19,
+        maxZoom: 20
+    });
+    var LISTAerial = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
+        maxZoom: 18
+    });
+
+    var listLayersAerial = L.layerGroup([LISTAerial, LISTAerialWMS])
+    var baselayers = {
+        "LIST Satellite": listLayersAerial,
+        "List Basemap": listLayers
+    };
+    
+    var rootURL = 'http://maps.gcc.tas.gov.au/'
+    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+    var overlays = {
+        "SW Pits": 'GCC_cc:Stormwaterpits',
+        "SW Pipes": 'GCC_cc:Stormwaterpipes',
+        "SW Accuracy Labels": 'GCC_cc:Stormwaterpits_acc_labels',        
+        "Water Lines": "GCC_cc:WaterLines_GCC",
+        "Water Points": "GCC_cc:WaterPoints_GCC",
+        "Water Plant and Equipment": "GCC_cc:WaterPlantAndEquipment",
+        "Sewer Lines": "GCC_cc:SewerLines_GCC",
+        "Sewer Points": "GCC_cc:SewerPoints_GCC",
+        "Gas, GCC": "GCC_cc:Gas_GCC",
+        "Gas, Historic Town Gas Pipes": "GCC_cc:Gas_OldTownGas",
+        "Power": "GCC_cc:Power_GCC",
+        "Power (Points)": "GCC_cc:Power_GCC_Pts",
+        "Power (Polygons)": "GCC_cc:Power_GCC_Polygons"
+    };
+    var lOverlays = {};
+
+    //Set up trigger functions for adding layers to interactivity.
+    map.on('overlayadd', function(e) {
+        updateInteractiveLayers(e.layer.options.layers);
+    }); 
+    map.on('overlayremove', function(e) {
+        updateInteractiveLayers(e.layer.options.layers);
+    }); 
+
+    var intLayers = [];
+    var intLayersString = "";
+    function updateInteractiveLayers(layer) {
+        if(layer !== "GCC_cc:Stormwaterpits_acc_labels") { //exclude this layer...
+            var index = $.inArray(layer, intLayers);
+            if(index > -1) {
+                intLayers.splice(index,1);
+            } else {
+                intLayers.push(layer);
+            }
+            intLayersString = intLayers.join();
+        }
+    };
+
+    //crude hack, counting layers because inArray isn't working for me...
+    var count = 0;
+    for (layer in overlays) {
+        var newLayer = new L.TileLayer.WMS(rootURL + "/geoserver/gwc/service/wms", {
+            layers: overlays[layer],
+            format: 'image/png',
+            transparent: true,
+            maxZoom: 20,
+            attribution: gccAtt
+        });
+        lOverlays[layer] = newLayer;
+        if(count < 8) {
+            map.addLayer(newLayer);
+            updateInteractiveLayers(overlays[layer]);
+            count++;
+        }
+    };
+
+    map.addLayer(listLayers)
+
+    function handleJson(data) {
+        selectedFeature = L.geoJson(data, {
+            style: function (feature) {
+                return {color: 'yellow'};
+            },
+            onEachFeature: function (feature, layer) {
+                var content = "";
+                content = content + "<b><u>" + feature.id.split('.')[0] + "</b></u><br>";
+                for (var name in feature.properties) {content = content + "<b>" + name + ":</b> " + feature.properties[name] + "<br>"};
+                var popup = L.popup()
+                    .setLatLng(queryCoordinates)
+                    .setContent(content)
+                    .openOn(map);
+                layer.bindPopup(content);
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight
+                });
+            },                
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 5,
+                    fillColor: "yellow",
+                    color: "#000",
+                    weight: 5,
+                    opacity: 0.6,
+                    fillOpacity: 0.2
+                });
+            }
+        });
+        selectedFeature.addTo(map);
+    }
+
+    //Query layer functionality.
+    var selectedFeature;
+    var queryCoordinates;
+    var src = new Proj4js.Proj('EPSG:4326');
+    var dst = new Proj4js.Proj('EPSG:28355');
+
+    map.on('click', function(e) {
+        if (selectedFeature) {
+            map.removeLayer(selectedFeature);
+        };
+        var owsrootUrl = rootURL + 'geoserver/ows';
+        
+        var p = new Proj4js.Point(e.latlng.lng,e.latlng.lat);
+        Proj4js.transform(src, dst, p);
+        queryCoordinates = e.latlng;
+        
+        var defaultParameters = {
+            service : 'WFS',
+            version : '1.1.1',
+            request : 'GetFeature',
+            typeName : intLayersString,
+            maxFeatures : 100,
+            outputFormat : 'text/javascript',
+            format_options : 'callback:getJson',
+            SrsName : 'EPSG:4326'
+        };
+
+        var customParams = {
+            //bbox : map.getBounds().toBBoxString(),
+            cql_filter:'DWithin(geom, POINT(' + p.x + ' ' + p.y + '), 10, meters)'
+        };
+
+        var parameters = L.Util.extend(defaultParameters, customParams);
+
+
+        var url = owsrootUrl + L.Util.getParamString(parameters)
+        //console.log(url);
+
+        $.ajax({
+            url : owsrootUrl + L.Util.getParamString(parameters),
+            dataType : 'jsonp',
+            jsonpCallback : 'getJson',
+            success : handleJson
+        });
+    });
+
+    function highlightFeature(e) {
+        var layer = e.target;
+        layer.setStyle({
+            fillColor: "yellow",
+            color: "yellow",
+            weight: 5,
+            opacity: 1
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera) {
+            layer.bringToFront();
+        }
+    }
+
+    function resetHighlight(e) {
+        var layer = e.target;
+        layer.setStyle({
+            radius: 5,
+            fillColor: "yellow",
+            color: "yellow",
+            weight: 5,
+            opacity: 0.6,
+            fillOpacity: 0.2
+        });
+    }
+
+    //Location control
+    L.control.locate({
+        position: 'topright',  
+        drawCircle: false,
+        follow: false
+    }).addTo(map);
+    //Zoom control
+    L.control.zoom().addTo(map);    
+    //Layer control
+    L.control.layers(baselayers, lOverlays, {position: 'topleft'}).addTo(map);
+    //Search control
+    L.control.searchControl().addTo(map);
+    
+    </script>
+
+    <script type="text/javascript">
+    //Analytics
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36489204-2']);
+    _gaq.push(['_trackPageview']);    
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+</html>
