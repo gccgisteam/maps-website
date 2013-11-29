@@ -108,6 +108,7 @@
             onEachFeature: function (feature, layer) {
                 var content = "";
                 content = content + "<b><u>" + feature.id.split('.')[0] + "</b></u><br>";
+                delete feature.properties.bbox;
                 for (var name in feature.properties) {content = content + "<b>" + name + ":</b> " + feature.properties[name] + "<br>"};
                 var popup = L.popup()
                     .setLatLng(queryCoordinates)
