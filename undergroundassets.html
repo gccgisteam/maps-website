@@ -50,7 +50,12 @@
 
     var src = new Proj4js.Proj('EPSG:4326');
     var dst = new Proj4js.Proj('EPSG:28355');   
-
+    
+    var baselayers = {
+        "LIST Aerial Imagery": LISTAerial,
+        "LIST Topographic": LISTTopographic
+    };    
+    map.addLayer(LISTTopographic)
 
     var rootURL = 'http://maps.gcc.tas.gov.au/'
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
