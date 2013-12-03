@@ -12,6 +12,7 @@
     <![endif]-->    
     <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>    
     <script src="src/listBaseLayers.js" type="text/javascript"></script>
+    <script src="src/leaflet/gcc_config.js" type="text/javascript"></script>
 
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
@@ -51,7 +52,6 @@
     };    
     map.addLayer(LISTTopographic)
 
-    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
     var dea = new L.TileLayer.WMS('http://maps.gcc.tas.gov.au/geoserver/GCC_cc/gwc/service/wms', {
         layers: 'GCC_cc:DogExerciseAreas',
         format: 'image/png',
@@ -73,7 +73,7 @@
         version : '2.0',
         request : 'GetFeature',
         typeName : 'GCC_cc:DogExerciseAreas',
-        outputFormat : 'json',
+        outputFormat : 'text/javascript',
         format_options : 'callback:getJson',
         SrsName : 'EPSG:4326'
     };
@@ -84,7 +84,7 @@
     var DogExerciseAreas = null;
     var ajax = $.ajax({
         url : URL,
-        dataType : 'json',
+        dataType : 'jsonp',
         jsonpCallback : 'getJson',
         success : function (response) {
             DogExerciseAreas = L.geoJson(response, {
