@@ -27,9 +27,9 @@
 			    <p>Best available knowledge of location of abandoned Hobart Town gas mains throughout Glenorchy municipality. Please consult <a href=http://workplacestandards.tas.gov.au/safety/alerts/redundant_town_gas_pipes>Workplace Standards</a> for safety information.<br></p>
 			    <h2>Data</h2>
 			    	<div class="details">		    		
-						<p><b>Download SHP: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:Gas_OldTownGas&outputformat=SHAPE-ZIP&format_options=filename:GCC_OldTownGas_SHP.zip">Redundant Town Gas Shapefile</a></p>
-						<p><b>Download JSON: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:Gas_OldTownGas&outputformat=json&format_options=filename:gcc_oldtownggas.json">Redundant Town Gas JSON</a></p>
-						<p><b>Download KML: </b><a href="http://maps.gcc.tas.gov.au:8080/geoserver/GCC_cc/wms?service=WMS&version=1.1.0&request=GetMap&layers=GCC_cc:Gas_OldTownGas&styles=&bbox=515281.09375,5252067.0,526356.4375,5266823.0&width=384&height=512&srs=EPSG:28355&format=application/vnd.google-earth.kml+xml">Redundant Town Gas KML</a></p>
+						<p><b>Download SHP: </b><a href="http://maps.gcc.tas.gov.au/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:Gas_OldTownGas&outputformat=SHAPE-ZIP&format_options=filename:GCC_OldTownGas_SHP.zip">Redundant Town Gas Shapefile</a></p>
+						<p><b>Download JSON: </b><a href="http://maps.gcc.tas.gov.au/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:Gas_OldTownGas&outputformat=json&format_options=filename:gcc_oldtownggas.json">Redundant Town Gas JSON</a></p>
+						<p><b>Download KML: </b><a href="http://maps.gcc.tas.gov.au/geoserver/GCC_cc/wms?service=WMS&version=1.1.0&request=GetMap&layers=GCC_cc:Gas_OldTownGas&styles=&bbox=515281.09375,5252067.0,526356.4375,5266823.0&width=384&height=512&srs=EPSG:28355&format=application/vnd.google-earth.kml+xml">Redundant Town Gas KML</a></p>
 						See the <a href="../services.html">services </a>page for live data access.
 					</div>	
 			    <h2>Details</h2>
@@ -59,7 +59,7 @@
 					var osm =  new L.StamenTileLayer("toner-lite");
 
 					var gccAtt = 'Data &copy GCC, <a href="http://maps.gcc.tas.gov.au/licenses.html">CC-BY</a>'
-				    var htg = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au:8080/geoserver/gwc/service/wms", {
+				    var htg = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au/geoserver/gwc/service/wms", {
 				            layers: 'GCC_cc:Gas_OldTownGas',
 				            format: 'image/png',
 				            transparent: true,
