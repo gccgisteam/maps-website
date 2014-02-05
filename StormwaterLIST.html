@@ -49,7 +49,7 @@
     var osm = L.TileLayer.provider('OpenStreetMap.Mapnik');
     //var ggl = new L.Google('ROADMAP','maxZoom: 20');
     //var gglImage = new L.Google('SATELLITE','maxZoom: 20');   
-    var LISTBasemapWMS = new L.tileLayer.wms("http://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
+    var LISTBasemapWMS = new L.tileLayer.wms("https://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
         layers: 'Topographic',
         format: 'image/png',
         transparent: true,
@@ -57,7 +57,7 @@
         minZoom: 19,
         maxZoom: 20
     });
-    var LISTBasemap = new L.tileLayer("http://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
+    var LISTBasemap = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
         attribution: "Basemap &copy The LIST",
         maxZoom: 18
     });
