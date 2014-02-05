@@ -82,7 +82,7 @@
     };
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
-    var le = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au/geoserver/ows", {
+    var le = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/ows", {
             layers: 'GCC_edits:LeafletEditTest',
             format: 'image/png',
             transparent: true,
@@ -94,7 +94,7 @@
     layers = {};
     layers.drawnItems = L.wfst(null,{
         // Required
-        url : "http://maps.gcc.tas.gov.au/geoserver/wfs",
+        url : "https://maps.gcc.tas.gov.au/geoserver/wfs",
         featureNS : 'GCC_edits',
         featureType : 'LeafletEditTest',
         primaryKeyField: 'id'

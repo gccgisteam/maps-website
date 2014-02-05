@@ -55,7 +55,7 @@
         };	
         
         var gccAtt = 'Data &copy Glenorchy City Council'
-        var pits = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au/geoserver/ows", {
+        var pits = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/ows", {
 			layers: 'GCC_cc:Stormwaterpits',
 			format: 'image/png',
 			transparent: true,
@@ -63,7 +63,7 @@
             attribution: gccAtt
 		});
         
-        var pipes = new L.TileLayer.WMS("http://maps.gcc.tas.gov.au/geoserver/ows", {
+        var pipes = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/ows", {
 			layers: 'GCC_cc:Stormwaterpipes',
 			format: 'image/png',
 			transparent: true,

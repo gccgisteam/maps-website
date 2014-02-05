@@ -52,7 +52,7 @@
     };    
     map.addLayer(LISTTopographic)
 
-    var dea = new L.TileLayer.WMS('http://maps.gcc.tas.gov.au/geoserver/GCC_cc/gwc/service/wms', {
+    var dea = new L.TileLayer.WMS('https://maps.gcc.tas.gov.au/geoserver/GCC_cc/gwc/service/wms', {
         layers: 'GCC_cc:DogExerciseAreas',
         format: 'image/png',
         transparent: true,
@@ -66,7 +66,7 @@
         "Dog Exercise Areas": dea
     };
 
-    var owsrootUrl = 'http://maps.gcc.tas.gov.au/geoserver/ows';
+    var owsrootUrl = 'https://maps.gcc.tas.gov.au/geoserver/ows';
     
     var defaultParameters = {
         service : 'WFS',
@@ -110,7 +110,7 @@
 
     legend.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-legend');
-        div.innerHTML = '<img src="http://maps.gcc.tas.gov.au/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=30&HEIGHT=25&LAYER=GCC_cc:DogExerciseAreas&&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true" alt = "Dog Exercise Legend"></img>'    
+        div.innerHTML = '<img src="https://maps.gcc.tas.gov.au/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=30&HEIGHT=25&LAYER=GCC_cc:DogExerciseAreas&&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true" alt = "Dog Exercise Legend"></img>'    
         return div;
     };
     legend.addTo(map);

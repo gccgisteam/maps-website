@@ -1,2 +1,2 @@
 //This file contains a bunch of standard configuration stuff for Leaflet maps. It's a work in progress...
-var gccAtt = 'Data &copy <a href=http://maps.gcc.tas.gov.au>GCC</a>, <a href="http://maps.gcc.tas.gov.au/licensing.html">CC-BY</a>';
+var gccAtt = 'Data &copy <a href=http://maps.gcc.tas.gov.au>GCC</a>, <a href="https://maps.gcc.tas.gov.au/licensing.html">CC-BY</a>';
