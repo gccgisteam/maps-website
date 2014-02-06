@@ -4,7 +4,6 @@
 	<head> 
 	<title>Glenorchy City Council Buildings</title> 
 	<script type="text/javascript" src="https://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
-    <script type="text/javascript" src="https://maps.stamen.com/js/tile.stamen.js?v1.1.3"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
 	<link rel="stylesheet" href="../css/jquery.mobile-1.1.1.min.css" />
 	<link rel="stylesheet" href="../css/jqm-custom.css" />
@@ -56,7 +55,11 @@
 					var map = new L.Map('mapembed', { center: center, zoom: 16, attributionControl:true, trackResize: true});    
 
 					//Define layers
-					var osm =  new L.StamenTileLayer("toner-lite");
+					var osm = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/TopographicGrayScale/ImageServer/tile/{z}/{y}/{x}", {
+					    attribution: "Basemap &copy The LIST",
+					    maxZoom: 20,
+					    maxNativeZoom: 18
+					});
 
 					var gccAtt = 'Data &copy GCC, <a href="https://maps.gcc.tas.gov.au/licenses.html">CC-BY</a>'
 				    var sewer = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/gwc/service/wms", {
@@ -76,7 +79,7 @@
 			</div>
 		</div><!-- /content -->	
 		<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
-			<p>&copy; 2013 Glenorchy City Council <a href="http://creativecommons.org/licenses/by/3.0/au/"><img src="/images/CC_BY_88x31.png" align="right"></a></p>
+			<p>&copy; 2013 Glenorchy City Council <a href="http://creativecommons.org/licenses/by/3.0/au/"><img src="/images/CCBY_88x31.png" align="right"></a></p>
 		</div>
 	</div><!-- /page -->
     <script type="text/javascript">
