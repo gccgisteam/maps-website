@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tolosa Mountain Bike Park - Glenorchy City Council</title>        
+    
+    <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
+    <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+    <script src="src/listBaseLayers.js" type="text/javascript"></script>
+    <script src="src/leaflet/gcc_config.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+    
+    <!--[if lt IE 9]>
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="css/ie6.css" type="text/css" />
+    <![endif]-->
+
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <style>
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
+        h3 {
+            margin:0;
+        }
+    </style>
+</head>
+<body>    
+	<div id="map"></div>
+</body>
+    <script>
+    var center = new L.LatLng(-42.8585,147.2468);
+    var map = new L.Map('map', { center: center, zoom: 16, attributionControl:true, zoomControl:false, minZoom:11});    
+
+    var baselayers = {
+        "LIST Aerial Imagery": LISTAerial,
+        "LIST Topographic": LISTTopographic
+    };    
+    map.addLayer(LISTAerial)
+
+    var owsrootUrl = 'https://maps.gcc.tas.gov.au/geoserver/ows';
+    
+    var defaultParameters = {
+        service : 'WFS',
+        version : '2.0',
+        request : 'GetFeature',
+        typeName : 'GCC_cc:TolosaMountainBikePark',
+        outputFormat : 'text/javascript',
+        format_options : 'callback:getJson',
+        SrsName : 'EPSG:4326'
+    };
+
+    var parameters = L.Util.extend(defaultParameters);
+    var URL = owsrootUrl + L.Util.getParamString(parameters);
+    //console.log(URL);
+
+    function getColour(c) {
+        switch(c)
+            {
+            case 'Black Diamond':
+              return '#000000';
+              break;
+            case 'Blue Square':
+              return '#0000FF';
+              break;
+            case 'Double Black Diamond':
+              return '#000000';
+            case 'Green Circle':
+              return '#009933';
+              break;
+            default:
+              return '#FF6600';
+            }
+    };
+
+    L.marker([-42.85628,147.24766]).addTo(map).bindPopup("<h3>Tolosa Mountain Bike Park</h3><a href=https://maps.google.com/maps?daddr=-42.8538,147.2513 target=&quot_blank&quot>Directions to here.</a>").addTo(map);
+    var mtbp = null;
+    var ajax = $.ajax({
+        url : URL,
+        dataType : 'jsonp',
+        jsonpCallback : 'getJson',
+        success : function (response) {
+            mtbp = L.geoJson(response, {
+                style: function (feature) {
+                    return {
+                        stroke: true,
+                        color: getColour(feature.properties.difficulty),
+                        opacity: 0.8,
+                        weight: 4
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    popupOptions = {maxWidth: 200};
+                    layer.bindPopup("<h3>" + feature.properties.name + "</h3>" +
+                        "<b>Difficulty: </b>" + feature.properties.difficulty +
+                        "<br><b>Description: </b>" + feature.properties.description
+                        ,popupOptions);
+                }
+            }).addTo(map);
+        }
+    });    
+    
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info-legend');
+        div.innerHTML = '<img src="https://maps.gcc.tas.gov.au/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=30&HEIGHT=25&LAYER=GCC_cc:DogExerciseAreas&&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true" alt = "Dog Exercise Legend"></img>'    
+        return div;
+    };
+    legend.addTo(map);
+
+    //Location control
+    L.control.locate({
+        position: 'topright',  
+        drawCircle: false,
+        follow: false
+    }).addTo(map);
+    //Zoom control
+    L.control.zoom().addTo(map);    
+    //Layer control
+    L.control.layers(baselayers, [], {position: 'topleft'}).addTo(map);
+    //Search control
+    L.control.searchControl().addTo(map);
+
+    </script>
+
+    <script type="text/javascript">
+	//Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36489204-2']);
+	_gaq.push(['_trackPageview']);	  
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+    </script>
+</html>
