@@ -1,0 +1,96 @@
+<!DOCTYPE html> 
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<html> 
+	<head> 
+	<title>Glenorchy City Council Tolosa Mountain Bike Park Tracks</title> 
+    <script type="text/javascript" src="../src/leaflet/leaflet.js"></script>
+    <link type="text/css" rel="stylesheet" href="../src/leaflet/leaflet.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+	<link rel="stylesheet" href="../css/jquery.mobile-1.1.1.min.css" />
+	<link rel="stylesheet" href="../css/jqm-custom.css" />
+    <!--[if lte IE 8]>
+     <link type="text/css" rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+	<script src="../src/jquery/jquery-1.7.1.min.js"></script>
+	<script src="../src/jquery/jquery.mobile-1.1.1.min.js"></script>
+	</head> 
+	<body> 
+	<div data-role="page">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-fullscreen="false">
+			<a href="../index.html" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition='slide'>Home</a>
+			<h1>Glenorchy City Council GIS</h1>
+		</div><!-- /header -->
+		<div data-role="content">
+			<div class="content-primary">
+			    <h1>Tolosa Mountain Bike Park Tracks</h1>
+			    <p>Tracks that form part of the Tolosa Mountain Bike Park. Tracks have been digitised via satellite imagery and through precise GNSS survey.</p>
+			    <h2>Data</h2>
+			    	<div class="details">		    		
+						<p><b>Download SHP: </b><a href="https://maps.gcc.tas.gov.au/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:TolosaMountainBike&outputformat=SHAPE-ZIP&format_options=filename:GCC_TolosaMountainBikePark_SHP.zip">GCC TolosaMountainBikePark Shapefile</a></p>
+						<p><b>Download JSON: </b><a href="https://maps.gcc.tas.gov.au/geoserver/wfs?request=GetFeature&service=wfs&version=1.0.0&typename=GCC_cc:TolosaMountainBikePark&outputformat=json&format_options=filename:gcc_buildings.json">GCC TolosaMountainBikePark JSON</a></p>
+						<p><b>Download KML: </b><a href="https://maps.gcc.tas.gov.au/geoserver/GCC_cc/wms?service=WMS&version=1.1.0&request=GetMap&layers=GCC_cc:TolosaMountainBikePark&styles=&bbox=515281.09375,5252067.0,526356.4375,5266823.0&width=384&height=512&srs=EPSG:28355&format=application/vnd.google-earth.kml+xml">GCC TolosaMountainBikePark KML</a></p>
+						See the <a href="../services.html">services </a>page for live data access.
+					</div>	
+			    <h2>Details</h2>
+			    	<div class="details">
+						<p><b>Title: </b>Tolosa Mountain Bike Park.</p>
+						<p><b>Description: </b>Mountain bike tracks that form part of the Tolosa Mountain Bike Park.</p>
+						<p><b>License: </b><a href=http://creativecommons.org/licenses/by/3.0/au/>Creative Commons Attribution 3.0 Australia license</a>.</p>
+						<p><b>Source: </b>Satellite imagery and GNSS survey.</p>
+						<p><b>Currency: </b>Data updated daily.</p>
+						<p><b>Completeness: </b>Mostly complete.</p>
+						<p><b>Attribute Accuracy: </b>Good.</p>
+						<p><b>Spatial Accuracy: </b>5 m.</p>
+						<p><b>Spatial Coverage: </b>Tolosa Mountain Bike Park.</p>
+						<p><b>Custodian: </b><a href="http://gcc.tas.gov.au">Glenorchy City Council.</a></p>
+						<p><b>Contact: </b><a href="/contact.html">gis@gcc.tas.gov.au</a> or <a href="tel:(03) 6216 6800"></a>(03) 6216 6800</p>
+					</div>
+			</div>
+			<div class="content-secondary">
+				<h1>Map</h1>
+				<div id="mapembed" class="details"></div>
+				<script type="text/javascript">
+					if(map) {map.remove();}
+					var center = new L.LatLng(-42.8585,147.244);
+					var map = new L.Map('mapembed', { center: center, zoom: 15, attributionControl:true, trackResize: true});    
+
+					//Define layers
+					var osm = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/TopographicGrayScale/ImageServer/tile/{z}/{y}/{x}", {
+					    attribution: "Basemap &copy The LIST",
+					    maxZoom: 20,
+					    maxNativeZoom: 18
+					});
+
+					var gccAtt = 'Data &copy GCC, <a href="https://maps.gcc.tas.gov.au/licenses.html">CC-BY</a>'
+				    var buildings = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/gwc/service/wms", {
+				            layers: 'GCC_cc:TolosaMountainBikePark',
+				            format: 'image/png',
+				            transparent: true,
+				    maxZoom: 20,
+				    attribution: gccAtt
+				    });
+			        map.addLayer(osm);
+	   				map.addLayer(buildings);
+	   				//workaround for map not loading.
+	   				setTimeout(function(){
+					map.invalidateSize();
+					}, 1);
+				</script>
+			</div>
+		</div><!-- /content -->	
+		<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
+			<p>&copy; 2013 Glenorchy City Council <a href="http://creativecommons.org/licenses/by/3.0/au/"><img src="/images/CCBY_88x31.png" align="right"></a></p>
+		</div>
+	</div><!-- /page -->
+    <script type="text/javascript">
+	//Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36489204-2']);
+	_gaq.push(['_trackPageview']);	  
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+    </script>
+</html>
