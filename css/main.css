@@ -52,7 +52,7 @@ p {
 }
 .info-legend {
             box-shadow: 0 1px 7px rgba(0,0,0,0.65);
-            padding: 1px;
+            padding: 2px;
             background-color: white;            
             -moz-border-radius: 4px 4px 4px 4px;
             -webkit-border-radius: 4px 4px 4px 4px;
