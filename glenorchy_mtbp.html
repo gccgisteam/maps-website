@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tolosa Mountain Bike Park - Glenorchy City Council</title>        
+    <title>Glenorchy Mountain Bike Park - Glenorchy City Council</title>        
     
     <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
     <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
@@ -58,7 +58,7 @@
         service : 'WFS',
         version : '2.0',
         request : 'GetFeature',
-        typeName : 'GCC_cc:TolosaMountainBikePark',
+        typeName : 'GCC_cc:GlenorchyMountainBikePark',
         outputFormat : 'text/javascript',
         format_options : 'callback:getJson',
         SrsName : 'EPSG:4326'
@@ -87,7 +87,7 @@
             }
     };
 
-    L.marker([-42.85628,147.24766]).addTo(map).bindPopup("<h3>Tolosa Mountain Bike Park</h3><a href=https://maps.google.com/maps?daddr=-42.8538,147.2513 target=&quot_blank&quot>Directions to here.</a>").addTo(map);
+    L.marker([-42.85628,147.24766]).addTo(map).bindPopup("<h3>Glenorchy Mountain Bike Park</h3><a href=https://maps.google.com/maps?daddr=-42.8538,147.2513 target=&quot_blank&quot>Directions to here.</a>").addTo(map);
     var mtbp = null;
     var ajax = $.ajax({
         url : URL,
@@ -118,7 +118,7 @@
 
     legend.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-legend');
-        div.innerHTML = '<img src="https://maps.gcc.tas.gov.au/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=30&HEIGHT=25&LAYER=GCC_cc:TolosaMountainBikePark&&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true" alt = "Mountain Bike Park"></img>'    
+        div.innerHTML = '<img src="https://maps.gcc.tas.gov.au/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=30&HEIGHT=25&LAYER=GCC_cc:GlenorchyMountainBikePark&&legend_options=fontName:Times%20New%20Roman;fontAntiAliasing:true" alt = "Mountain Bike Park"></img>'    
         return div;
     };
     legend.addTo(map);
