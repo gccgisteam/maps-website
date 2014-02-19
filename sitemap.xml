@@ -8,70 +8,156 @@
 
 <url>
   <loc>https://maps.gcc.tas.gov.au/</loc>
-  <lastmod>2013-06-08T03:32:49+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/maps.html</loc>
-  <lastmod>2013-08-06T04:52:04+00:00</lastmod>
+  <lastmod>2014-02-19T03:47:20+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/data.html</loc>
-  <lastmod>2013-04-30T07:35:11+00:00</lastmod>
+  <lastmod>2014-02-19T03:51:29+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/services.html</loc>
-  <lastmod>2013-06-01T01:04:00+00:00</lastmod>
+  <lastmod>2014-02-06T04:35:17+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/licensing.html</loc>
-  <lastmod>2013-04-30T07:35:11+00:00</lastmod>
+  <lastmod>2014-02-06T04:35:17+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/contact.html</loc>
-  <lastmod>2013-03-07T05:50:17+00:00</lastmod>
+  <lastmod>2013-11-11T04:57:57+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/index.html</loc>
-  <lastmod>2013-06-08T03:32:49+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/ips_gcc.html</loc>
-  <lastmod>2013-08-06T07:43:55+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/undergroundassets.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/Stormwater.html</loc>
-  <lastmod>2013-06-18T03:37:13+00:00</lastmod>
+  <lastmod>2014-02-19T01:17:52+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/powergas.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/watersewer.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/3dbuildings.html</loc>
-  <lastmod>2013-05-02T08:06:22+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/dogexerciseareas.html</loc>
-  <lastmod>2013-08-06T07:41:32+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/graffiti.html</loc>
-  <lastmod>2013-06-18T04:20:50+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/glenorchy_mtbp.html</loc>
+  <lastmod>2014-02-19T03:47:20+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/measure.html</loc>
-  <lastmod>2013-08-01T05:43:32+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/metadata/buildings.html</loc>
-  <lastmod>2013-04-30T07:35:11+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/metadata/kerbs.html</loc>
-  <lastmod>2013-04-30T07:35:11+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/metadata/stormwaterpipes.html</loc>
-  <lastmod>2013-04-30T07:35:11+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
 </url>
 <url>
   <loc>https://maps.gcc.tas.gov.au/metadata/stormwaterpits.html</loc>
-  <lastmod>2013-04-30T07:35:11+00:00</lastmod>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/water_gcc_points.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/water_gcc_lines.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/water_plantandequipment.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/power_gcc.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/gas_gcc.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/gas_oldtowngas.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/sewer_gcc_points.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/sewer_gcc_lines.html</loc>
+  <lastmod>2014-02-18T23:33:35+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/metadata/glenorchy_mtbp.html</loc>
+  <lastmod>2014-02-19T03:47:20+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://maps.gcc.tas.gov.au/geoserver/GCC_cc/ows?service=wfs&amp;version=1.1.0&amp;request=GetCapabilities</loc>
+  <changefreq>monthly</changefreq>
 </url>
 </urlset>
