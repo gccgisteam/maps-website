@@ -62,7 +62,7 @@
 					});
 
 					var gccAtt = 'Data &copy GCC, <a href="https://maps.gcc.tas.gov.au/licenses.html">CC-BY</a>'
-				    var buildings = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/gwc/service/wms", {
+				    var mtbp = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/gwc/service/wms", {
 				            layers: 'GCC_cc:GlenorchyMountainBikePark',
 				            format: 'image/png',
 				            transparent: true,
@@ -70,7 +70,7 @@
 				    attribution: gccAtt
 				    });
 			        map.addLayer(osm);
-	   				map.addLayer(buildings);
+	   				map.addLayer(mtbp);
 	   				//workaround for map not loading.
 	   				setTimeout(function(){
 					map.invalidateSize();
