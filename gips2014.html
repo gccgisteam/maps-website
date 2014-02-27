@@ -89,8 +89,14 @@
         maxZoom: 20,
         attribution: gccAtt
     });
-
-    map.addLayer(ps_base);
+    //Duplicating this on so that it's user-friendly to have no basemap.
+    var ps_baseLabels = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc_ips:gips_baselayers',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: gccAtt
+    });
 
     var ps_transparent = L.layerGroup([gi, ps40]);
 
@@ -135,7 +141,9 @@
     };
 
     //Set up all the overlays for Leaflet.
-    var overlays = {"Labels": ps_base};
+    var overlays = {"Labels": ps_baseLabels};    
+    map.addLayer(ps_baseLabels);
+
     for (layer in overlaysList) {
         var newLayer = new L.TileLayer.WMS(rootURL + "geoserver/gwc/service/wms", {
             layers: "gcc_ips:"+overlaysList[layer],
@@ -146,6 +154,8 @@
         });
         overlays[layer] = newLayer;
     };
+    //add labels
+
 
     //Location control
     L.control.locate({
