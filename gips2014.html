@@ -240,6 +240,15 @@
             success : handleJson
         });
     });
+    
+    var disclaimer = L.control({position: 'bottomright'});
+
+    disclaimer.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info-legend');
+        div.innerHTML = '<b>Glenorchy Interim Planning Scheme 2014 <br>Last updated February 2014</b>'    
+        return div;
+    };
+    disclaimer.addTo(map);
     </script>
 
     <script type="text/javascript">

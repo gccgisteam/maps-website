@@ -8,6 +8,7 @@
     
     <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
     <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+
     <script src="src/listBaseLayers.js" type="text/javascript"></script>
     <script src="src/leaflet/gcc_config.js" type="text/javascript"></script>
 
@@ -15,6 +16,8 @@
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+    <link rel="stylesheet" href="src/leaflet/elevation/Leaflet.Elevation-0.0.2.css" />
+
     
     <!--[if lt IE 9]>
      <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
@@ -26,6 +29,8 @@
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
     <script src="src/jquery/jquery-1.7.1.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script src="src/leaflet/elevation/Leaflet.Elevation-0.0.2.min.js"></script>
+    <script src="src/d3/d3.min.js"></script>
     <style>
 	    body {
 		    padding: 0;
@@ -87,7 +92,32 @@
             }
     };
 
-    var mkr = L.marker([-42.85628,147.24766]).addTo(map).bindPopup("<h3>Glenorchy Mountain Bike Park</h3><a href=https://maps.google.com/maps?daddr=-42.8538,147.2513 target=&quot_blank&quot>Directions to here.</a>").addTo(map);
+
+    //all used options are the default values
+    var el = L.control.elevation({
+        position: "bottomleft",
+        theme: "steelblue-theme", //default: lime-theme
+        width: 600,
+        height: 125,
+        margins: {
+            top: 10,
+            right: 20,
+            bottom: 30,
+            left: 50
+        },
+        useHeightIndicator: true, //if false a marker is drawn at map position
+        interpolation: "linear", //see https://github.com/mbostock/d3/wiki/SVG-Shapes#wiki-area_interpolate
+        hoverNumber: {
+            decimalsX: 3, //decimals on distance (always in km)
+            decimalsY: 0, //deciamls on height (always in m)
+            formatter: undefined //custom formatter function may be injected
+        },
+        xTicks: undefined, //number of ticks in x axis, calculated by default according to width
+        yTicks: undefined, //number of ticks on y axis, calculated by default according to height
+        collapsed: false    //collapsed mode, show chart on click or mouseover
+    });
+
+    L.marker([-42.85628,147.24766]).addTo(map).bindPopup("<h3>Glenorchy Mountain Bike Park</h3><a href=https://maps.google.com/maps?daddr=-42.8538,147.2513 target=&quot_blank&quot>Directions to here.</a>").addTo(map);
     var mtbp = null;
     var ajax = $.ajax({
         url : URL,
@@ -136,6 +166,8 @@
     L.control.layers(baselayers, [], {position: 'topleft'}).addTo(map);
     //Search control
     L.control.searchControl().addTo(map);
+
+    el.addTo(map);
 
     </script>
 

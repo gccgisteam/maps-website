@@ -359,6 +359,15 @@
 
     transButton = new Button('Toggle Transparency', {position: 'bottomright'}).addTo(map);
     //fbButton =    new Button('Comment and Feedback', {position: 'bottomright'}).addTo(map);
+    var disclaimer = L.control({position: 'bottomleft'});
+
+    disclaimer.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info-legend');
+        div.innerHTML = '<b>Draft Glenorchy Interim Planning Scheme (last updated September 2013)</b>'    
+        return div;
+    };
+    disclaimer.addTo(map);
+
     </script>
 
     <script type="text/javascript">
