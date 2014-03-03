@@ -4,29 +4,33 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Leaflet Editing WFS-T - Glenorchy City Council</title>        
+    <title>Leaflet Editing WFS-T - Glenorchy City Council</title>  
+
+    <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
+    <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+    <script src="src/listBaseLayers.js" type="text/javascript"></script>  
+    <script src="src/leaflet/gcc_config.js" type="text/javascript"></script>
 
     <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
-    <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/nps.css" />
     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
-    <link rel="stylesheet" href="src/leaflet/draw/leaflet.draw.css" />
     
-    <!--[if lt IE 8]>
+    <!--[if lt IE 9]>
      <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
      <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
      <link rel="stylesheet" href="css/ie6.css" type="text/css" />
-     <link rel="stylesheet" href="src/leaflet/draw/leaflet.draw.ie.css" />
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
-    <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+
     <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
     <script src="src/jquery/jquery-1.7.1.min.js"></script>
-    <script src="src/lib/proj4js-combined.js"></script>
+    <script src="src/lib/proj4js-compressed.js"></script>
+    <script src="src\lib\defs\EPSG28355.js" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+
+    <link rel="stylesheet" href="src/leaflet/draw/leaflet.draw.css" />
     <script src="src/leaflet/draw/leaflet.draw.js"></script>    
     <script type="text/javascript" src="src/leaflet/draw/leaflet.gml.js"></script>
     <script type="text/javascript" src="src/leaflet/draw/leaflet.wfst.js"></script>
@@ -136,6 +140,8 @@
     L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
     //Search control
     L.control.searchControl().addTo(map);
+
+    alert("This is a test of a non-functioning Leaflet extension. It doesn't work!");
 
     </script>
 
