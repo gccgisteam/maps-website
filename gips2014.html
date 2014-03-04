@@ -46,9 +46,9 @@
     //Define layers    
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
-    ///===CHANGE THIS FOR LIVE!===///
+    //Where's GeoServer?
     var rootURL = "https://maps.gcc.tas.gov.au/"
-    ///===========================///
+    var owsrootUrl = rootURL + 'geoserver/ows';
 
     var gi = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'GCC_cuo:GCC_Image',
@@ -122,7 +122,7 @@
         "Zoning and Aerial Image": ps_transparent,
         "Zoning": ps,
         "Aerial Image": gi2,
-        "Labels only": ps_base
+        "Labels and Boundaries Only": ps_base
     };
 
     var overlaysList = {
@@ -142,9 +142,7 @@
     };
 
     //Set up all the overlays for Leaflet.
-    var overlays = {"Labels": ps_baseLabels};    
-    map.addLayer(ps_baseLabels);
-
+    var overlays = {};
     for (layer in overlaysList) {
         var newLayer = new L.TileLayer.WMS(rootURL + "geoserver/gwc/service/wms", {
             layers: "gcc_ips:"+overlaysList[layer],
@@ -156,7 +154,8 @@
         overlays[layer] = newLayer;
     };
     //add labels
-
+    overlays["Labels and Boundaries"] = ps_baseLabels;    
+    map.addLayer(ps_baseLabels);
 
     //Location control
     L.control.locate({
@@ -169,7 +168,7 @@
     //Layer control
     L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
     //Search control
-    L.control.searchControl().addTo(map);
+    L.control.searchControl({type:'pin'}).addTo(map);
     //URL Hashing thingy
     var hash = new L.Hash(map);
 
@@ -183,7 +182,7 @@
     function handleJson(data) {
         if (selectedFeature) {
             map.removeLayer(selectedFeature);
-        }
+        };
         selectedFeature = L.geoJson(data, {
             style: function (feature) {
                 return {color: 'blue'};
@@ -206,9 +205,7 @@
         selectedFeature.addTo(map);
     }
 
-    map.on('click', function(e) {
-        var owsrootUrl = rootURL + 'geoserver/ows';
-        
+    map.on('click', function(e) {        
         var p = new Proj4js.Point(e.latlng.lng,e.latlng.lat);
         Proj4js.transform(src, dst, p);
         queryCoordinates = e.latlng
@@ -240,12 +237,58 @@
             success : handleJson
         });
     });
-    
-    var disclaimer = L.control({position: 'bottomright'});
 
+    //Interactive Zone Boundaries    
+    var defaultParameters = {
+        service : 'WFS',
+        version : '2.0',
+        request : 'GetFeature',
+        typeName : 'gcc_ips:ZoneBdy_GCC',
+        outputFormat : 'text/javascript',
+        format_options : 'callback:getJson',
+        SrsName : 'EPSG:4326'
+    };
+
+    var parameters = L.Util.extend(defaultParameters);
+    var zbURL = owsrootUrl + L.Util.getParamString(parameters);
+    var zb = null;
+    var ajax = $.ajax({
+        url : zbURL,
+        dataType : 'jsonp',
+        jsonpCallback : 'getJson',
+        success : function (response) {
+            zb = L.geoJson(response, {
+                style: function (feature) {
+                    return {
+                        stroke: true,
+                        color: '#ffffff',
+                        opacity: 0.1,
+                        weight: 4
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    popupOptions = {maxWidth: 200};
+                    layer.bindPopup("<h3>Zone Boundary</h3>" +
+                        "<b>Source: </b>" + feature.properties.source +
+                        "<br><b>Description: </b>" + feature.properties.descrip
+                        ,popupOptions);
+                }
+            });
+        }
+    });
+    map.on('viewreset', function() {
+        var zoom = this.getZoom();
+        if(zoom > 15) {
+            map.addLayer(zb);
+        } else {
+            map.removeLayer(zb);
+        }
+    },map);
+
+    var disclaimer = L.control({position: 'bottomright'});
     disclaimer.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-legend');
-        div.innerHTML = '<b>Glenorchy Interim Planning Scheme 2014 <br>Last updated February 2014</b>'    
+        div.innerHTML = '<b>Glenorchy Draft Interim Planning Scheme 2014 <br>Last updated February 2014</b>'    
         return div;
     };
     disclaimer.addTo(map);

@@ -6,7 +6,8 @@
 //Create control
 L.Control.searchControl = L.Control.extend({
     options: {
-        position: 'topcenter'
+        position: 'topcenter',
+        type: 'default'
     },
 
     initialize: function (options) {
@@ -15,6 +16,8 @@ L.Control.searchControl = L.Control.extend({
     },
 
     onAdd: function(map) {
+        var type = this.options.type;
+
         var $controlContainer = $(map._controlContainer);
 
         if ($controlContainer.children('.leaflet-top.leaflet-center').length == 0) {
@@ -65,8 +68,11 @@ L.Control.searchControl = L.Control.extend({
             var leafLocation = new L.LatLng(place.geometry.location.lat(),place.geometry.location.lng())
             map.setView(leafLocation, 18)
             //map.panTo(leafLocation);
-            leafMarker = L.circleMarker(leafLocation, {title: place.formatted_address}).bindPopup(place.formatted_address).addTo(map);        
-            //map.setZoom(18);
+            if(type === 'pin') {
+                leafMarker = L.marker(leafLocation, {title: place.formatted_address}).bindPopup(place.formatted_address).addTo(map);
+            } else {
+                leafMarker = L.circleMarker(leafLocation, {title: place.formatted_address}).bindPopup(place.formatted_address).addTo(map);        
+            }
         }); 
 
         var inputTags = document.getElementsByTagName("input")

@@ -45,7 +45,7 @@
     var map = new L.Map('map', { center: center, zoom: 12, attributionControl:true, zoomControl:false}); 
 
     //Define layers    
-    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+    var gccAtt = 'Data &copy Glenorchy City Council'
 
     ///===CHANGE THIS FOR LIVE!===///
     var rootURL = "https://maps.gcc.tas.gov.au/"
@@ -359,11 +359,11 @@
 
     transButton = new Button('Toggle Transparency', {position: 'bottomright'}).addTo(map);
     //fbButton =    new Button('Comment and Feedback', {position: 'bottomright'}).addTo(map);
-    var disclaimer = L.control({position: 'bottomleft'});
+    var disclaimer = L.control({position: 'bottomright'});
 
     disclaimer.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-legend');
-        div.innerHTML = '<b>Draft Glenorchy Interim Planning Scheme (last updated September 2013)</b>'    
+        div.innerHTML = '<b>Draft Glenorchy Interim Planning Scheme <br>Last updated September 2013</b>'    
         return div;
     };
     disclaimer.addTo(map);
