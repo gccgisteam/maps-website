@@ -100,18 +100,8 @@
 
     var ps_transparent = L.layerGroup([gi, ps40]);
 
-    //terrible hack...
-    var ie = (function(){
-        var undef,
-            v = 3,
-            div = document.createElement('div'),
-            all = div.getElementsByTagName('i');
-        while (
-            div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
-            all[0]
-        );
-        return v > 4 ? v : undef;
-    }());
+    //Are we in ie?
+    var ie = L.Browser.ie;
     
     map.addLayer(ps);
     if(ie) {
@@ -169,8 +159,6 @@
     L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
     //Search control
     L.control.searchControl({type:'pin'}).addTo(map);
-    //URL Hashing thingy
-    var hash = new L.Hash(map);
 
     //Query layer functionality.
     var selectedFeature;
@@ -252,30 +240,35 @@
     var parameters = L.Util.extend(defaultParameters);
     var zbURL = owsrootUrl + L.Util.getParamString(parameters);
     var zb = null;
-    var ajax = $.ajax({
-        url : zbURL,
-        dataType : 'jsonp',
-        jsonpCallback : 'getJson',
-        success : function (response) {
-            zb = L.geoJson(response, {
-                style: function (feature) {
-                    return {
-                        stroke: true,
-                        color: '#ffffff',
-                        opacity: 0.1,
-                        weight: 4
-                    };
-                },
-                onEachFeature: function (feature, layer) {
-                    popupOptions = {maxWidth: 200};
-                    layer.bindPopup("<h3>Zone Boundary</h3>" +
-                        "<b>Source: </b>" + feature.properties.source +
-                        "<br><b>Description: </b>" + feature.properties.descrip
-                        ,popupOptions);
-                }
-            });
-        }
-    });
+    function getZB() {
+        $.ajax({
+            url : zbURL,
+            dataType : 'jsonp',
+            jsonpCallback : 'getJson',
+            success : function (response) {
+                zb = L.geoJson(response, {
+                    style: function (feature) {
+                        return {
+                            stroke: true,
+                            color: '#ffffff',
+                            opacity: 0.1,
+                            weight: 4
+                        };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        popupOptions = {maxWidth: 200};
+                        layer.bindPopup("<h3>Zone Boundary</h3>" +
+                            "<b>Source: </b>" + feature.properties.source +
+                            "<br><b>Description: </b>" + feature.properties.descrip
+                            ,popupOptions);
+                    }
+                });
+            }
+        });
+    };
+    getZB();
+
+    //a bit of a hack, needs to check for zb because the hash plugin gets triggered before zb is loaded.
     map.on('viewreset', function() {
         var zoom = this.getZoom();
         if(zoom > 15) {
@@ -284,6 +277,8 @@
             map.removeLayer(zb);
         }
     },map);
+    //URL Hashing thingy
+    var hash = new L.Hash(map);
 
     var disclaimer = L.control({position: 'bottomright'});
     disclaimer.onAdd = function (map) {
