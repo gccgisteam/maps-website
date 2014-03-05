@@ -22,7 +22,6 @@
     
     <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
     <script src="src/leaflet/locate/L.Control.Locate.js"></script>
-    <script src="src/leaflet/leaflet-hash.js"></script>
     <script src="src/jquery/jquery-1.7.1.min.js"></script>
     <script src="src/lib/proj4js-compressed.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
@@ -50,19 +49,21 @@
     var rootURL = "https://maps.gcc.tas.gov.au/"
     var owsrootUrl = rootURL + 'geoserver/ows';
 
-    var gi = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'GCC_cuo:GCC_Image',
-        format: 'image/jpeg',
+    var ps_baseLabels = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+        layers: 'gcc_ips:gips_baselayers',
+        format: 'image/png',
         transparent: true,
         maxZoom: 20,
-        attribution: 'Image &copy LIST and Southern Water',
+        attribution: gccAtt
     });
-    var gi2 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
+
+    var image = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
         layers: 'GCC_cuo:GCC_Image',
         format: 'image/jpeg',
         transparent: true,
         maxZoom: 20,
-        attribution: 'Image &copy LIST and Southern Water'
+        opacity: 0.6,
+        attribution: 'Image &copy LIST and Southern Water',
     });
 
     var ps = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
@@ -73,32 +74,6 @@
         attribution: gccAtt
     });
 
-    var ps40 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc_ips:gips_zoning',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        opacity: 0.4,
-        attribution: gccAtt
-    });
-
-    var ps_base = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc_ips:gips_baselayers',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-    //Duplicating this on so that it's user-friendly to have no basemap.
-    var ps_baseLabels = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'gcc_ips:gips_baselayers',
-        format: 'image/png',
-        transparent: true,
-        maxZoom: 20,
-        attribution: gccAtt
-    });
-
-    var ps_transparent = L.layerGroup([gi, ps40]);
 
     //Are we in ie?
     var ie = L.Browser.ie;
@@ -108,14 +83,12 @@
         ps40.setOpacity(1);
     }
 
-    var baselayers = {
-        "Zoning and Aerial Image": ps_transparent,
-        "Zoning": ps,
-        "Aerial Image": gi2,
-        "Labels and Boundaries Only": ps_base
+    var overlays = {
+        "Aerial Image": image,
+        "Labels and Boundaries": ps_baseLabels
     };
 
-    var overlaysList = {
+    var baseLayersList = {
         "E3 Landslide Code": 'LDS_Landslide_Glenorchy',
         "E8 Electricity Transmission Infrastructure protection Code": 'ETP_ElecTranInfraProtection_Glenorchy',
         "E10 Biodiversity Code": 'NAT_Biodiversity_Glenorchy',
@@ -132,16 +105,18 @@
     };
 
     //Set up all the overlays for Leaflet.
-    var overlays = {};
-    for (layer in overlaysList) {
+    var baselayers = {
+        "Zoning": ps
+    };
+    for (layer in baseLayersList) {
         var newLayer = new L.TileLayer.WMS(rootURL + "geoserver/gwc/service/wms", {
-            layers: "gcc_ips:"+overlaysList[layer],
+            layers: "gcc_ips:"+baseLayersList[layer],
             format: 'image/png',
             transparent: true,
             maxZoom: 20,
             attribution: gccAtt
         });
-        overlays[layer] = newLayer;
+        baselayers[layer] = newLayer;
     };
     //add labels
     overlays["Labels and Boundaries"] = ps_baseLabels;    
@@ -257,9 +232,10 @@
                     },
                     onEachFeature: function (feature, layer) {
                         popupOptions = {maxWidth: 200};
-                        layer.bindPopup("<h3>Zone Boundary</h3>" +
-                            "<b>Source: </b>" + feature.properties.source +
-                            "<br><b>Description: </b>" + feature.properties.descrip
+                        layer.bindPopup("<h3>Non-Cadastral Zone Boundary</h3>" +
+                            "<b>ID: </b>" + feature.properties.id +
+                            "<br><b>Description: </b>" + feature.properties.descrip +
+                            "<br><b>Source: </b>" + feature.properties.source
                             ,popupOptions);
                     }
                 });
@@ -277,13 +253,11 @@
             map.removeLayer(zb);
         }
     },map);
-    //URL Hashing thingy
-    var hash = new L.Hash(map);
 
     var disclaimer = L.control({position: 'bottomright'});
     disclaimer.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-legend');
-        div.innerHTML = '<b>Glenorchy Draft Interim Planning Scheme 2014 <br>Last updated February 2014</b>'    
+        div.innerHTML = '<b>Glenorchy Draft Interim Planning Scheme 2014 <br>Last updated 5 March 2014</b>'    
         return div;
     };
     disclaimer.addTo(map);
