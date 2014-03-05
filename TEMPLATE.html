@@ -53,10 +53,20 @@
         "LIST Aerial Imagery": LISTAerial,
         "LIST Topographic": LISTTopographic
     };    
-    map.addLayer(LISTTopographic)
+    //map.addLayer(LISTTopographic)
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
+    var image = new L.TileLayer.WMS("https://maps.gcc.tas.gov.au/geoserver/gwc/service/wms", {
+        layers: 'GCC_cuo:GCC_Image',
+        format: 'image/jpeg',
+        transparent: true,
+        maxZoom: 20,
+        opacity: 1,
+        attribution: 'Image &copy LIST and Southern Water',
+    });
+
+    map.addLayer(image);
     //Location control
     L.control.locate({
         position: 'topright',  
