@@ -74,7 +74,9 @@
         attribution: gccAtt
     });
 
-
+    //add labels
+    map.addLayer(ps_baseLabels);
+    
     //Are we in ie?
     var ie = L.Browser.ie;
     
@@ -115,9 +117,6 @@
         });
         baselayers[layer] = newLayer;
     };
-    //add labels
-    overlays["Labels and Boundaries"] = ps_baseLabels;    
-    map.addLayer(ps_baseLabels);
 
     //Location control
     L.control.locate({

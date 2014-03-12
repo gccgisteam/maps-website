@@ -17,6 +17,7 @@
     <script src="src/jquery/jquery-1.7.1.min.js"></script>
     <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
     <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+    <script src="src/listBaseLayers.js" type="text/javascript"></script>
     <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 
@@ -41,42 +42,13 @@
     var map = new L.Map('map', { center: center, zoom: 11, attributionControl:true, zoomControl:false});    
     
     //Define layers
-    var LISTBasemapWMS = new L.tileLayer.wms("https://services.thelist.tas.gov.au/arcgis/services/Basemaps/Topographic/ImageServer/WMSServer", {
-        layers: 'Topographic',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Basemap &copy The LIST",
-        minZoom: 19,
-        maxZoom: 20
-    });
-    var LISTBasemap = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
-        attribution: "Basemap &copy The LIST",
-        maxZoom: 18
-    });
-    var listLayers = L.layerGroup([LISTBasemap, LISTBasemapWMS])
-    
-    var LISTAerialWMS = new L.tileLayer.wms("https://services.thelist.tas.gov.au/arcgis/services/Basemaps/Orthophoto/ImageServer/WMSServer", {
-        layers: 'Orthophoto',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Basemap &copy The LIST",
-        minZoom: 19,
-        maxZoom: 20
-    });
-    var LISTAerial = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
-        attribution: "Basemap &copy The LIST",
-        maxZoom: 18
-    });
-
-    var listLayersAerial = L.layerGroup([LISTAerial, LISTAerialWMS])
     var baselayers = {
-    "LIST Satellite": listLayersAerial,
-    "List Basemap": listLayers
-    };
+        "LIST Aerial Imagery": LISTAerial,
+        "LIST Topographic": LISTTopographic
+    };    
+    map.addLayer(LISTTopographic)
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
-    
-    map.addLayer(listLayers);
 
     var URL = 'https://services.thelist.tas.gov.au/arcgis/rest/services/Public/Planning/MapServer';
     var dynLayer = L.esri.dynamicMapLayer(URL, {
