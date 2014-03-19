@@ -89,8 +89,16 @@
         "Graffiti from three months": threeMonthMarkers
     };
     L.control.layers(baselayers, overlays, {position: 'topleft'}).addTo(map);
-
+    function definePopup(entry) {
+        var popupText =  "<b>Location Description: </b>"+entry[2]+"<br>"+
+                    "<b>Work Date: </b>"+entry[3]+"<br>"+
+                    "<b>Graffiti Type: </b>"+entry[5]+"<br>"+
+                    "<b>Graffiti Material: </b>"+entry[6]+"<br>"+
+                    "<b>Image: </b><a href='"+entry[0]+"' target=\"_blank\">"+"<img src='"+entry[0]+"&previewImage=true'</img></a>";
+        return popupText;
+    }
     map.spin(true);
+
     var graf = null;
     $.ajax({
       url: url.join(''),
@@ -103,34 +111,22 @@
 
             var thisLayer = L.geoJson(entry[1]['geometry'])
                 .bindPopup(
-                    "<b>Location Description: </b>"+entry[2]+"<br>"+
-                    "<b>Work Date: </b>"+entry[3]+"<br>"+
-                    "<b>Graffiti Type: </b>"+entry[5]+"<br>"+
-                    "<b>Graffiti Material: </b>"+entry[6]+"<br>"+
-                    "<b>Image: </b><br><a href='"+entry[0]+"' target=\"_blank\">"+"<img src='"+entry[0]+"&previewImage=true'</img></a>"
+                    definePopup(entry)
                     );
             
             allMarkers.addLayer(thisLayer);
             if(Days < 31) {
                 thisMonthMarkers.addLayer(L.geoJson(entry[1]['geometry'])
                 .bindPopup(
-                    "<b>Location Description: </b>"+entry[2]+"<br>"+
-                    "<b>Work Date: </b>"+entry[3]+"<br>"+
-                    "<b>Graffiti Type: </b>"+entry[5]+"<br>"+
-                    "<b>Graffiti Material: </b>"+entry[6]+"<br>"+
-                    "<b>Image: </b><a href='"+entry[0]+"' target=\"_blank\">"+"<img src='"+entry[0]+"&previewImage=true'</img></a>"
-                    ));
+                    definePopup(entry)
+                ));
             };
             if(Days < 93) {                
                 console.log(Days);
                 threeMonthMarkers.addLayer(L.geoJson(entry[1]['geometry'])
                 .bindPopup(
-                    "<b>Location Description: </b>"+entry[2]+"<br>"+
-                    "<b>Work Date: </b>"+entry[3]+"<br>"+
-                    "<b>Graffiti Type: </b>"+entry[5]+"<br>"+
-                    "<b>Graffiti Material: </b>"+entry[6]+"<br>"+
-                    "<b>Image: </b><a href='"+entry[0]+"' target=\"_blank\">"+"<img src='"+entry[0]+"&previewImage=true'</img></a>"
-                    ));
+                    definePopup(entry) 
+                ));
             }
         };
         graf = data;
