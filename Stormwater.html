@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/nps.css" />
     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+    <link rel="stylesheet" href="src/leaflet/draw/leaflet.draw.css" />
     
     <!--[if lt IE 9]>
      <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
@@ -29,6 +30,9 @@
     <script src="src/lib/proj4js-compressed.js"></script>
     <script src="src\lib\defs\EPSG28355.js" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+
+    <script src="src/leaflet/draw/leaflet.draw.js"></script>
+    <script src="src/leaflet/gcc_draw.js"></script>
     <style>
         body {
             padding: 0;
@@ -214,7 +218,60 @@
     L.control.layers(baselayers, lOverlays, {position: 'topleft'}).addTo(map);
     //Search control
     L.control.searchControl().addTo(map);
-    
+
+    //Measure stuff
+    function is_touch_device() {
+      return 'ontouchstart' in window // works on most browsers 
+          || 'onmsgesturechange' in window; // works on ie10
+    };
+
+    if(!is_touch_device()) {
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        // Set the title to show on the polygon button
+        L.drawLocal.draw.toolbar.buttons.polygon = 'Draw a polygon!';
+
+        var drawControl = new L.Control.Draw({
+            position: 'topright',
+            draw: {
+                polyline: {
+                    shapeOptions: {
+                        color: '#5C5DBF'                    
+                    }
+                },
+                rectangle: {
+                    shapeOptions: {
+                        color: '#5C5DBF'                    
+                    }
+                },
+                polygon: {
+                    allowIntersection: false,
+                    showArea: true,
+                    drawError: {
+                        color: '#F25567',
+                        timeout: 1000
+                    },
+                    shapeOptions: {
+                        color: '#5C5DBF'
+                    }
+                },
+                circle: false
+            },
+            edit: false
+        });
+        map.addControl(drawControl);
+        
+        map.on('draw:created', function (e) {updatePopup(e)});
+        
+        map.on('draw:edited', function (e) {
+            var layers = e.layers;
+            var countOfEditedLayers = 0;
+            layers.eachLayer(function(layer) {
+                countOfEditedLayers++;
+            });            
+        });
+    };
     </script>
 
     <script type="text/javascript">
