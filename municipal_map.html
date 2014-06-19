@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Municipal Map - Glenorchy City Council</title>        
+
+    <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
+    <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+    <script src="src/listBaseLayers.js" type="text/javascript"></script>  
+    <script src="src/leaflet/gcc_config.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+    
+    <!--[if lt IE 9]>
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="css/ie6.css" type="text/css" />
+    <![endif]-->
+
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
+    <script src="src/lib/proj4js-compressed.js"></script>
+    <script src="src/lib/defs/EPSG28355.js" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <style>
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
+    </style>
+</head>
+<body>    
+	<div id="map"></div>
+</body>
+    <script>
+    var center = new L.LatLng(-42.8232,147.2260);
+    var map = new L.Map('map', { center: center, zoom: 11, attributionControl:true, zoomControl:false, minZoom:8});    
+   
+    var baselayers = {
+        "LIST Aerial Imagery": LISTAerial,
+        "LIST Topographic": LISTTopographic
+    };    
+    map.addLayer(LISTTopographic)
+    
+    //Where's GeoServer?
+    var rootURL = "https://maps.gcc.tas.gov.au/"
+    var owsrootUrl = rootURL + 'geoserver/ows';
+
+    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+
+    var lga = new L.TileLayer.WMS('https://maps.gcc.tas.gov.au/geoserver/GCC_cuo/gwc/service/wms', {
+        layers: 'GCC_cuo:lga',
+        format: 'image/png',
+        transparent: true,
+        maxZoom: 20,
+        attribution: 'Data &copy <a href="http://thelist.tas.gov.au">The LIST</a>'
+    });
+    
+    map.addLayer(lga);
+
+    //Query layer functionality.
+    var selectedFeature;
+    var queryCoordinates;
+    var queryAddress;
+    var src = new Proj4js.Proj('EPSG:4326');
+    var dst = new Proj4js.Proj('EPSG:28355');   
+    function handleJson(data) {
+        if (selectedFeature) {
+            map.removeLayer(selectedFeature);
+        };
+        selectedFeature = L.geoJson(data, {
+            style: function (feature) {
+                return {color: 'blue'};
+            },
+            onEachFeature: function (feature, layer) {
+                var content = "<b>" + ((feature.properties.name) ? feature.properties.name : "") + "</b>";
+                var popup = L.popup()
+                    .setLatLng(queryCoordinates)
+                    .setContent(content)
+                    .openOn(map);
+                    layer.bindPopup(content);
+                queryAddress = feature.properties.address;
+            }
+        });
+        selectedFeature.addTo(map);
+    }
+
+    function queryCoords(latlng) {
+        queryCoordinates = latlng;
+        var p = new Proj4js.Point(latlng.lng,latlng.lat);
+        Proj4js.transform(src, dst, p);
+        
+        var defaultParameters = {
+            service : 'WFS',
+            version : '1.1.1',
+            request : 'GetFeature',
+            typeName : 'GCC_cuo:lga',
+            maxFeatures : 100,
+            outputFormat : 'text/javascript',
+            format_options : 'callback:getJson',
+            SrsName : 'EPSG:4326'
+        };
+
+        var customParams = {
+            cql_filter:'CONTAINS(geom, POINT(' + p.x + ' ' + p.y + '))'
+        };
+
+        var parameters = L.Util.extend(defaultParameters, customParams);
+
+        $.ajax({
+            url : owsrootUrl + L.Util.getParamString(parameters),
+            dataType : 'jsonp',
+            jsonpCallback : 'getJson',
+            success : handleJson
+        });
+    }
+
+    map.on('click', function(e) {        
+        clickCoords = e.latlng
+        queryCoords(clickCoords)
+    });
+
+    //start things off...
+    var startCoords = new L.LatLng(-42.8336,147.2319);
+    queryCoords(startCoords)
+
+    //Location control
+    L.control.locate({
+        position: 'topright',  
+        drawCircle: false,
+        follow: false
+    }).addTo(map);
+    //Zoom control
+    L.control.zoom().addTo(map);    
+    //Layer control
+    L.control.layers(baselayers, {'Local Government Areas': lga}, {position: 'topleft'}).addTo(map);
+    //Search control
+    L.control.searchControl().addTo(map);
+
+    </script>
+
+    <script type="text/javascript">
+	//Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36489204-2']);
+	_gaq.push(['_trackPageview']);	  
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+    </script>
+</html>
