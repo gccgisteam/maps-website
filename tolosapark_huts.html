@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tolosa Park Huts - Glenorchy City Council</title>        
+    
+    <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
+    <script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+    <script src="src/listBaseLayers.js" type="text/javascript"></script>
+    <script src="src/leaflet/gcc_config.js" type="text/javascript"></script>
+    <script src="src/leaflet/label/leaflet.label.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+    <link rel="stylesheet" href="src/leaflet/label/leaflet.label.css" />
+    <!--[if lt IE 9]>
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="css/ie6.css" type="text/css" />
+    <![endif]-->
+
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <style>
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
+        h3 {
+            margin:0;
+        }
+    </style>
+</head>
+<body>    
+	<div id="map"></div>
+</body>
+    <script>
+    var center = new L.LatLng(-42.8514,147.2516);
+    var map = new L.Map('map', { center: center, zoom: 17, attributionControl:true, zoomControl:false, minZoom:11});    
+
+    var baselayers = {
+        "LIST Aerial Imagery": LISTAerial,
+        "LIST Topographic": LISTTopographic
+    };    
+    map.addLayer(LISTTopographic)
+
+    var owsrootUrl = 'https://maps.gcc.tas.gov.au/geoserver/ows';
+    
+    var defaultParameters = {
+        service : 'WFS',
+        version : '2.0',
+        request : 'GetFeature',
+        typeName : 'GCC_cc:Buildings_Tolosa',
+        outputFormat : 'text/javascript',
+        format_options : 'callback:getJson',
+        SrsName : 'EPSG:4326'
+    };
+
+    var parameters = L.Util.extend(defaultParameters);
+    var URL = owsrootUrl + L.Util.getParamString(parameters);
+    //console.log(URL);
+
+    var mkr = L.marker([-42.8524,147.2536]).bindPopup("<h3>Tolosa Park</h3><a href=https://maps.google.com/maps?daddr=-42.8522,147.2534 target=&quot_blank&quot>Directions to here.</a>").addTo(map);
+    var tolosapark = null;
+    var ajax = $.ajax({
+        url : URL,
+        dataType : 'jsonp',
+        jsonpCallback : 'getJson',
+        success : function (response) {
+            tolosapark = L.geoJson(response, {
+                style: function (feature) {
+                    return {
+                        stroke: true,
+                        color: '#1f45ce',//getColour(feature.properties.difficulty),
+                        opacity: 0.9,
+                        weight: 2
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    popupOptions = {maxWidth: 200};
+                    layer
+                        .bindPopup("<h3>" + feature.properties.name + "</h3>" + 
+                        ((feature.properties.blurb) ? feature.properties.blurb : "") + 
+                        ((feature.properties.image) ? "<img src=\'/images/tolosapark/" + feature.properties.image + "\' height=\'150\' width=\'200\''></img>" : "")
+                        ,popupOptions)
+                        .bindLabel(feature.properties.name, { noHide: true });
+                }
+            }).addTo(map);
+        }
+    });
+    
+    map.attributionControl.addAttribution(gccAtt);
+    
+    //Zoom control
+    L.control.zoom().addTo(map);    
+    //Layer control
+    L.control.layers(baselayers, [], {position: 'topleft'}).addTo(map);
+    //Search control
+    L.control.searchControl().addTo(map);
+
+    </script>
+
+    <script type="text/javascript">
+	//Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36489204-2']);
+	_gaq.push(['_trackPageview']);	  
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+    </script>
+</html>
