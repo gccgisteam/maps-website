@@ -87,6 +87,34 @@
             }
     };
 
+    var highlightedFeature = null
+    function highlightOneFeature(e) {
+        if (highlightedFeature) {
+            resetHighlight(highlightedFeature);
+        };
+        var layer = e.target;
+        highlightedFeature = layer;
+        layer.setStyle({
+            fillColor: "yellow",
+            color: "yellow",
+            weight: 5,
+            opacity: 1
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera) {
+            layer.bringToFront();
+        }
+    }
+
+    function resetHighlight(layer) {
+        layer.setStyle({
+            fillColor: getColour(layer.feature.properties.difficulty),
+            color: getColour(layer.feature.properties.difficulty),
+            opacity: 0.8,
+            weight: 4
+        });
+    }
+
     var mkr = L.marker([-42.85628,147.24766]).addTo(map).bindPopup("<h3>Glenorchy Mountain Bike Park</h3><a href=https://maps.google.com/maps?daddr=-42.8538,147.2513 target=&quot_blank&quot>Directions to here.</a>").addTo(map);
     var mtbp = null;
     var ajax = $.ajax({
@@ -109,6 +137,11 @@
                         "<b>Difficulty: </b>" + feature.properties.difficulty +
                         "<br><b>Description: </b>" + feature.properties.description
                         ,popupOptions);
+                    layer.on({
+                        //mouseover: highlightFeature,
+                        //mouseout: resetHighlight,
+                        click: highlightOneFeature
+                });
                 }
             }).addTo(map);
         }
