@@ -70,7 +70,7 @@
         version : '2.0',
         request : 'GetFeature',
         typeName : 'GCC_cc:DogExerciseAreas',
-        outputFormat : 'text/javascript',
+        outputFormat : 'json',
         format_options : 'callback:getJson',
         SrsName : 'EPSG:4326'
     };
@@ -81,7 +81,7 @@
     var DogExerciseAreas = null;
     var ajax = $.ajax({
         url : URL,
-        dataType : 'jsonp',
+        dataType : 'json',
         jsonpCallback : 'getJson',
         success : function (response) {
             DogExerciseAreas = L.geoJson(response, {
