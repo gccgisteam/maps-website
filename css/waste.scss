@@ -32,16 +32,21 @@
 				color: #f0f0f0;
 			}
 			dl {
-				&:nth-child(odd) {
-					background: #ffffff;
-				}
+
 				dt {
 					display: inline-block;
 					width: 40%;
+					&:nth-child(odd) {
+						background: #ffffff;
+					}
 				}
 				dd {
+					&:nth-child(odd) {
+						background: #ffffff;
+					}
 					display: inline-block;
-					width: 50%;
+					width: 60%;
+					margin: 0;
 				}
 			}
 		}
