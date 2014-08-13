@@ -3,23 +3,23 @@ include_once('src/database-config.php');
 if ($_REQUEST['qtype'] == 'search') {
   $query = trim($_REQUEST['q']);
   $limit = $_REQUEST['page_limit'];
-  $offset = ($_REQUEST['page'] - 1) * $_REQUEST['page_limit'];
-  $sql = 'SELECT pid,address from dbo."WastePickup"';
 
-  $sql .= " WHERE lower(address) LIKE lower('%$query%')
-  GROUP BY address, pid
-  ORDER BY address ASC LIMIT $limit OFFSET $offset";
+  $sql = buildQuery($query);
 
   $jsonObject = array();
-	$result = pg_query($dbConn, $sql);
-	while ($row = pg_fetch_object($result)) {
-	  $jsonObject[] = array(
-							'id' => $row->pid,
-							'text' => $row->address
-						   );
-	}
-	header('Content-type: application/json');
-	echo json_encode($jsonObject);
+  $result = queryPostgres($sql);
+  if (!$result) {
+	$sql = buildQuery($query, 1);
+	$result = queryPostgres($sql);
+  }
+  while ($row = pg_fetch_object($result)) {
+	$jsonObject[] = array(
+						  'id' => $row->pid,
+						  'text' => $row->address
+						 );
+  }
+  header('Content-type: application/json');
+  echo json_encode($jsonObject);
 } else if ($_REQUEST['qtype'] == 'retrieve') {
   $query = trim($_REQUEST['address']);
   $sql = "SELECT
@@ -58,6 +58,21 @@ WHERE PID = $query";
   echo json_encode($addressObj);
 }
 
+function buildQuery ($query, $nohouse) {
+  $sql = 'SELECT address, pid from dbo."WastePickup" WHERE ';
+  if (preg_match('/^0-9/', $query) && !$nohouse) {
+	$addressParts = explode(' ', $query);
+	$houseNum = array_shift($addressParts);
+	$sql .= "houseno = $houseNum AND fullstreet LIKE '%". implode(' ', $addressParts) ."%'";
+  } else {
+	$sql .= " WHERE lower(address) LIKE lower('%$query%')";
+  }
+  $sql .= "GROUP BY address, pid
+  ORDER BY address ASC LIMIT $limit";
+}
 
+function queryPostgres ($queryString) {
+  $queryResult =  pg_query($dbConn, $queryString);
+}
 
 ?>

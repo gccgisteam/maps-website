@@ -104,7 +104,7 @@
 		var html = '<div class="serviceitem">';
 		html += '<h3>' + serviceObj.container  + '</h3>';
 		html += '<dl><dt>Last Pickup</dt><dd>' + serviceObj.lastpickup + '</dd>';
-		html += '<dt>Next Pickup</dt><dd>' + serviceObj.nextpickup + '</dd>';
+		html += '<dt><strong>Next Pickup</strong></dt><dd><strong>' + serviceObj.nextpickup + '</strong></dd>';
 		html += '<dt>Collection Day</dt><dd>' + serviceObj.pickupday + '</dd>';
 		html += '<dt>Collection Frequency</dt><dd>' + serviceObj.frequency + '</dd></dl></div>';
 		$('.searchresults').append(html);
