@@ -39,7 +39,7 @@ if ($_REQUEST['qtype'] == 'search') {
   $sql .= " WHERE uid = $query";
   $result = pg_query($dbConn, $sql);
   while ($row = pg_fetch_object($result)) {
-	echo encode_json($row);
+	echo json_encode($row);
   }
 }
 
