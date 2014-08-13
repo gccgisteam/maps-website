@@ -1,11 +1,11 @@
 <?php
-include_once(src/database-config.php);
+include_once('src/database-config.php');
 if ($_REQUEST['qtype'] == 'search') {
   $query = trim($_REQUEST['q']);
 
   $sql = 'SELECT
-	  "uid", "address"
-  from WastePickup';
+	  uid, address
+  from dbo."WastePickup"';
 
   $sql .= " WHERE address LIKE '%$query%'";
 
