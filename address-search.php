@@ -4,10 +4,10 @@ if ($_REQUEST['qtype'] == 'search') {
   $query = trim($_REQUEST['q']);
   $limit = $_REQUEST['page_limit'];
 
-  $sql = buildQuery($query);
+  $sql = buildQuery($query, false);
   error_log("first query built is ". $sql);
   $jsonObject = array();
-  $result = queryPostgres($sql, false);
+  $result = queryPostgres($sql);
   if (!$result) {
 	$sql = buildQuery($query, true);
 	error_log("query with no first match is ". $sql);
