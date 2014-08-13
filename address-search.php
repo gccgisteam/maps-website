@@ -12,9 +12,10 @@ if ($_REQUEST['qtype'] == 'search') {
 	$result = queryPostgres($sql);
   }
   while ($row = pg_fetch_object($result)) {
+	$address = preg_replace('/~/', ' ', $row->address);
 	$jsonObject[] = array(
 						  'id' => $row->pid,
-						  'text' => $row->address
+						  'text' => $address
 						 );
   }
   header('Content-type: application/json');
@@ -38,7 +39,8 @@ WHERE PID = $query";
   $servicesObj = array();
   while ($row = pg_fetch_object($result)) {
 	if (!isset($addressObj['address'])) {
-	  $addressObj['address'] = $row->address;
+	  $address = preg_replace('/~/', '<br /> ', $row->address);
+	  $addressObj['address'] = $address;
 	  $addressObj['geom'] = $row->geom;
 	}
 	$servicesObj[] = array(
