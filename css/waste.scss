@@ -6,6 +6,7 @@
 	top: 0;
 	width: 30%;
 	height: 100%;
+	overflow-y: scroll;
 	@media screen and (max-width: 800px) {
 		width: 100%;
 		position: static;

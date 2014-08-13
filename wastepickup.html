@@ -49,7 +49,7 @@
 <script type="text/javascript">
 	var center = new L.LatLng(-42.8232,147.2260);
 	var map = new L.Map('map', { center: center, zoom: 12, attributionControl:true, zoomControl:false, minZoom:8});
-
+	var markers = L.layerGroup().addTo(map);
 	var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 	var baselayers = {
 			"LIST Aerial Imagery": LISTAerial,
@@ -106,13 +106,14 @@
 });
 	$('#addresssearch').change(function (e) {
 		e.preventDefault();
+		markers.clearLayers();
 		var postData = {address: $('#addresssearch').val(), qtype: 'retrieve'};
 		$.post('/address-search.php', postData, function(data) {
 			writeUpServices(data.services);
 			var coOrds = $.parseJSON(data.geom);
 			var locArr = L.latLng(coOrds.coordinates[1], coOrds.coordinates[0]);
 			map.setView(locArr, 17);
-			L.marker(locArr).addTo(map).bindPopup(data.address).openPopup();
+			L.marker(locArr).addTo(markers).bindPopup(data.address).openPopup();
 		})
 	})
 
