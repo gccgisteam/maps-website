@@ -8,7 +8,7 @@ if ($_REQUEST['qtype'] == 'search') {
 
   $sql .= " WHERE lower(address) LIKE lower('%$query%')
   GROUP BY address
-  ORDER BY address ASC LIMIT $limit $offset";
+  ORDER BY address ASC LIMIT $limit OFFSET $offset";
 
   $jsonObject = array();
 	$result = pg_query($dbConn, $sql);
