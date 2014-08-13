@@ -7,9 +7,9 @@ if ($_REQUEST['qtype'] == 'search') {
   $sql = buildQuery($query);
 
   $jsonObject = array();
-  $result = queryPostgres($sql);
+  $result = queryPostgres($sql, false);
   if (!$result) {
-	$sql = buildQuery($query, 1);
+	$sql = buildQuery($query, true);
 	$result = queryPostgres($sql);
   }
   while ($row = pg_fetch_object($result)) {
