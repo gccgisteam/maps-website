@@ -72,6 +72,7 @@ function buildQuery ($query, $nohouse) {
 }
 
 function queryPostgres ($queryString) {
+  global $dbConn;
   $queryResult =  pg_query($dbConn, $queryString);
 }
 
