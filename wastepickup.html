@@ -79,7 +79,7 @@
 	},
 	minimumInputLength: 5,
 });
-	$('#addressform').submit(function (e) {
+	$('#addresssearch').change(function (e) {
 		e.preventDefault();
 		$.post('/address-search.php', $('#addressform').serialize(), function(data) {
 			$('.searchresults').text(data);
