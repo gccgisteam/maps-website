@@ -8,7 +8,10 @@ if ($_REQUEST['qtype'] == 'search') {
   $jsonObject = array();
 	$result = pg_query($dbConn, $sql);
 	while ($row = pg_fetch_assoc($result)) {
-	  $jsonObject[] = $row;
+	  $jsonObject[] = array(
+							'id' => $row->uid,
+							'text' => $row->address
+						   );
 	}
 	header('Content-type: application/json');
 	echo json_encode($jsonObject);
