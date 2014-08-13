@@ -5,12 +5,10 @@ if ($_REQUEST['qtype'] == 'search') {
   $limit = $_REQUEST['page_limit'];
 
   $sql = buildQuery($query, false);
-  error_log("first query built is ". $sql);
   $jsonObject = array();
   $result = queryPostgres($sql);
   if (!$result) {
 	$sql = buildQuery($query, true);
-	error_log("query with no first match is ". $sql);
 	$result = queryPostgres($sql);
   }
   while ($row = pg_fetch_object($result)) {
@@ -35,8 +33,6 @@ if ($_REQUEST['qtype'] == 'search') {
                 containersdescription
 FROM dbo.\"WastePickup\"
 WHERE PID = $query";
-  //$sql = 'SELECT uid, frequency, day, week, seeddate, days, description, containersdescription, address, ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom FROM dbo."WastePickup"';
-  //$sql .= " WHERE uid = $query";
   $result = pg_query($dbConn, $sql);
   $addressObj = array();
   $servicesObj = array();
