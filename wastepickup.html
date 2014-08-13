@@ -83,7 +83,7 @@
 		e.preventDefault();
 		var postData = {address: $('#addresssearch').val(), qtype: 'retrieve'};
 		$.post('/address-search.php', postData, function(data) {
-			$('.searchresults').text(data);
+			console.log(data);
 			L.marker(data.geom.coordinates).addTo(map).bindPopup(data.address).openPopup();
 		})
 	})
