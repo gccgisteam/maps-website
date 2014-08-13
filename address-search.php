@@ -59,6 +59,7 @@ WHERE PID = $query";
 }
 
 function buildQuery ($query, $nohouse) {
+  global $limit;
   $sql = 'SELECT address, pid from dbo."WastePickup" WHERE ';
   if (preg_match('/^0-9/', $query) && !$nohouse) {
 	$addressParts = explode(' ', $query);
