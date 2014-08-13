@@ -40,7 +40,10 @@ if ($_REQUEST['qtype'] == 'search') {
   $result = pg_query($dbConn, $sql);
   while ($row = pg_fetch_object($result)) {
 	header('Content-type: application/json');
-	echo json_encode($row);
+	$rowclean = $row;
+	$rowclean->geom = json_encode($row->geom);
+	echo json_encode($rowclean);
+
   }
 }
 
