@@ -2,9 +2,14 @@
 include_once('src/database-config.php');
 if ($_REQUEST['qtype'] == 'search') {
   $query = trim($_REQUEST['q']);
+  $limit = $_REQUEST['limit'];
+  $offset = $_REQUEST['page'];
   $sql = 'SELECT pid,address from dbo."WastePickup"';
 
-  $sql .= " WHERE lower(address) LIKE lower('%$query%')";
+  $sql .= " WHERE lower(address) LIKE lower('%$query%')
+  GROUP BY address
+  ORDER BY address ASC LIMIT $limit $offset";
+
   $jsonObject = array();
 	$result = pg_query($dbConn, $sql);
 	while ($row = pg_fetch_object($result)) {

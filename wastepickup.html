@@ -73,7 +73,9 @@
 		data: function (term, page) {
 			return {
 				q: term,
-				qtype: 'search'
+				qtype: 'search',
+				page: page,
+				limit: 10,
 			}
 		},
 	},
