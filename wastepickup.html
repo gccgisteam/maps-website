@@ -92,8 +92,9 @@
 	})
 
 	function writeUpServices(services) {
+		$('.searchresults').empty();
 		$.each(services, function(key, serviceObj) {
-
+			serviceToHTML(serviceObj);
 		});
 	}
 
@@ -104,6 +105,7 @@
 		html += '<dt>Next Pickup</dt><dd>' + serviceObj.nextpickup + '</dd>';
 		html += '<dt>Collection Day</dt><dd>' + serviceObj.pickupday + '</dd>';
 		html += '<dt>Collection Frequency</dt><dd>' + serviceObj.frequency + '</dd></dl></div>';
+		$('.searchresults').append(html);
 	}
 
 	//Analytics
