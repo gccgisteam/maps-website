@@ -7,7 +7,7 @@ if ($_REQUEST['qtype'] == 'search') {
   $sql = 'SELECT pid,address from dbo."WastePickup"';
 
   $sql .= " WHERE lower(address) LIKE lower('%$query%')
-  GROUP BY address
+  GROUP BY address, pid
   ORDER BY address ASC LIMIT $limit OFFSET $offset";
 
   $jsonObject = array();
