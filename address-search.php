@@ -35,7 +35,7 @@ if ($_REQUEST['qtype'] == 'search') {
 //  "ServiceID", "Description", "Week", "Day", "Days", "ServiceCode", "SeedDate", "no_bins", "ContainersDescription", "Frequency"
 //  ORDER BY
 //	"Description" desc';
-  $sql = 'SELECT uid, frequency, day, week, seeddate, days, description, containersdescription, ST_AsGeoJSON(ST_Transform(geom, 4326), 5) FROM dbo."WastePickup"';
+  $sql = 'SELECT uid, frequency, day, week, seeddate, days, description, containersdescription, address, ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom FROM dbo."WastePickup"';
   $sql .= " WHERE uid = $query";
   $result = pg_query($dbConn, $sql);
   $object = array();
