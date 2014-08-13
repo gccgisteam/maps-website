@@ -85,7 +85,7 @@
 		$.post('/address-search.php', postData, function(data) {
 			console.log(data);
 			var coOrds = $.parseJSON(data.geom);
-			var locArr = L.latLng(coOrds[1], coOrds[0]);
+			var locArr = L.latLng(coOrds.coordinates[1], coOrds.coordinates[0]);
 			map.panTo(locArr).setZoom(15);
 			L.marker(locArr).addTo(map).bindPopup(data.address).openPopup();
 		})
