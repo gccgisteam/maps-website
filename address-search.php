@@ -1,8 +1,13 @@
 <?php
 include_once('src/database-config.php');
 if ($_REQUEST['qtype'] == 'search') {
-  $query = trim($_REQUEST['q']);
+  $rawquery = trim($_REQUEST['q']);
   $limit = $_REQUEST['page_limit'];
+  $query = $rawquery;
+  while (preg_match('/  /', $rawquery)) {
+	$query = preg_replace('/  /', ' ', $rawquery);
+	$rawquery = $query;
+  }
 
   $sql = buildQuery($query, false);
   $jsonObject = array();
@@ -63,8 +68,9 @@ function buildQuery ($query, $nohouse) {
   if (preg_match('/^[0-9]/', $query) && $nohouse != true) {
 	$addressParts = explode(' ', $query);
 	$houseNum = array_shift($addressParts);
-	$sql .= "houseno = '$houseNum' AND lower(fullstreet) LIKE lower('%". implode(' ', $addressParts) ."%')";
+	$sql .= "houseno = '$houseNum' AND lower(fullstreet) LIKE lower('%". implode('%', $addressParts) ."%')";
   } else {
+	$searchStr = preg_replace('/ /', '%', $query);
 	$sql .= "lower(address) LIKE lower('%$query%')";
   }
   $sql .= "GROUP BY address, pid
