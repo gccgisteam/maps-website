@@ -71,11 +71,13 @@ function buildQuery ($query, $nohouse) {
   }
   $sql .= "GROUP BY address, pid
   ORDER BY address ASC LIMIT $limit";
+  return $sql;
 }
 
 function queryPostgres ($queryString) {
   global $dbConn;
   $queryResult =  pg_query($dbConn, $queryString);
+  return $queryResult;
 }
 
 ?>
