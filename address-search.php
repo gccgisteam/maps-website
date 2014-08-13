@@ -21,7 +21,7 @@ if ($_REQUEST['qtype'] == 'search') {
                 TO_CHAR(now() - ((1 + Days) * '1 day'::INTERVAL) - (((EXTRACT(DAY FROM AGE(SeedDate,now() - (1 * '1 Day'::INTERVAL)))::INTEGER % Days))*'1 day'::INTERVAL),'Day Month, YYYY') AS \"lastpickup\",
                 TO_CHAR(now() - ((1 + 2*Days) * '1 day'::INTERVAL) - (((EXTRACT(DAY FROM AGE(SeedDate,now() - (1 * '1 Day'::INTERVAL)))::INTEGER % Days))*'1 day'::INTERVAL),'Day Month, YYYY') AS \"nextpickup\",
 				address,
-				geom,
+				ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom,
                 servicecode,
                 day,
                 week,
