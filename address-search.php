@@ -65,7 +65,7 @@ function buildQuery ($query, $nohouse) {
   if (preg_match('/^0-9/', $query) && $nohouse != true) {
 	$addressParts = explode(' ', $query);
 	$houseNum = array_shift($addressParts);
-	$sql .= "houseno = $houseNum AND fullstreet LIKE '%". implode(' ', $addressParts) ."%'";
+	$sql .= "houseno = '$houseNum' AND fullstreet LIKE '%". implode(' ', $addressParts) ."%'";
   } else {
 	$sql .= "lower(address) LIKE lower('%$query%')";
   }
