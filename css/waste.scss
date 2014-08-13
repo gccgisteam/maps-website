@@ -53,6 +53,9 @@
 					margin: 0;
 				}
 			}
+			&:last-child dl dd:last-child {
+				border-radius: 0 0 4px 4px;
+			}
 		}
 	}
 }
