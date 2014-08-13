@@ -32,6 +32,9 @@
 				color: #f0f0f0;
 			}
 			dl {
+				&:nth-child(odd) {
+					background: #ffffff;
+				}
 				dt {
 					display: inline-block;
 					width: 40%;
