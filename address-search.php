@@ -5,11 +5,12 @@ if ($_REQUEST['qtype'] == 'search') {
   $limit = $_REQUEST['page_limit'];
 
   $sql = buildQuery($query);
-
+  error_log("first query built is ". $sql);
   $jsonObject = array();
   $result = queryPostgres($sql, false);
   if (!$result) {
 	$sql = buildQuery($query, true);
+	error_log("query with no first match is ". $sql);
 	$result = queryPostgres($sql);
   }
   while ($row = pg_fetch_object($result)) {
