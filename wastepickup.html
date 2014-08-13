@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Waste pickup services - Glenorchy City Council</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<script type="text/javascript" src="src/leaflet/leaflet.js"></script>
+    <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
+    <script src="src/listBaseLayers.js" type="text/javascript"></script>
+    <script src="src/leaflet/gcc_config.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+    <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/nps.css" />
+    <link rel="stylesheet" href="css/waste.min.css" />
+    <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.css" />
+
+    <!--[if lt IE 9]>
+     <link rel="stylesheet" href="src/leaflet/locate/L.Control.Locate.ie.css" />
+     <link rel="stylesheet" href="src/leaflet/gcc_geosearch/l.gcc_geosearch.ie.css" />
+     <link rel="stylesheet" href="css/ie6.css" type="text/css" />
+    <![endif]-->
+
+    <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>
+    <script src="src/leaflet/locate/L.Control.Locate.js"></script>
+    <script src="src/jquery/jquery-1.7.1.min.js"></script>
+    <script src="src/lib/proj4js-compressed.js"></script>
+    <script src="src\lib\defs\EPSG28355.js" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+		<script src="src/select2/select2.min.js"></script>
+    <style>
+	    body {
+		    padding: 0;
+		    margin: 0;
+	    }
+	    html, body, #map {
+		    height: 100%;
+	    }
+    </style>
+</head>
+
+<body>
+<div class="waste-info">
+	<input id="addresssearch" class="address-search" type="hidden" placeholder="Enter Address..." autocomplete="off" name="address" />
+	<div class="searchresults">
+		<p>Enter an address above to look up waste pickup details</p>
+	</div>
+</div>
+<div id="map"></div>
+
+<!-- load js for maps -->
+<script type="text/javascript">
+	var center = new L.LatLng(-42.8232,147.2260);
+	var map = new L.Map('map', { center: center, zoom: 12, attributionControl:true, zoomControl:false, minZoom:8});
+
+	var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+	var baselayers = {
+			"LIST Aerial Imagery": LISTAerial,
+			"LIST Topographic": LISTTopographic
+	};
+	map.addLayer(LISTTopographic)
+
+	//Zoom control
+	L.control.zoom().addTo(map);
+	//Layer control
+	L.control.layers(baselayers, {}, {position: 'topleft'}).addTo(map);
+
+	// Lookup and content formatting
+	$('#addresssearch').select2({
+	ajax: {
+		dataType: 'json',
+		results: function(data, page) {
+			return {results: data};
+		},
+		url: '/search-address.php',
+		data: function (term, page) {
+			return {
+				q: term,
+				qtype: 'search'
+			}
+		},
+	},
+	minimumInputLength: 5,
+});
+
+	//Analytics
+	//var _gaq = _gaq || [];
+	//_gaq.push(['_setAccount', 'UA-36489204-2']);
+	//_gaq.push(['_trackPageview']);
+	//(function() {
+	//  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	//  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	//  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	//})();
+</script>
+</body>
+</html>

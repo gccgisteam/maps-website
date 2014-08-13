@@ -1,0 +1,39 @@
+@import "select2";
+
+.waste-info {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 30%;
+	height: 100%;
+	@media screen and (max-width: 800px) {
+		width: 100%;
+		position: static;
+		height: 30%;
+	}
+	background: #F0F0F0;
+	.address-search {
+    font: 16px/1.5 "Helvetica Neue",Arial,Helvetica,sans-serif;
+    height: 32px;
+    padding: 0;
+    text-indent: 8px;
+    width: 98%;
+		margin: 1em .2em;
+	}
+}
+
+
+#map {
+	width: 70%;
+	margin-left: 30%;
+	background: #000000;
+	@media screen and (max-width: 800px) {
+		margin-left: 0;
+		height: 70%;
+		width: 100%;
+	}
+}
+
+html {
+	box-sizing: border-box;
+}
