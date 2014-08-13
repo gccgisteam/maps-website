@@ -9,7 +9,7 @@ if ($_REQUEST['qtype'] == 'search') {
 
   $sql .= " WHERE address LIKE '%$query%'";
 
-  $jsonObject = [];
+  $jsonObject = array();
 	$result = pg_query($dbConn, $query);
 	while ($row = pg_fetch_assoc($result)) {
 	  $jsonObject[] = $row;
