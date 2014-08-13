@@ -62,7 +62,7 @@ WHERE PID = $query";
 function buildQuery ($query, $nohouse) {
   global $limit;
   $sql = 'SELECT address, pid from dbo."WastePickup" WHERE ';
-  if (preg_match('/^0-9/', $query) && !$nohouse) {
+  if (preg_match('/^0-9/', $query) && $nohouse != true) {
 	$addressParts = explode(' ', $query);
 	$houseNum = array_shift($addressParts);
 	$sql .= "houseno = $houseNum AND fullstreet LIKE '%". implode(' ', $addressParts) ."%'";
