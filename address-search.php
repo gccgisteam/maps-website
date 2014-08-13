@@ -17,24 +17,32 @@ if ($_REQUEST['qtype'] == 'search') {
 	echo json_encode($jsonObject);
 } else if ($_REQUEST['qtype'] == 'retrieve') {
   $query = trim($_REQUEST['address']);
-$sql = 'SELECT
-	  CONVERT(varchar(12), getdate() - 1 + [Days] - (DATEDIFF(DAY,SeedDate,getdate() - 1) % [Days]), 107) AS "Last Pickup",
-	  CONVERT(varchar(12), getdate() - 1 + 2*[Days] - (DATEDIFF(DAY,SeedDate,getdate() - 1) % [Days]), 107) AS "Next Pickup",
-	  ServiceID AS [Service ID],
-	  ServiceCode AS [Service Code],
-	  Day,
-	  Week,
-	  Frequency,
-	  Description,
-	  ContainersDescription as [Containers Description]
-  from WastePickup';
-
-  $sql .= " WHERE address LIKE '%$query%'";
-
-  $sql .= ' GROUP BY
-  "ServiceID", "Description", "Week", "Day", "Days", "ServiceCode", "SeedDate", "no_bins", "ContainersDescription", "Frequency"
-  ORDER BY
-	"Description" desc';
+//$sql = 'SELECT
+//	  CONVERT(varchar(12), getdate() - 1 + [Days] - (DATEDIFF(DAY,SeedDate,getdate() - 1) % [Days]), 107) AS "Last Pickup",
+//	  CONVERT(varchar(12), getdate() - 1 + 2*[Days] - (DATEDIFF(DAY,SeedDate,getdate() - 1) % [Days]), 107) AS "Next Pickup",
+//	  ServiceID AS [Service ID],
+//	  ServiceCode AS [Service Code],
+//	  Day,
+//	  Week,
+//	  Frequency,
+//	  Description,
+//	  ContainersDescription as [Containers Description]
+//  from WastePickup';
+//
+//  $sql .= " WHERE uid = $query";
+//
+//  $sql .= ' GROUP BY
+//  "ServiceID", "Description", "Week", "Day", "Days", "ServiceCode", "SeedDate", "no_bins", "ContainersDescription", "Frequency"
+//  ORDER BY
+//	"Description" desc';
+  $sql = 'SELECT pid, frequency, day, week, seeddate, days, description, containersdescription, geom FROM dbo."WastePickup"';
+  $sql .= " WHERE uid = $query";
+  $result = pg_query($dbConn, $sql);
+  $object = array();
+  while ($row = pg_fetch_object($result)) {
+	$object[] = $row;
+  }
+  echo print_r($object);
 }
 
 

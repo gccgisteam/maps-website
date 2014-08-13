@@ -36,7 +36,9 @@
 
 <body>
 <div class="waste-info">
-	<input id="addresssearch" class="address-search" type="hidden" placeholder="Enter Address..." autocomplete="off" name="address" />
+	<form id="addressform" action="/address-search.php">
+		<input id="addresssearch" class="address-search" type="hidden" placeholder="Enter Address..." autocomplete="off" name="address" />
+	</form>
 	<div class="searchresults">
 		<p>Enter an address above to look up waste pickup details</p>
 	</div>
@@ -77,6 +79,12 @@
 	},
 	minimumInputLength: 5,
 });
+	$('#addressform').submit(function (e) {
+		e.preventDefault();
+		$.post('/address-search.php', $('#addressform').serialize(), function(data) {
+			$('.searchresults').text(data);
+		})
+	})
 
 	//Analytics
 	//var _gaq = _gaq || [];
