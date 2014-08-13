@@ -67,7 +67,7 @@ function buildQuery ($query, $nohouse) {
 	$houseNum = array_shift($addressParts);
 	$sql .= "houseno = $houseNum AND fullstreet LIKE '%". implode(' ', $addressParts) ."%'";
   } else {
-	$sql .= " WHERE lower(address) LIKE lower('%$query%')";
+	$sql .= "lower(address) LIKE lower('%$query%')";
   }
   $sql .= "GROUP BY address, pid
   ORDER BY address ASC LIMIT $limit";
