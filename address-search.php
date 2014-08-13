@@ -38,11 +38,9 @@ if ($_REQUEST['qtype'] == 'search') {
   $sql = 'SELECT uid, frequency, day, week, seeddate, days, description, containersdescription, address, ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom FROM dbo."WastePickup"';
   $sql .= " WHERE uid = $query";
   $result = pg_query($dbConn, $sql);
-  while ($row = pg_fetch_object($result)) {
+  while ($row = pg_fetch_assoc($result)) {
 	header('Content-type: application/json');
-	$rowclean = $row;
-	$rowclean->geom = json_encode($row->geom);
-	echo json_encode($rowclean);
+	echo json_encode($row);
 
   }
 }
