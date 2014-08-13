@@ -127,9 +127,9 @@
 		var html = '<div class="serviceitem">';
 		html += '<h3>' + serviceObj.container  + '</h3>';
 		html += '<dl><dt>Last Pickup</dt><dd>' + serviceObj.lastpickup + '</dd>';
-		html += '<dt><strong>Next Pickup</strong></dt><dd><strong>' + serviceObj.nextpickup + '</strong></dd>';
+		html += '<dt class="odd"><strong>Next Pickup</strong></dt><dd class="odd"><strong>' + serviceObj.nextpickup + '</strong></dd>';
 		html += '<dt>Collection Day</dt><dd>' + serviceObj.pickupday + '</dd>';
-		html += '<dt>Collection Frequency</dt><dd>' + serviceObj.frequency + '</dd></dl></div>';
+		html += '<dt class="odd">Collection Frequency</dt><dd class="odd">' + serviceObj.frequency + '</dd></dl></div>';
 		$('.searchresults').append(html);
 	}
 
