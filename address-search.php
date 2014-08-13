@@ -35,7 +35,7 @@ if ($_REQUEST['qtype'] == 'search') {
 //  "ServiceID", "Description", "Week", "Day", "Days", "ServiceCode", "SeedDate", "no_bins", "ContainersDescription", "Frequency"
 //  ORDER BY
 //	"Description" desc';
-  $sql = 'SELECT pid, frequency, day, week, seeddate, days, description, containersdescription, geom FROM dbo."WastePickup"';
+  $sql = 'SELECT uid, frequency, day, week, seeddate, days, description, containersdescription, geom FROM dbo."WastePickup"';
   $sql .= " WHERE uid = $query";
   $result = pg_query($dbConn, $sql);
   $object = array();
