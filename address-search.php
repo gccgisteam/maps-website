@@ -2,14 +2,14 @@
 include_once('src/database-config.php');
 if ($_REQUEST['qtype'] == 'search') {
   $query = trim($_REQUEST['q']);
-  $sql = 'SELECT uid,address from dbo."WastePickup"';
+  $sql = 'SELECT pid,address from dbo."WastePickup"';
 
   $sql .= " WHERE lower(address) LIKE lower('%$query%')";
   $jsonObject = array();
 	$result = pg_query($dbConn, $sql);
 	while ($row = pg_fetch_object($result)) {
 	  $jsonObject[] = array(
-							'id' => $row->uid,
+							'id' => $row->pid,
 							'text' => $row->address
 						   );
 	}
