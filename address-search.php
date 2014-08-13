@@ -27,9 +27,9 @@ if ($_REQUEST['qtype'] == 'search') {
   echo json_encode($jsonObject);
 } else if ($_REQUEST['qtype'] == 'retrieve') {
   $query = trim($_REQUEST['address']);
-  $sql = "SELECT
-                TO_CHAR(now() - ((1 + Days) * '1 day'::INTERVAL) - (((EXTRACT(DAY FROM AGE(SeedDate,now() - (1 * '1 Day'::INTERVAL)))::INTEGER % Days))*'1 day'::INTERVAL),'Day Month FMDD, YYYY') AS \"lastpickup\",
-                TO_CHAR(now() - ((1 + 2*Days) * '1 day'::INTERVAL) - (((EXTRACT(DAY FROM AGE(SeedDate,now() - (1 * '1 Day'::INTERVAL)))::INTEGER % Days))*'1 day'::INTERVAL),'Day Month FMDD, YYYY') AS \"nextpickup\",
+  $sql = "select
+                to_char((now() - '1 day'::INTERVAL) + ((1*Days) * '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"lastpickup\",
+                to_char((now() - '1 day'::INTERVAL) + ((2*Days) * '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
 				address,
 				ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom,
                 servicecode,
@@ -37,8 +37,8 @@ if ($_REQUEST['qtype'] == 'search') {
                 week,
                 frequency,
                 containersdescription
-FROM dbo.\"WastePickup\"
-WHERE PID = $query";
+from dbo.\"WastePickup\"
+where PID = $query";
   $result = pg_query($dbConn, $sql);
   $addressObj = array();
   $servicesObj = array();
