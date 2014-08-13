@@ -2,8 +2,8 @@
 include_once('src/database-config.php');
 if ($_REQUEST['qtype'] == 'search') {
   $query = trim($_REQUEST['q']);
-  $limit = $_REQUEST['limit'];
-  $offset = $_REQUEST['page'];
+  $limit = $_REQUEST['page_limit'];
+  $offset = $_REQUEST['page'] * $_REQUEST['page_limit'];
   $sql = 'SELECT pid,address from dbo."WastePickup"';
 
   $sql .= " WHERE lower(address) LIKE lower('%$query%')
