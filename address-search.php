@@ -17,32 +17,40 @@ if ($_REQUEST['qtype'] == 'search') {
 	echo json_encode($jsonObject);
 } else if ($_REQUEST['qtype'] == 'retrieve') {
   $query = trim($_REQUEST['address']);
-//$sql = 'SELECT
-//	  CONVERT(varchar(12), getdate() - 1 + [Days] - (DATEDIFF(DAY,SeedDate,getdate() - 1) % [Days]), 107) AS "Last Pickup",
-//	  CONVERT(varchar(12), getdate() - 1 + 2*[Days] - (DATEDIFF(DAY,SeedDate,getdate() - 1) % [Days]), 107) AS "Next Pickup",
-//	  ServiceID AS [Service ID],
-//	  ServiceCode AS [Service Code],
-//	  Day,
-//	  Week,
-//	  Frequency,
-//	  Description,
-//	  ContainersDescription as [Containers Description]
-//  from WastePickup';
-//
-//  $sql .= " WHERE uid = $query";
-//
-//  $sql .= ' GROUP BY
-//  "ServiceID", "Description", "Week", "Day", "Days", "ServiceCode", "SeedDate", "no_bins", "ContainersDescription", "Frequency"
-//  ORDER BY
-//	"Description" desc';
-  $sql = 'SELECT uid, frequency, day, week, seeddate, days, description, containersdescription, address, ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom FROM dbo."WastePickup"';
-  $sql .= " WHERE uid = $query";
+  $sql = "SELECT
+                TO_CHAR(now() - ((1 + Days) * '1 day'::INTERVAL) - (((EXTRACT(DAY FROM AGE(SeedDate,now() - (1 * '1 Day'::INTERVAL)))::INTEGER % Days))*'1 day'::INTERVAL),'Day Month, YYYY') AS \"lastpickup\",
+                TO_CHAR(now() - ((1 + 2*Days) * '1 day'::INTERVAL) - (((EXTRACT(DAY FROM AGE(SeedDate,now() - (1 * '1 Day'::INTERVAL)))::INTEGER % Days))*'1 day'::INTERVAL),'Day Month, YYYY') AS \"nextpickup\",
+				address,
+				geom,
+                servicecode,
+                day,
+                week,
+                frequency,
+                containersdescription
+FROM dbo.\"WastePickup\"
+WHERE PID = $query";
+  //$sql = 'SELECT uid, frequency, day, week, seeddate, days, description, containersdescription, address, ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom FROM dbo."WastePickup"';
+  //$sql .= " WHERE uid = $query";
   $result = pg_query($dbConn, $sql);
-  while ($row = pg_fetch_assoc($result)) {
-	header('Content-type: application/json');
-	echo json_encode($row);
-
+  $addressObj = array();
+  $servicesObj = array();
+  while ($row = pg_fetch_object($result)) {
+	if (!isset($addressObj['address'])) {
+	  $addressObj['address'] = $row->address;
+	  $addressObj['geom'] = $row->geom;
+	}
+	$servicesObj[] = array(
+	  serviceType 	=> $row->servicecode,
+	  container 	=> $row->containersdescription,
+	  lastpickup 	=> $row->lastpickup,
+	  nextpickup 	=> $row->nextpickup,
+	  pickupday 	=> $row->day,
+	  frequency 	=> $row->frequency,
+	);
   }
+  $addressObj['services'] = $servicesObj;
+  header('Content-type: application/json');
+  echo json_encode($addressObj);
 }
 
 

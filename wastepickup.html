@@ -83,13 +83,28 @@
 		e.preventDefault();
 		var postData = {address: $('#addresssearch').val(), qtype: 'retrieve'};
 		$.post('/address-search.php', postData, function(data) {
-			console.log(data);
+			writeUpServices(data.services);
 			var coOrds = $.parseJSON(data.geom);
 			var locArr = L.latLng(coOrds.coordinates[1], coOrds.coordinates[0]);
-			map.panTo(locArr).setZoom(15);
+			map.setView(locArr, 17);
 			L.marker(locArr).addTo(map).bindPopup(data.address).openPopup();
 		})
 	})
+
+	function writeUpServices(services) {
+		$.each(services, function(key, serviceObj) {
+
+		});
+	}
+
+	function serviceToHTML(serviceObj) {
+		var html = '<div class="serviceitem">';
+		html += '<h3>' + serviceObj.container  + '</h3>';
+		html += '<dl><dt>Last Pickup</dt><dd>' + serviceObj.lastpickup + '</dd>';
+		html += '<dt>Next Pickup</dt><dd>' + serviceObj.nextpickup + '</dd>';
+		html += '<dt>Collection Day</dt><dd>' + serviceObj.pickupday + '</dd>';
+		html += '<dt>Collection Frequency</dt><dd>' + serviceObj.frequency + '</dd></dl></div>';
+	}
 
 	//Analytics
 	//var _gaq = _gaq || [];
