@@ -14,6 +14,7 @@ if ($_REQUEST['qtype'] == 'search') {
   $result = queryPostgres($sql);
   if (pg_num_rows($result) < 1) {
 	$sql = buildQuery($query, true);
+	error_log("No result from split house number, query now ". $sql);
 	$result = queryPostgres($sql);
   }
   while ($row = pg_fetch_object($result)) {
