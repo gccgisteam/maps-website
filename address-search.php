@@ -67,7 +67,7 @@ function buildQuery ($query, $nohouse) {
   $sql = 'SELECT address, pid from dbo."WastePickup" WHERE ';
   if (preg_match('/^[0-9]/', $query) && $nohouse != true) {
 	$addressParts = explode(' ', $query);
-	$houseNum = array_shift($addressParts);
+	$houseNum = strtoupper(array_shift($addressParts));
 	$sql .= "houseno = '$houseNum' AND lower(fullstreet) LIKE lower('%". implode('%', $addressParts) ."%')";
   } else {
 	$searchStr = preg_replace('/ /', '%', $query);
