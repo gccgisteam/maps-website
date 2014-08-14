@@ -54,9 +54,11 @@
     };    
     //map.addLayer(LISTTopographic)
     
-    var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+    var gccAtt = 'Data &copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
     map.addLayer(LISTTopographic);
+
+
     //Location control
     L.control.locate({
         position: 'topright',  
@@ -66,7 +68,7 @@
     //Zoom control
     L.control.zoom().addTo(map);    
     //Layer control
-    L.control.layers(baselayers, {}, {position: 'topleft'}).addTo(map);
+    L.control.layers(baselayers, [waste], {position: 'topleft'}).addTo(map);
     //Search control
     L.control.searchControl().addTo(map);
 
