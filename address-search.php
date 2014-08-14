@@ -10,6 +10,8 @@ if ($_REQUEST['qtype'] == 'search') {
   }
 
   $sql = buildQuery($query, false);
+
+  error_log("query with house num split, query now ". $sql);
   $jsonObject = array();
   $result = queryPostgres($sql);
   if (pg_num_rows($result) < 1) {
@@ -69,10 +71,12 @@ function buildQuery ($query, $nohouse) {
   if (preg_match('/^[0-9]/', $query) && $nohouse != true) {
 	$addressParts = explode(' ', $query);
 	$houseNum = strtoupper(array_shift($addressParts));
-	$sql .= "houseno = '$houseNum' AND lower(fullstreet) LIKE lower('%". implode('%', $addressParts) ."%')";
+	error_log("split string: ". print_r($addressParts));
+	$percent = '%';
+	$sql .= "houseno = '$houseNum' AND lower(fullstreet) LIKE lower('%". implode($percent, $addressParts) ."%')";
   } else {
 	$searchStr = preg_replace('/ /', '%', $query);
-	$sql .= "lower(address) LIKE lower('%$query%')";
+	$sql .= "lower(address) LIKE lower('%$searchStr%')";
   }
   $sql .= "GROUP BY address, pid
   ORDER BY address ASC LIMIT $limit";
