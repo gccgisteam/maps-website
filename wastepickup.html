@@ -121,6 +121,8 @@
 	function writeUpServices(services) {
 		$('.searchresults').empty();
 		$.each(services, function(key, serviceObj) {
+			var disclaimer = "for Unit developments, please note quantities and bin sizes may vary from what is shown below, please contact Council on 03 6216 6800 for any queries";
+			$('.searchresults').append(disclaimer);
 			serviceToHTML(serviceObj);
 		});
 	}
