@@ -1,0 +1,83 @@
+@import "select2";
+
+.waste-info {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 30%;
+	height: 100%;
+	overflow-y: scroll;
+	@media screen and (max-width: 800px) {
+		width: 100%;
+		position: static;
+		height: 100%;
+	}
+	background: #F0F0F0;
+	.address-search {
+    font: 16px/1.5 "Helvetica Neue",Arial,Helvetica,sans-serif;
+    height: 32px;
+    padding: 0;
+    text-indent: 8px;
+    width: 98%;
+		margin: 1em .2em;
+	}
+	.searchresults {
+		margin: 10px;
+		box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+		border-radius: 4px;
+		.serviceitem {
+			h3 {
+				display: block;
+				background: #227BC9;
+				margin-bottom: 5px;
+				color: #f0f0f0;
+			}
+			&:first-child h3 {
+					border-radius: 4px 4px 0 0;
+				}
+			dl {
+				padding: 0 5px;
+				dt {
+					display: inline-block;
+					width: 40%;
+					&.odd {
+						background: #ffffff;
+					}
+				}
+				dd {
+					&.odd {
+						background: #ffffff;
+					}
+					display: inline-block;
+					width: 60%;
+					margin: 0;
+				}
+			}
+			&:last-child dl dd:last-child {
+				border-radius: 0 0 4px 4px;
+			}
+		}
+		p {
+			padding: 15px;
+			background: #ffffff;
+			border-radius: 4px;
+		}
+	}
+}
+
+
+#map {
+	width: 70%;
+	margin-left: 30%;
+	background: #000000;
+	@media screen and (max-width: 800px) {
+		margin-left: 0;
+		height: 70%;
+		width: 100%;
+		display: none;
+	}
+}
+
+html {
+	box-sizing: border-box;
+}
