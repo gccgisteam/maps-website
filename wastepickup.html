@@ -107,6 +107,7 @@
 	$('#addresssearch').change(function (e) {
 		e.preventDefault();
 		markers.clearLayers();
+		document.activeElement.blur();
 		var postData = {address: $('#addresssearch').val(), qtype: 'retrieve'};
 		$.post('/address-search.php', postData, function(data) {
 			writeUpServices(data.services);
