@@ -71,7 +71,6 @@ function buildQuery ($query, $nohouse) {
   if (preg_match('/^[0-9]/', $query) && $nohouse != true) {
 	$addressParts = explode(' ', $query);
 	$houseNum = strtoupper(array_shift($addressParts));
-	error_log("split string: ". print_r($addressParts));
 	$percent = '%';
 	$sql .= "houseno = '$houseNum' AND lower(fullstreet) LIKE lower('%". implode($percent, $addressParts) ."%')";
   } else {
