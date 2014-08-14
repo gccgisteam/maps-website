@@ -28,8 +28,9 @@ if ($_REQUEST['qtype'] == 'search') {
 } else if ($_REQUEST['qtype'] == 'retrieve') {
   $query = trim($_REQUEST['address']);
   $sql = "select
-                to_char((now() - '1 day'::INTERVAL) + ((1*Days) * '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"lastpickup\",
-                to_char((now() - '1 day'::INTERVAL) + ((2*Days) * '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
+                to_char((now() - '1 day'::INTERVAL) + ((1*Days) * '1 day'::INTERVAL)  - ((now()::date -
+				SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
+                to_char(now() - '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
 				address,
 				ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom,
                 servicecode,
