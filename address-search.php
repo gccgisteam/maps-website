@@ -12,7 +12,7 @@ if ($_REQUEST['qtype'] == 'search') {
   $sql = buildQuery($query, false);
   $jsonObject = array();
   $result = queryPostgres($sql);
-  if (!$result) {
+  if (pg_num_rows($result) < 1) {
 	$sql = buildQuery($query, true);
 	error_log("No result from split house number, query now ". $sql);
 	$result = queryPostgres($sql);
@@ -29,8 +29,8 @@ if ($_REQUEST['qtype'] == 'search') {
 } else if ($_REQUEST['qtype'] == 'retrieve') {
   $query = trim($_REQUEST['address']);
   $sql = "select
-                to_char((now() - '1 day'::INTERVAL) - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"lastpickup\",
-                to_char((now() - '1 day'::INTERVAL) + ((Days) * '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
+                to_char((now() - '1 day'::INTERVAL) - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Mon FMDD, YYYY') as \"lastpickup\",
+                to_char((now() - '1 day'::INTERVAL) + ((Days) * '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Mon FMDD, YYYY') as \"nextpickup\",
 				address,
 				ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom,
                 servicecode,
