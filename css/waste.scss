@@ -10,7 +10,7 @@
 	@media screen and (max-width: 800px) {
 		width: 100%;
 		position: static;
-		height: 30%;
+		height: 100%;
 	}
 	background: #F0F0F0;
 	.address-search {
@@ -72,6 +72,7 @@
 		margin-left: 0;
 		height: 70%;
 		width: 100%;
+		display: none;
 	}
 }
 
