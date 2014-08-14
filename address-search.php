@@ -30,7 +30,7 @@ if ($_REQUEST['qtype'] == 'search') {
   $sql = "select
                 to_char((now() - '1 day'::INTERVAL) + ((1*Days) * '1 day'::INTERVAL)  - ((now()::date -
 				SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
-                to_char(now() - '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
+                to_char((now() - '1 day'::INTERVAL)  - ((now()::date - SeedDate::date - 1)%days)*'1 day'::INTERVAL,'Day Month FMDD, YYYY') as \"nextpickup\",
 				address,
 				ST_AsGeoJSON(ST_Transform(geom, 4326), 5) AS geom,
                 servicecode,
