@@ -40,7 +40,7 @@
 		<input id="addresssearch" class="address-search" type="hidden" placeholder="Enter Address..." autocomplete="off" name="address" />
 	</form>
 	<div class="searchresults">
-		<p>To find out what garbage and recycling services are associated with an address, search above.</p>
+		<p>To find out what garbage and recycling services are associated with an address, please search above.</p>
 	</div>
 </div>
 <div id="map"></div>
@@ -120,9 +120,9 @@
 
 	function writeUpServices(services) {
 		$('.searchresults').empty();
-		$.each(services, function(key, serviceObj) {
-			var disclaimer = "<p>For unit developments, please note quantities and bin sizes may vary from what is shown below, please contact Council on 03 6216 6800 for any queries</p>";
-			$('.searchresults').append(disclaimer);
+		var disclaimer = "<p>For unit developments, please note that the size and number of bins may vary from what is shown below, please contact Council on <a href=tel:0362166800>6216 6800</a> for any queries.</p>";
+		$('.searchresults').append(disclaimer);
+		$.each(services, function(key, serviceObj) {			
 			serviceToHTML(serviceObj);
 		});
 	}
