@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Waste pickup services - Glenorchy City Council</title>
+    <title>Waste pickup services - Glenorchy City Council</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 		<script type="text/javascript" src="src/leaflet/leaflet.js"></script>
     <link type="text/css" rel="stylesheet" href="src/leaflet/leaflet.css" />
@@ -56,7 +56,7 @@
 			"LIST Topographic": LISTTopographic
 	};
 	map.addLayer(LISTTopographic)
-	    var gccAtt = 'Data &copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
+	var gccAtt = 'Data &copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
     var waste = new L.TileLayer.WMS('https://maps.gcc.tas.gov.au/geoserver/GCC_cc/gwc/service/wms', {
         layers: 'GCC_cc:WastePickupZones',
