@@ -4,3 +4,7 @@
     width: 100%;
     display: none;
 }
+.waste-info {
+    width: 100%;
+    position: static;
+    height: 100%}
