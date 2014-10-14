@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /data
+Allow: /metadata
+Sitemap: http://maps.gcc.tas.gov.au/sitemap.xml
