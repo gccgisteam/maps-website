@@ -50,12 +50,12 @@ where PID = $query";
 	  $addressObj['geom'] = $row->geom;
 	}
 	$servicesObj[] = array(
-	  serviceType 	=> $row->servicecode,
-	  container 	=> $row->containersdescription,
-	  lastpickup 	=> $row->lastpickup,
-	  nextpickup 	=> $row->nextpickup,
-	  pickupday 	=> $row->day,
-	  frequency 	=> $row->frequency,
+	  'serviceType' 	=> $row->servicecode,
+	  'container' 	=> $row->containersdescription,
+	  'lastpickup' 	=> $row->lastpickup,
+	  'nextpickup' 	=> $row->nextpickup,
+	  'pickupday' 	=> $row->day,
+	  'frequency' 	=> $row->frequency,
 	);
   }
   $addressObj['services'] = $servicesObj;
