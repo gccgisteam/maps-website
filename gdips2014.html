@@ -57,13 +57,12 @@
         attribution: gccAtt
     });
 
-    var image = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-        layers: 'GCC_cuo:GCC_Image',
-        format: 'image/jpeg',
-        transparent: true,
+    var image = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Orthophoto/ImageServer/tile/{z}/{y}/{x}", {
+        attribution: "Basemap &copy The LIST",
         maxZoom: 20,
+        maxNativeZoom: 19,
         opacity: 0.6,
-        attribution: 'Image &copy LIST and Southern Water',
+        transparent: true
     });
 
     var ps = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
