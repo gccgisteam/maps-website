@@ -7,19 +7,19 @@ L.Path.include(
                 console.log("GML TODO: L.MultiPolygon and L.MultiPolyline"); //MultiPolygon and MultiLineString
             } else if (this instanceof L.Polygon) {
                 //Polygon
-                xml += '<gml:Polygon srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">';
+                xml += '<gml:Polygon srsName="EPSG:4326">';
 
                 coords = this.gmlCoordPairs(this.getLatLngs());
-                xml += '<gml:exterior><gml:LinearRing><gml:coordinates cs="," decimal="." ts=" ">';
+                xml += '<gml:exterior><gml:LinearRing><gml:posList cs="," decimal="." ts=" ">';
                 xml += coords.join(' ') + ' ' + coords[0];
-                xml += '</gml:coordinates></gml:LinearRing></gml:exterior>';
+                xml += '</gml:posList></gml:LinearRing></gml:exterior>';
                 if (this._holes && this._holes.length) {
                     // Deal with holes
                     for (var h in this._holes) {
                         coords = this.gmlCoordPairs(this._holes[h]);
-                        xml += '<gml:interior><gml:LinearRing><gml:coordinates>';
+                        xml += '<gml:interior><gml:LinearRing><gml:posList>';
                         xml += coords.join(' ') + ' ' + coords[0];
-                        xml += '</gml:coordinates></gml:LinearRing></gml:interior>';
+                        xml += '</gml:posList></gml:LinearRing></gml:interior>';
                     }
                 }
 
@@ -44,7 +44,7 @@ L.Path.include(
         gmlCoordPairs: function(arrLatlng){
             coords = [];
             for(var i = 0;i < arrLatlng.length;i++){
-                coords.push(arrLatlng[i].lng + ',' + arrLatlng[i].lat);
+                coords.push(arrLatlng[i].lng + ' ' + arrLatlng[i].lat);
             }
             return coords;
         }
@@ -54,7 +54,7 @@ L.Path.include(
 L.Marker.include({
     toGML: function(){
         var xml;
-        xml = '<gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326"><gml:coordinates cs="," decimal="." ts=" ">';
+        xml = '<gml:Point srsName="EPSG:4326"><gml:coordinates cs="," decimal="." ts=" ">';
         xml += this.getLatLng().lng + ',' + this.getLatLng().lat;
         xml += '</gml:coordinates></gml:Point>';
         return xml;
