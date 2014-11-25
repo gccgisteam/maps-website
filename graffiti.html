@@ -121,8 +121,7 @@
                     definePopup(entry)
                 ));
             };
-            if(Days < 93) {                
-                console.log(Days);
+            if(Days < 93) {
                 threeMonthMarkers.addLayer(L.geoJson(entry[1]['geometry'])
                 .bindPopup(
                     definePopup(entry) 
