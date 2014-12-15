@@ -41,7 +41,7 @@
 	    }
     </style>
 </head>
-<body>    
+<body>
 	<div id="map"></div>
 </body>
     <script>
@@ -85,6 +85,7 @@
             result = data.results[0];
             //Popup text should be in html format.  Showing the Storm Name with the type
             popupText =  ""+((result.attributes.PROP_ADD1) ? result.attributes.PROP_ADD1+"<br>" : "")+((result.attributes.PROP_ADD2) ? result.attributes.PROP_ADD2 : "")+
+                        "<br><b>Area: </b>"+result.attributes['Measured Area']+' m'+
                         "<br><b>Property: </b>"+'<a href="http://www.thelist.tas.gov.au/app/content/property/property-search?propertySearchCriteria.propertyId='+result.attributes['PID']+'" target="_blank">'+result.attributes['PID']+'</a>'+
                         "<br><b>Title: </b>"+'<a href="http://www.thelist.tas.gov.au/app/content/property/property-search?propertySearchCriteria.volume='+result.attributes['Volume']+'&propertySearchCriteria.folio='+result.attributes['Folio']+'" target="_blank">'+result.attributes['Volume']+"/"+result.attributes['Folio']+'</a>';
             if(selection) {map.removeLayer(selection)};
