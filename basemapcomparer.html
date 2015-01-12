@@ -2,11 +2,11 @@
 <html>
 <head>
   <meta charset=utf-8 />
-  <title>Aerial Image Comparison 2012-2013</title>
+  <title>LIST Basemap Comparer</title>
 
   <script src="src/jquery/jquery-1.7.1.min.js"></script>
-  <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.6.4/leaflet.css" />
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.6.4/leaflet.js"></script>
+  <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.5.1/leaflet.css" />
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.5.1/leaflet.js"></script>
   <script src="src/leaflet/gcc_geosearch/gcc_geosearch.js"></script>  
   <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 
@@ -49,37 +49,31 @@
 </head>
 <body>
 <div id='swipe'>
-    <div id='handle'>2013 | 2012</div>
+    <div id='handle'>NEW | OLD</div>
 </div>
 <div id='map'></div>
 <script>
         var center = new L.LatLng(-42.8337,147.2749);
-        var map = new L.Map('map', { center: center, zoom: 17, attributionControl:true, zoomControl:false});
+        var map = new L.Map('map', { center: center, zoom: 10, attributionControl:true, zoomControl:false});
 
-        ///===CHANGE THIS FOR LIVE!===///
-        var rootURL = "http://tobler-v.glenorchy.tas.gov.au/"
-        ///===========================///
+        var LISTTopographic = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/Topographic/ImageServer/tile/{z}/{y}/{x}", {
+            attribution: "Basemap &copy The LIST",
+            maxZoom: 20,
+            maxNativeZoom: 18
+        }).addTo(map);
+
+        var LISTBeta = new L.tileLayer("https://services.thelist.tas.gov.au/arcgis/rest/services/Basemaps/TopographicBeta/ImageServer/tile/{z}/{y}/{x}", {
+          attribution: "Basemap &copy The LIST",
+          maxZoom: 20,
+          maxNativeZoom: 19
+        }).addTo(map);
 
         var gccAtt = '&copy Glenorchy City Council'
-        var img2012 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-            layers: 'gcc:Glenorchy_Urban_1',
-            format: 'image/png',
-            transparent: true,
-            maxZoom: 20,
-            attribution: gccAtt
-        }).addTo(map);
 
-        var img2013 = new L.TileLayer.WMS(rootURL+"geoserver/gwc/service/wms", {
-            layers: 'gcc:Image_2013',
-            format: 'image/png',
-            transparent: true,
-            maxZoom: 20,
-            attribution: gccAtt
-        }).addTo(map);
         //Search control
          L.control.searchControl().addTo(map);
 
-  var l_parent = getLayer(map._layers)._container,
+  var l_parent = LISTBeta._container,
       handle = document.getElementById('handle'),
       dragging = false;
   handle.onmousedown = function() { dragging = true; return false;}
@@ -90,19 +84,19 @@
   }
   var offset = 45;
   map.on( "zoomend", function( e ) {
-   l_parent = getLayer(map._layers)._container;   
+   l_parent = LISTBeta._container;   
    setDivide(parseInt(handle.style.left)+offset);
   });
   map.on( "moveend", function( e ) {
-   l_parent = getLayer(map._layers)._container;
+   l_parent = LISTBeta._container;
    setDivide(parseInt(handle.style.left)+offset);
   });
     map.on( "drag", function( e ) {
-   l_parent = getLayer(map._layers)._container;
+   l_parent = LISTBeta._container;
    setDivide(parseInt(handle.style.left)+offset);
   });
     map.on( "mousemove", function( e ) {
-   l_parent = getLayer(map._layers)._container;
+   l_parent = LISTBeta._container;
    setDivide(e.containerPoint.x);
   });
   
