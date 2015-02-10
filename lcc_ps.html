@@ -50,10 +50,10 @@
     
     var gccAtt = '&copy Glenorchy City Council, <a href="http://creativecommons.org/licenses/by/3.0/au/">CC-BY</a>'
 
-    var URL = 'https://services.thelist.tas.gov.au/arcgis/rest/services/Public/Planning/MapServer';
+    var URL = 'https://services.thelist.tas.gov.au/arcgis/rest/services/Public/PlanningOnline/MapServer';
     var dynLayer = L.esri.dynamicMapLayer(URL, {
       opacity : 0.8,
-      layers:[73,71]
+      layers:[4]
     }).addTo(map);
 
     //Cadastre
@@ -62,9 +62,9 @@
     }).addTo(map);
 
     //
-    var overlays =  L.esri.dynamicMapLayer('https://services.thelist.tas.gov.au/arcgis/rest/services/Public/Planning/MapServer', {
+    var overlays =  L.esri.dynamicMapLayer('https://services.thelist.tas.gov.au/arcgis/rest/services/Public/PlanningOnline/MapServer', {
       opacity : 1,
-      layers:[72],
+      layers:[3],
 
     });
 
@@ -83,7 +83,7 @@
     map.on("click", function(e) {
         dynLayer.identify(e.latlng, {
               tolerance: 3, //default is 3
-              layers: 'visible:73',
+              layers: 'visible:4',
               sr:4326
             }, function(data) {
           if(data.results.length > 0) {
@@ -100,7 +100,6 @@
           }
         });
     });
-
 
     //Zoom control
     L.control.zoom().addTo(map);    
