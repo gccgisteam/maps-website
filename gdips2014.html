@@ -150,7 +150,7 @@
             + "<br><b>PID:</b> " + ((feature.properties.pid != -9999) ? feature.properties.pid : "")
             + "<br><b>Zones:</b> " + feature.properties.zones
             + "<br><b>Overlays:</b> " + ((feature.properties.overlays) ? feature.properties.overlays : "none")
-            + "<br><b>Reference Layers:</b> " + ((feature.properties.refLayers) ? feature.properties.overlays : "none")
+            + "<br><b>Reference Layers:</b> " + "none"// ((feature.properties.refLayers) ? feature.properties.refLayers : "none")
             + "<br>Note: Other codes may be triggered by description, refer to &quotApplication&quot section in each code.";
             var popup = L.popup()
                 .setLatLng(queryCoordinates)
