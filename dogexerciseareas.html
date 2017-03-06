@@ -93,11 +93,21 @@
                     };
                 },
                 onEachFeature: function (feature, layer) {
+				if (feature.properties.dog_exercise == "Prohibited")
+					{
                     popupOptions = {maxWidth: 200};
                     layer.bindPopup("<b>Site name:</b> " + feature.properties.sitename +
                         "<br><b>Dog Exercise: </b>" + feature.properties.dog_exercise +
+                        "<br><br>Dogs  prohibited at all times."
+                        ,popupOptions);
+					}
+				else {
+						popupOptions = {maxWidth: 200};
+						layer.bindPopup("<b>Site name:</b> " + feature.properties.sitename +
+                        "<br><b>Dog Exercise: </b>" + feature.properties.dog_exercise +
                         "<br><br>Please ensure that tidy up after your dog. Dogs must be kept under effective control at all times."
                         ,popupOptions);
+					}
                 }
             }).addTo(map);
         }
