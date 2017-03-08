@@ -80,20 +80,26 @@
     var URL = owsrootUrl + L.Util.getParamString(parameters);
     //console.log(URL);
     var DogExerciseAreas = null;
-    var ajax = $.ajax({
+    var ajax = $.ajax(
+	{
         url : URL,
         dataType : 'json',
         jsonpCallback : 'getJson',
-        success : function (response) {
-            DogExerciseAreas = L.geoJson(response, {
-                style: function (feature) {
-                    return {
+        success : function (response)
+		{
+            DogExerciseAreas = L.geoJson(response,
+			{
+                style: function (feature)
+				{
+                    return 
+					{
                         stroke: false,
                         fillColor: 'FFFFFF',
                         fillOpacity: 0
                     };
                 },
-                onEachFeature: function (feature, layer) {
+                onEachFeature: function (feature, layer)
+				{
 				if (feature.properties.dog_exercise == "Prohibited")
 					{
                     popupOptions = {maxWidth: 200};
